@@ -1,0 +1,2 @@
+// budowanie i odpalenie aplikacji Hello World na "localhost:8080"
+gradle build && java -jar build/libs/pbl-dyskorolki-1.0.0-SNAPSHOT.jar
