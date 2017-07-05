@@ -7,29 +7,24 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 jar {
-    baseName = 'pbl-dyskorolki'
-    version =  '1.0.0-SNAPSHOT'
+	baseName = 'pbl-dyskorolki'
+	version =  '1.0.0-SNAPSHOT'
 }
 
-repositories {
-	mavenCentral()
-}
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'idea'
 
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile("org.springframework.boot:spring-boot-starter-jetty")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    testCompile("junit:junit")
-	testCompile("org.springframework.boot:spring-boot-starter-test")
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		compile("org.springframework.boot:spring-boot-starter-web")
+	}
 }

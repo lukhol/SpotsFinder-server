@@ -1,0 +1,5 @@
+rootProject.name = 'pbl_project'
+
+include ':pbl_app'
+include ':pbl_service'
+include ':pbl_repository'

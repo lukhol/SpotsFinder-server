@@ -1,0 +1,4 @@
+dependencies {
+	compile project(':pbl_service')
+	compile project(':pbl_repository')
+}
