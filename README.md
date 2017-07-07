@@ -1,4 +1,4 @@
 PBL - NAUKA OPARTA NA PROBLEMIE
 ================================
 
-Temat: Aplikacja mobilna (Android, iOS, Windows Phone), która pozwoli znaleŸæ interesuj¹ce miejsca do jazdy na dyskorolce.
+Temat: Aplikacja mobilna (Android, iOS, Windows Phone), ktÃ³ra pozwoli znaleÅºÄ‡ interesujÄ…ce miejsca do jazdy na deskorolce.
