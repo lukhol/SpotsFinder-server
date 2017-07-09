@@ -1,5 +1,9 @@
 package com.polibuda.pbl.repository;
 
-public interface SkateParkRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import com.polibuda.pbl.model.SkatePark;
+
+public interface SkateParkRepository extends CrudRepository<SkatePark, Long> {
 
 }
