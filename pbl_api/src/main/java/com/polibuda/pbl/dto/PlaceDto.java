@@ -2,9 +2,6 @@ package com.polibuda.pbl.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

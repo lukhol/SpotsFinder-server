@@ -26,16 +26,19 @@ public class SkateSpotRestEndpoint {
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public List<SkateSpotDto> getAll() {
+		log.debug("GET /skatespots");
 		return skateSpotService.getAll();
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public SkateSpotDto addSkateSpot(@RequestBody SkateSpotDto skateSpotDto) {
+		log.debug("POST /skatespots body: {}", skateSpotDto);
 		return skateSpotService.add(skateSpotDto);
 	}
 	
 	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable String skateSpotId) {
+		log.debug("DELETE /skatespots/{}", skateSpotId);
 		boolean exists = skateSpotService.exists(skateSpotId);
 		if(exists) {
 			String body = "Nie istnieje skate spot o podanym id... ";
@@ -43,7 +46,7 @@ public class SkateSpotRestEndpoint {
 			return new ResponseEntity<String>(body, HttpStatus.NO_CONTENT);
 		}
 		skateSpotService.delete(skateSpotId);
-		log.debug("Usunieto skate spot o id rownym " + skateSpotId);
+		log.debug("Usunieto skate spot o id rownym {}", skateSpotId);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }
