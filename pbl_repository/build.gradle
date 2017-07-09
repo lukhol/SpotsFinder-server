@@ -1,0 +1,3 @@
+dependencies {
+	compile project(':pbl_model')
+}
