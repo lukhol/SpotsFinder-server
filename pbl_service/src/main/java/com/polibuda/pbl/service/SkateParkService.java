@@ -10,4 +10,8 @@ public interface SkateParkService {
 
 	SkateParkDto add(SkateParkDto skateParkDto);
 
+	boolean exists(String skateParkId);
+
+	void delete(String skateParkId);
+
 }
