@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    data-username: pbluser
+    data-password: pblpassword
+    url: jdbc:mysql://localhost:3306/pbldb
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
