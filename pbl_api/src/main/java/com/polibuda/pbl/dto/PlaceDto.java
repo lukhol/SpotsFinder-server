@@ -2,6 +2,9 @@ package com.polibuda.pbl.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,10 +18,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkateSpotDto implements Serializable {
+public class PlaceDto implements Serializable {
 
-	private static final long serialVersionUID = -3209056985840394608L;
+	private static final long serialVersionUID = 7768588138019750034L;
 	
-	private long id;
-	private PlaceDto place;
+	private byte[] image;
+	private String coordinates;
 }

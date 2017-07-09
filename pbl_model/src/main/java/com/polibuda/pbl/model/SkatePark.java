@@ -1,5 +1,7 @@
 package com.polibuda.pbl.model;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,9 +13,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -22,6 +26,10 @@ import lombok.Setter;
 public class SkatePark {
 
 	@Id
+	@Column(name="SKATE_PARK_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
+	@Embedded
+	private Place place;
 }
