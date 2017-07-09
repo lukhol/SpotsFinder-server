@@ -26,5 +26,6 @@ subprojects {
 
 	dependencies {
 		compile("org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE")
+		compile("org.projectlombok:lombok:1.16.18")
 	}
 }
