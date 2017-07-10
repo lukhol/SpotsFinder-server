@@ -26,4 +26,7 @@ public class Place {
 	
 	@Column(name="COORDINATES")
 	private String coordinates;
+	
+	@Column(name="OUTDOOR")
+	private boolean outdoor;
 }
