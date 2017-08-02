@@ -2,7 +2,7 @@ spring:
   datasource:
     data-username: pbltestuser
     data-password: pbltestpassword
-    url: jdbc:mysql://localhost:3306/pbltestdb
+    url: jdbc:mysql://85.255.10.140:3306/pbltestdb
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     hibernate:
