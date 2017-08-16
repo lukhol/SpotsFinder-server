@@ -7,28 +7,27 @@ buildscript {
     }
 }
 
-subprojects {
-	apply plugin: 'java'
-	apply plugin: 'eclipse'
-	apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
 
-	jar {
-		baseName = 'pbl-dyskorolki'
-		version =  '1.0.0-SNAPSHOT'
-	}
+jar {
+	baseName = 'pbl-dyskorolki'
+	version =  '1.0.0-SNAPSHOT'
+}
 	
-	sourceCompatibility = 1.8
-	targetCompatibility = 1.8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-	repositories {
-		mavenCentral()
-	}
+repositories {
+	mavenCentral()
+}
 
-	dependencies {
-		compile("org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE")
-		compile("org.springframework.boot:spring-boot-starter-data-jpa:1.5.4.RELEASE")
-		compile("mysql:mysql-connector-java:5.1.41")
-		compile("org.projectlombok:lombok:1.16.18")
-		testCompile("org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE")
-	}
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa:1.5.4.RELEASE")
+	compile("mysql:mysql-connector-java:5.1.41")
+	compile("org.projectlombok:lombok:1.16.18")
+	testCompile("org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE")
 }

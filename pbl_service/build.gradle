@@ -1,5 +1,0 @@
-dependencies {
-	compile project(':pbl_api')
-	compile project(':pbl_repository')
-	compile project(':pbl_model')
-}
