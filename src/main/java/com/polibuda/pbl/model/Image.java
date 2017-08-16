@@ -1,7 +1,5 @@
 package com.polibuda.pbl.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,14 +21,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="SKATE_PARKS")
-public class SkatePark {
-
+@Table(name="IMAGES")
+public class Image {
+	
 	@Id
-	@Column(name="SKATE_PARK_ID")
+	@Column(name="IMAGE_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	private List<Image> images;
-	private Location location;
+	private byte[] image;
 }

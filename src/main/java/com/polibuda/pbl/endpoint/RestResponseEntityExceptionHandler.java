@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value= {SkateSpotException.class})
-	protected ResponseEntity<RestResponse> handleUnknownException(SkateSpotException ex, WebRequest request) {
+	protected ResponseEntity<RestResponse<Void>> handleUnknownException(SkateSpotException ex, WebRequest request) {
 		log.error(ex.getMessage(), ex);
 
-		return new ResponseEntity<RestResponse>(new RestResponse(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
 	}
 }
