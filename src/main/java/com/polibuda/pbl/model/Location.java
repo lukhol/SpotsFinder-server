@@ -20,7 +20,7 @@ import lombok.ToString;
 @Table(name="LOCATIONS")
 public class Location {
 	
-	private long id;	
+	private Long id;	
 	private double longitude;	
 	private double latitude;
 }

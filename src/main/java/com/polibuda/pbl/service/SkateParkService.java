@@ -8,10 +8,12 @@ public interface SkateParkService {
 
 	List<SkateParkDTO> getAll();
 
-	SkateParkDTO add(SkateParkDTO skateParkDto);
+	SkateParkDTO save(SkateParkDTO skateParkDto);
 
-	boolean exists(String skateParkId);
+	boolean exists(Long skateParkId);
+	
+	SkateParkDTO getById(Long skateParkId);
 
-	void delete(String skateParkId);
+	void delete(Long skateParkId);
 
 }

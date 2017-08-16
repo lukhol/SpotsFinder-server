@@ -8,12 +8,12 @@ public interface SkateSpotService {
 
 	List<SkateSpotDTO> getAll();
 
-	SkateSpotDTO add(SkateSpotDTO skateSpotDto);
+	SkateSpotDTO save(SkateSpotDTO skateSpotDto);
 
-	boolean exists(String skateSpotId);
+	boolean exists(Long skateSpotId);
 	
-	SkateSpotDTO getById(String skateSpotId);
+	SkateSpotDTO getById(Long skateSpotId);
 
-	void delete(String skateSpotId);
+	void delete(Long skateSpotId);
 
 }

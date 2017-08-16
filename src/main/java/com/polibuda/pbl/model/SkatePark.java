@@ -29,7 +29,7 @@ public class SkatePark {
 	@Id
 	@Column(name="SKATE_PARK_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	private List<Image> images;
 	private Location location;

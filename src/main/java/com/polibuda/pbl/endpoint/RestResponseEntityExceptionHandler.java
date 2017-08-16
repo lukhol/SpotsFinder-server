@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.polibuda.pbl.exception.SkateParkException;
 import com.polibuda.pbl.exception.SkateSpotException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value= {SkateSpotException.class})
+	@ExceptionHandler(value= {SkateSpotException.class, SkateParkException.class})
 	protected ResponseEntity<RestResponse<Void>> handleUnknownException(SkateSpotException ex, WebRequest request) {
 		log.error(ex.getMessage(), ex);
 

@@ -36,7 +36,7 @@ public class SkateSpotRestEndpoint {
 	}
 	
 	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.GET)
-	public ResponseEntity<SkateSpotDTO> getById(@PathVariable String skateSpotId) {
+	public ResponseEntity<SkateSpotDTO> getById(@PathVariable Long skateSpotId) {
 		log.debug("GET /skatespots/{}", skateSpotId);
 		
 		boolean exists = skateSpotService.exists(skateSpotId);
@@ -52,12 +52,21 @@ public class SkateSpotRestEndpoint {
 		log.debug("POST /skatespots body: {}", skateSpotDto);
 		
 		skateSpotValidator.validate(skateSpotDto);
-		SkateSpotDTO skateSpot = skateSpotService.add(skateSpotDto);
+		SkateSpotDTO skateSpot = skateSpotService.save(skateSpotDto);
+		return new ResponseEntity<SkateSpotDTO>(skateSpot, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.PUT)
+	public ResponseEntity<SkateSpotDTO> replaceSkateSpot(@RequestBody SkateSpotDTO skateSpotDto, @PathVariable Long skateSpotId) throws SkateSpotException {
+		log.debug("PUT /skatespots/{} body: {}", skateSpotId, skateSpotDto);
+		
+		skateSpotValidator.validate(skateSpotDto);
+		SkateSpotDTO skateSpot = skateSpotService.save(skateSpotDto);
 		return new ResponseEntity<SkateSpotDTO>(skateSpot, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> delete(@PathVariable String skateSpotId) {
+	public ResponseEntity<String> delete(@PathVariable Long skateSpotId) {
 		log.debug("DELETE /skatespots/{}", skateSpotId);
 		boolean exists = skateSpotService.exists(skateSpotId);
 		if(!exists) {

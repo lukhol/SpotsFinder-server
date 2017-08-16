@@ -27,7 +27,7 @@ public class Image {
 	@Id
 	@Column(name="IMAGE_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	private byte[] image;
 }

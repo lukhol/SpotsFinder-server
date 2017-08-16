@@ -20,7 +20,7 @@ public class SkateSpotDTO implements Serializable {
 
 	private static final long serialVersionUID = -3209056985840394608L;
 	
-	private long id;
+	private Long id;
 	private List<ImageDTO> images;
 	private LocationDTO location;
 	private String name;
