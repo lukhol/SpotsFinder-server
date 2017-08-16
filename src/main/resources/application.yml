@@ -1,10 +1,8 @@
-spring:
-  datasource:
-    data-username: pbluser
-    data-password: pblpassword
+spring.datasource:
+    username: pbluser
+    password: pblpassword
     url: jdbc:mysql://85.255.10.140:3306/pbldb
-    driver-class-name: com.mysql.jdbc.Driver
+spring.jpa.hibernate.ddl-auto: update
+spring:
   jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
+    show-sql: true
