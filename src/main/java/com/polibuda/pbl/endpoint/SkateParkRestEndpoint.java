@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/skateparks")
-public class SkateParktRestEndpoint {
+public class SkateParkRestEndpoint {
 	
 	@Autowired
 	private SkateParkService skateParkService;

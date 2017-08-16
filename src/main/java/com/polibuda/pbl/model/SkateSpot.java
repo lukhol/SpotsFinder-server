@@ -1,7 +1,6 @@
 package com.polibuda.pbl.model;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +29,4 @@ public class SkateSpot {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Embedded
-	private Place place;
 }

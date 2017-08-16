@@ -35,14 +35,26 @@ public class SkateSpotRestEndpoint {
 		return skateSpotService.getAll();
 	}
 	
+	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.GET)
+	public ResponseEntity<SkateSpotDTO> getById(@PathVariable String skateSpotId) {
+		log.debug("GET /skatespots/{}", skateSpotId);
+		
+		boolean exists = skateSpotService.exists(skateSpotId);
+		if(exists) {
+			SkateSpotDTO skateSpot = skateSpotService.getById(skateSpotId);
+			return new ResponseEntity<SkateSpotDTO>(skateSpot, HttpStatus.OK);
+		}
+		return new ResponseEntity<SkateSpotDTO>(HttpStatus.NO_CONTENT);
+	}
+	
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public ResponseEntity<String> addSkateSpot(@RequestBody SkateSpotDTO skateSpotDto) {
 		log.debug("POST /skatespots body: {}", skateSpotDto);
 		
 		try {
 			skateSpotValidator.validate(skateSpotDto);
-			SkateSpotDTO skateSpot = skateSpotService.add(skateSpotDto);
-			return new ResponseEntity<String>(Long.toString(skateSpot.getId()), HttpStatus.CREATED);
+			String skateSpotId = skateSpotService.add(skateSpotDto);
+			return new ResponseEntity<String>(skateSpotId, HttpStatus.CREATED);
 		} catch (SkateSpotException e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -52,13 +64,12 @@ public class SkateSpotRestEndpoint {
 	public ResponseEntity<String> delete(@PathVariable String skateSpotId) {
 		log.debug("DELETE /skatespots/{}", skateSpotId);
 		boolean exists = skateSpotService.exists(skateSpotId);
-		if(exists) {
-			String body = "Nie istnieje skate spot o podanym id... ";
-			log.debug(body + skateSpotId);
-			return new ResponseEntity<String>(body, HttpStatus.NO_CONTENT);
+		if(!exists) {
+			log.debug("Nie istnieje skate spot o id rownym {}", skateSpotId);
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 		}
 		skateSpotService.delete(skateSpotId);
-		log.debug("Usunieto skate spot o id rownym {}", skateSpotId);
+		log.debug("Usunieto skate spot o id równym {}", skateSpotId);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }
