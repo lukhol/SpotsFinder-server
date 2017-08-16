@@ -44,6 +44,7 @@ public class PlaceRestEndpoint {
 			PlaceDTO place = placeService.getById(placeId);
 			return new ResponseEntity<PlaceDTO>(place, HttpStatus.OK);
 		}
+		log.warn("No place with id = {}", placeId);
 		return new ResponseEntity<PlaceDTO>(HttpStatus.NO_CONTENT);
 	}
 	
@@ -70,11 +71,11 @@ public class PlaceRestEndpoint {
 		log.debug("DELETE /places/{}", placeId);
 		boolean exists = placeService.exists(placeId);
 		if(!exists) {
-			log.debug("Nie istnieje place o id rownym {}", placeId);
+			log.warn("No place with id = {}", placeId);
 			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 		}
 		placeService.delete(placeId);
-		log.debug("Usunieto place o id równym {}", placeId);
+		log.debug("Place with id = {} deleted succesfully.", placeId);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }
