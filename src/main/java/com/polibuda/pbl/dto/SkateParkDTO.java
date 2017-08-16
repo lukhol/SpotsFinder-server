@@ -1,6 +1,7 @@
 package com.polibuda.pbl.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkateSpotDto implements Serializable {
+public class SkateParkDTO implements Serializable {
 
-	private static final long serialVersionUID = -3209056985840394608L;
-	
+	private static final long serialVersionUID = -636635438124000496L;
+
 	private long id;
-	private PlaceDto place;
+	private List<byte[]> images;
+	private double latitude;
+	private double longtitude;
+	
 }

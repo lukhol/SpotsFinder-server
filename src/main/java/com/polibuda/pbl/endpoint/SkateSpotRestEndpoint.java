@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.polibuda.pbl.dto.SkateSpotDto;
+import com.polibuda.pbl.dto.SkateSpotDTO;
+import com.polibuda.pbl.exception.SkateSpotException;
 import com.polibuda.pbl.service.SkateSpotService;
+import com.polibuda.pbl.validator.SkateSpotValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,18 +24,28 @@ import lombok.extern.slf4j.Slf4j;
 public class SkateSpotRestEndpoint {
 
 	@Autowired
-	private SkateSpotService skateSpotService; 
+	private SkateSpotService skateSpotService;
+	
+	@Autowired
+	private SkateSpotValidator skateSpotValidator;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public List<SkateSpotDto> getAll() {
+	public List<SkateSpotDTO> getAll() {
 		log.debug("GET /skatespots");
 		return skateSpotService.getAll();
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public SkateSpotDto addSkateSpot(@RequestBody SkateSpotDto skateSpotDto) {
+	public ResponseEntity<String> addSkateSpot(@RequestBody SkateSpotDTO skateSpotDto) {
 		log.debug("POST /skatespots body: {}", skateSpotDto);
-		return skateSpotService.add(skateSpotDto);
+		
+		try {
+			skateSpotValidator.validate(skateSpotDto);
+			SkateSpotDTO skateSpot = skateSpotService.add(skateSpotDto);
+			return new ResponseEntity<String>(Long.toString(skateSpot.getId()), HttpStatus.CREATED);
+		} catch (SkateSpotException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.DELETE)

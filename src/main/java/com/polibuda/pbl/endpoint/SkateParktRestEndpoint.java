@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.polibuda.pbl.dto.SkateParkDto;
+import com.polibuda.pbl.dto.SkateParkDTO;
 import com.polibuda.pbl.service.SkateParkService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ public class SkateParktRestEndpoint {
 	private SkateParkService skateParkService;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public List<SkateParkDto> getAll() {
+	public List<SkateParkDTO> getAll() {
 		log.debug("GET /skateparks");
 		return skateParkService.getAll();
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public SkateParkDto addSkatePark(@RequestBody SkateParkDto skateParkDto) {
+	public SkateParkDTO addSkatePark(@RequestBody SkateParkDTO skateParkDto) {
 		log.debug("POST /skateparks body: {}", skateParkDto);
 		return skateParkService.add(skateParkDto);
 	}
