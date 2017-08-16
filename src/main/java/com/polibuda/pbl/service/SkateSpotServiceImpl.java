@@ -1,7 +1,11 @@
 package com.polibuda.pbl.service;
 
-import java.util.List;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,18 +19,21 @@ public class SkateSpotServiceImpl implements SkateSpotService {
 	@Autowired
 	private SkateSpotRepository skateSpotRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@Override
 	public List<SkateSpotDTO> getAll() {
-		List<SkateSpot> skateSpots = skateSpotRepository.findAll();
-		// TODO Convert to DTO
-		return null;
+		return skateSpotRepository.findAll()
+			.stream()
+			.map(spot -> convertToDTO(spot))
+			.collect(Collectors.toList());
 	}
 
 	@Override
 	public SkateSpotDTO save(SkateSpotDTO skateSpotDto) {
-		 // SkateSpot skateSpot = skateSpotRepository.save(skateSpot);
-		// TODO Convert to DTO
-		return null;
+		SkateSpot skateSpot = skateSpotRepository.save(convertToModel(skateSpotDto));
+		return convertToDTO(skateSpot);
 	}
 
 	@Override
@@ -37,12 +44,19 @@ public class SkateSpotServiceImpl implements SkateSpotService {
 	@Override
 	public SkateSpotDTO getById(Long skateSpotId) {
 		SkateSpot skateSpot = skateSpotRepository.findOne(skateSpotId).get();
-		// TODO Convert to DTO
-		return null;
+		return convertToDTO(skateSpot);
 	}
 
 	@Override
 	public void delete(Long skateSpotId) {
 		skateSpotRepository.delete(skateSpotId);		
+	}
+	
+	private SkateSpotDTO convertToDTO(SkateSpot skateSpot) {
+		return modelMapper.map(skateSpot, SkateSpotDTO.class);
+	}
+	
+	private SkateSpot convertToModel(SkateSpotDTO skateSpotDto) {
+		return modelMapper.map(skateSpotDto, SkateSpot.class);
 	}
 }
