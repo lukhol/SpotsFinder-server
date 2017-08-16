@@ -8,7 +8,7 @@ public interface SkateSpotService {
 
 	List<SkateSpotDTO> getAll();
 
-	String add(SkateSpotDTO skateSpotDto);
+	SkateSpotDTO add(SkateSpotDTO skateSpotDto);
 
 	boolean exists(String skateSpotId);
 	

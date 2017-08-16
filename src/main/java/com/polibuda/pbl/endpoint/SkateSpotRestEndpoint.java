@@ -48,16 +48,12 @@ public class SkateSpotRestEndpoint {
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public ResponseEntity<String> addSkateSpot(@RequestBody SkateSpotDTO skateSpotDto) {
+	public ResponseEntity<SkateSpotDTO> addSkateSpot(@RequestBody SkateSpotDTO skateSpotDto) throws SkateSpotException {
 		log.debug("POST /skatespots body: {}", skateSpotDto);
 		
-		try {
-			skateSpotValidator.validate(skateSpotDto);
-			String skateSpotId = skateSpotService.add(skateSpotDto);
-			return new ResponseEntity<String>(skateSpotId, HttpStatus.CREATED);
-		} catch (SkateSpotException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+		skateSpotValidator.validate(skateSpotDto);
+		SkateSpotDTO skateSpot = skateSpotService.add(skateSpotDto);
+		return new ResponseEntity<SkateSpotDTO>(skateSpot, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/{skateSpotId}", method=RequestMethod.DELETE)
