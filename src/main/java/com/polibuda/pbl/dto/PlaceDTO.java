@@ -3,6 +3,8 @@ package com.polibuda.pbl.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.polibuda.pbl.model.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkateSpotDTO implements Serializable {
+public class PlaceDTO implements Serializable {
 
 	private static final long serialVersionUID = -3209056985840394608L;
 	
@@ -25,7 +27,7 @@ public class SkateSpotDTO implements Serializable {
 	private LocationDTO location;
 	private String name;
 	private String description;
-	private int type;
+	private Type type;
 	private boolean gap;
 	private boolean stairs;
 	private boolean rail;

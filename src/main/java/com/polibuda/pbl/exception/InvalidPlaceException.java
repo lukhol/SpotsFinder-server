@@ -1,14 +1,14 @@
 package com.polibuda.pbl.exception;
 
-public class SkateParkException extends Exception {
-	
-	private static final long serialVersionUID = 5507493619823240116L;
-	
+public class InvalidPlaceException extends Exception {
+
+	private static final long serialVersionUID = 2164821908471678571L;
+
 	private String message;
 	
-	public SkateParkException() {}
+	public InvalidPlaceException() {}
 	
-	public SkateParkException(String message) {
+	public InvalidPlaceException(String message) {
 		this.message = message;
 	}
 	

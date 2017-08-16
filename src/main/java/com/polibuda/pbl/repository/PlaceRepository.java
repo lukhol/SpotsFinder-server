@@ -7,18 +7,18 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.repository.Repository;
 
-import com.polibuda.pbl.model.SkatePark;
+import com.polibuda.pbl.model.Place;
 
 @Transactional
-public interface SkateParkRepository extends Repository<SkatePark, Long> {
+public interface PlaceRepository extends Repository<Place, Long> {
 
 	void delete(Long id);
 	
 	boolean exists(Long id);
 	
-	List<SkatePark> findAll();
+	List<Place> findAll();
 	
-	Optional<SkatePark> findOne(Long id);
+	Optional<Place> findOne(Long id);
 	
-	SkatePark save(SkatePark skatePark);
+	Place save(Place place);
 }

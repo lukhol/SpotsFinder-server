@@ -23,11 +23,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="SKATE_SPOTS")
-public class SkateSpot {
+@Table(name="PLACES")
+public class Place {
 
 	@Id
-	@Column(name="SKATE_SPOT_ID")
+	@Column(name="PLACE_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
@@ -42,7 +42,7 @@ public class SkateSpot {
 	private String description;
 	
 	@Column(name="TYPE", precision=2, scale=0)
-	private int type;
+	private Type type;
 	
 	@Column(name="GAP")
 	private boolean gap;
