@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,15 +35,20 @@ public class Place {
 	
 	private List<Image> images;
 	
-	private Location location;
-	
 	@Column(name="NAME", length=30)
 	private String name;
 	
 	@Column(name="DESCRIPTION", length=255)
 	private String description;
 	
-	@Column(name="TYPE", precision=2, scale=0)
+	@Column(name="LONGITUDE")
+	private double longitude;
+	
+	@Column(name="LATITUDE")
+	private double latitude;
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name="TYPE")
 	private Type type;
 	
 	@Column(name="GAP")

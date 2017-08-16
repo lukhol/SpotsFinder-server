@@ -9,6 +9,6 @@ import com.polibuda.pbl.exception.InvalidPlaceException;
 public class PlaceValidator {
 	
 	public void validate(PlaceDTO place) throws InvalidPlaceException {
-		// TODO: implement skate spot validation
+		// TODO: implement place validation
 	}
 }

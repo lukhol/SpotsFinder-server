@@ -24,7 +24,7 @@ public class PlaceServiceImpl implements PlaceService {
 	public List<PlaceDTO> getAll() {
 		return placeRepository.findAll()
 			.stream()
-			.map(spot -> convertToDTO(spot))
+			.map(place -> convertToDTO(place))
 			.collect(Collectors.toList());
 	}
 

@@ -3,6 +3,7 @@ package com.polibuda.pbl.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Type;
 
 import lombok.AllArgsConstructor;
@@ -23,10 +24,11 @@ public class PlaceDTO implements Serializable {
 	private static final long serialVersionUID = -3209056985840394608L;
 	
 	private Long id;
-	private List<ImageDTO> images;
-	private LocationDTO location;
+	private List<Image> images;
 	private String name;
 	private String description;
+	private double longitude;	
+	private double latitude;
 	private Type type;
 	private boolean gap;
 	private boolean stairs;
