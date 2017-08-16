@@ -1,8 +1,1 @@
 rootProject.name = 'pbl_project'
-
-include ':pbl_application'
-include ':pbl_service'
-include ':pbl_repository'
-include ':pbl_api'
-include ':pbl_model'
-include ':pbl_rest'
