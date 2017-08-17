@@ -28,7 +28,7 @@ public class PlaceDTO implements Serializable {
 	private String name;
 	private String description;
 	private LocationDTO location;
-	private int type;
+	private Type type;
 	private boolean gap;
 	private boolean stairs;
 	private boolean rail;

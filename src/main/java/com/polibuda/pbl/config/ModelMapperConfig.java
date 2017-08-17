@@ -15,15 +15,27 @@ public class ModelMapperConfig {
 	@Bean
 	public ModelMapper getModelMapperBean() {
 		ModelMapper mapper = new ModelMapper();
-		PropertyMap<Place, PlaceDTO> placeMap = new PropertyMap<Place, PlaceDTO>() {
-			protected void configure() {
-				map().setLocation(new LocationDTO(source.getLongitude(), source.getLatitude()));
-			    map(source.getLongitude(), destination.getLocation().getLongitude());
-			    map(source.getLatitude(), destination.getLocation().getLatitude());
-		  	}
-		};
 
+		
+		PropertyMap<Place, PlaceDTO> placeMap = new PropertyMap<Place, PlaceDTO>() {		
+			@Override
+			protected void configure() {
+				map().setLocation(new LocationDTO());
+				map().getLocation().setLatitude(source.getLatitude());
+				map().getLocation().setLongitude(source.getLongitude());
+			}
+		};
 		mapper.addMappings(placeMap);
+		
+		
+		PropertyMap<PlaceDTO, Place> placeDTOMap = new PropertyMap<PlaceDTO, Place>() {		
+			@Override
+			protected void configure() {
+				map().setLatitude(source.getLocation().getLatitude());
+				map().setLongitude(source.getLocation().getLongitude());
+			}
+		};
+		mapper.addMappings(placeDTOMap);
 		return mapper;
 	}
 }
