@@ -53,7 +53,12 @@ public class PlaceRestEndpoint {
 		return new ResponseEntity<PlaceDTO>(HttpStatus.NO_CONTENT);
 	}
 	
-	@RequestMapping(value="")
+	/**
+	 * example:
+	 * http://localhost:8080/places?search=name:jakasnazwa,latitude>25,longtitude<50,stairs:true
+	 * 
+	 */
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public List<PlaceDTO> getByCriteria(@RequestParam(value = "search", required = false) String search) {
 		log.debug("GET /places{}", search);
 		
