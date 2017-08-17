@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.polibuda.pbl.dto.PlaceDTO;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
+import com.polibuda.pbl.repository.SearchCriteria;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
@@ -48,6 +49,14 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public void delete(Long placeId) {
 		placeRepository.delete(placeId);		
+	}
+	
+	@Override
+	public List<PlaceDTO> getByFilter(List<SearchCriteria> params) {
+		return placeRepository.findByFilter(params)
+				.stream()
+				.map(place -> convertToDTO(place))
+				.collect(Collectors.toList());
 	}
 	
 	private PlaceDTO convertToDTO(Place place) {

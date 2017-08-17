@@ -1,5 +1,7 @@
 package com.polibuda.pbl.dto;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LocationDTO {
+public class LocationDTO implements Serializable {
+	
+	private static final long serialVersionUID = -5953551906363528087L;
+
 	private double longitude;	
 	private double latitude;
 }

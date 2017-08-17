@@ -10,7 +10,7 @@ import org.springframework.data.repository.Repository;
 import com.polibuda.pbl.model.Place;
 
 @Transactional
-public interface PlaceRepository extends Repository<Place, Long> {
+public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRepository {
 
 	void delete(Long id);
 	
