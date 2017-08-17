@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.polibuda.pbl.model.Image;
-import com.polibuda.pbl.model.Type;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +27,7 @@ public class PlaceDTO implements Serializable {
 	private String name;
 	private String description;
 	private LocationDTO location;
-	private Type type;
+	private int type;
 	private boolean gap;
 	private boolean stairs;
 	private boolean rail;

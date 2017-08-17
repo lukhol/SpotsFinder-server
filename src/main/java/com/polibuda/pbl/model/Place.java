@@ -53,9 +53,8 @@ public class Place {
 	@Column(name="LATITUDE")
 	private double latitude;
 	
-	@Enumerated(EnumType.ORDINAL)
 	@Column(name="TYPE")
-	private Type type;
+	private int type;
 	
 	@Column(name="GAP")
 	private boolean gap;

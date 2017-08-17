@@ -11,7 +11,6 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import com.polibuda.pbl.dto.LocationDTO;
 import com.polibuda.pbl.dto.PlaceDTO;
 import com.polibuda.pbl.model.Place;
-import com.polibuda.pbl.model.Type;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=ModelMapperConfig.class, loader=AnnotationConfigContextLoader.class)
@@ -26,7 +25,7 @@ public class ModelMapperConfigTest {
 				.corners(true)
 				.name("name")
 				.description("opis")
-				.type(Type.SKATEPARK)
+				.type(1)
 				.latitude(50.1234)
 				.longitude(45.9876)
 				.build();
@@ -38,7 +37,7 @@ public class ModelMapperConfigTest {
 		assert placeDTO.isCorners() == place.isCorners();
 		assert placeDTO.getLocation().getLatitude() == place.getLatitude();
 		assert placeDTO.getLocation().getLongitude() == place.getLongitude();
-		assert placeDTO.getType().equals(place.getType());
+		assert placeDTO.getType() == place.getType();
 	}
 	
 	@Test
@@ -47,7 +46,7 @@ public class ModelMapperConfigTest {
 				.corners(true)
 				.name("nazwa")
 				.description("description")
-				.type(Type.DIY)
+				.type(0)
 				.location(new LocationDTO(50.1234, 45.9462))
 				.build();
 		
@@ -58,6 +57,6 @@ public class ModelMapperConfigTest {
 		assert placeDTO.isCorners() == place.isCorners();
 		assert placeDTO.getLocation().getLatitude() == place.getLatitude();
 		assert placeDTO.getLocation().getLongitude() == place.getLongitude();
-		assert placeDTO.getType().equals(place.getType());
+		assert placeDTO.getType() == place.getType();
 	}
 }
