@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
 
@@ -56,5 +57,11 @@ public class PlaceServiceImpl implements PlaceService {
 	
 	private Place convertToModel(PlaceDTO placeDto) {
 		return modelMapper.map(placeDto, Place.class);
+	}
+
+	@Override
+	public List<PlaceDTO> search(PlaceSearchDTO placeDto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

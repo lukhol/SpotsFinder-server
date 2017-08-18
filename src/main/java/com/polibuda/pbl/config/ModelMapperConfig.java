@@ -5,7 +5,7 @@ import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.polibuda.pbl.dto.LocationDTO;
+import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.PlaceDTO;
 import com.polibuda.pbl.model.Place;
 
@@ -20,7 +20,7 @@ public class ModelMapperConfig {
 		PropertyMap<Place, PlaceDTO> placeMap = new PropertyMap<Place, PlaceDTO>() {		
 			@Override
 			protected void configure() {
-				map().setLocation(new LocationDTO());
+				map().setLocation(new CoordinatesDTO());
 				map().getLocation().setLatitude(source.getLatitude());
 				map().getLocation().setLongitude(source.getLongitude());
 			}

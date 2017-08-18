@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import com.polibuda.pbl.dto.LocationDTO;
+import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.PlaceDTO;
 import com.polibuda.pbl.model.Place;
 
@@ -47,7 +47,7 @@ public class ModelMapperConfigTest {
 				.name("nazwa")
 				.description("description")
 				.type(0)
-				.location(new LocationDTO(50.1234, 45.9462))
+				.location(new CoordinatesDTO(50.1234, 45.9462))
 				.build();
 		
 		Place place = mapper.map(placeDTO, Place.class);

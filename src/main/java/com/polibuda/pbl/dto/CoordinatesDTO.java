@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LocationDTO implements Serializable {
+public class CoordinatesDTO implements Serializable {
 	
 	private static final long serialVersionUID = -5953551906363528087L;
 

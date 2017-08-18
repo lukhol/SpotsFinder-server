@@ -32,6 +32,7 @@ public class PlaceRestEndpoint {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public List<PlaceDTO> getAll() {
 		log.debug("GET /places");
+		
 		return placeService.getAll();
 	}
 	
@@ -69,6 +70,7 @@ public class PlaceRestEndpoint {
 	@RequestMapping(value="/{placeId}", method=RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable Long placeId) {
 		log.debug("DELETE /places/{}", placeId);
+		
 		boolean exists = placeService.exists(placeId);
 		if(!exists) {
 			log.warn("No place with id = {}", placeId);

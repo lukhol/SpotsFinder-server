@@ -1,9 +1,6 @@
 package com.polibuda.pbl.dto;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.polibuda.pbl.model.Image;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,16 +15,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PlaceDTO implements Serializable {
+public class PlaceSearchDTO implements Serializable {
 
-	private static final long serialVersionUID = -3209056985840394608L;
-	
-	private Long id;
-	private List<Image> images;
-	private String name;
-	private String description;
-	private CoordinatesDTO location;
-	private int type;
+	private static final long serialVersionUID = 1109896777676432420L;
+
+	private AddressDTO location;
+	private int distance;
+	private int[] type;
 	private boolean gap;
 	private boolean stairs;
 	private boolean rail;

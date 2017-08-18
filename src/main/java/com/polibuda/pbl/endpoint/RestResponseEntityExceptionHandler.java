@@ -8,6 +8,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.polibuda.pbl.exception.InvalidPlaceException;
+import com.polibuda.pbl.exception.InvalidPlaceSearchException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value= {InvalidPlaceException.class})
-	protected ResponseEntity<RestResponse<Void>> handleUnknownException(InvalidPlaceException ex, WebRequest request) {
+	protected ResponseEntity<RestResponse<Void>> handlePlaceException(InvalidPlaceException ex, WebRequest request) {
+		log.error(ex.getMessage(), ex);
+
+		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(value= {InvalidPlaceSearchException.class})
+	protected ResponseEntity<RestResponse<Void>> handleSearchException(InvalidPlaceSearchException ex, WebRequest request) {
 		log.error(ex.getMessage(), ex);
 
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);

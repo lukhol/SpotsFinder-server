@@ -1,0 +1,39 @@
+package com.polibuda.pbl.endpoint;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.exception.InvalidPlaceSearchException;
+import com.polibuda.pbl.service.PlaceService;
+import com.polibuda.pbl.validator.PlaceSearchValidator;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RestController
+@RequestMapping("/places/searches")
+public class PlaceSearchRestEndpoint {
+
+	@Autowired
+	private PlaceService placeService;
+	
+	@Autowired
+	private PlaceSearchValidator searchValidator;
+	
+	@RequestMapping(value="", method=RequestMethod.POST)
+	public List<PlaceDTO> addSkateSpot(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException {
+		log.debug("POST /places/searches body: {}", searchDto);
+		
+		searchValidator.validate(searchDto);
+		List<PlaceDTO> places = placeService.search(searchDto);
+		
+		return places;
+	}
+}
