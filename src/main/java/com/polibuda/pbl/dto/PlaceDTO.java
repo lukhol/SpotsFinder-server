@@ -26,7 +26,7 @@ public class PlaceDTO implements Serializable {
 	private List<Image> images;
 	private String name;
 	private String description;
-	private CoordinatesDTO location;
+	private CoordinatesDTO location = new CoordinatesDTO();
 	private int type;
 	private boolean gap;
 	private boolean stairs;

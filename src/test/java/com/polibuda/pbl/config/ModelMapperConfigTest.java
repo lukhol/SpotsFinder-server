@@ -1,5 +1,8 @@
 package com.polibuda.pbl.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -58,5 +61,29 @@ public class ModelMapperConfigTest {
 		assert placeDTO.getLocation().getLatitude() == place.getLatitude();
 		assert placeDTO.getLocation().getLongitude() == place.getLongitude();
 		assert placeDTO.getType() == place.getType();
+	}
+	
+	@Test
+	public void testMultiConversion() {
+		
+		for(int i = 0; i < 10; i++) {
+			Place place = Place.builder()
+					.corners(true)
+					.name("name " + i)
+					.description("opis" + i)
+					.type(1)
+					.latitude(1.1234 + i)
+					.longitude(2.9876 * i)
+					.build();
+				
+			PlaceDTO placeDTO = mapper.map(place, PlaceDTO.class);
+			
+			assert placeDTO.getName().equals(place.getName());
+			assert placeDTO.getDescription().equals(place.getDescription());
+			assert placeDTO.isCorners() == place.isCorners();
+			assert placeDTO.getLocation().getLatitude() == place.getLatitude();
+			assert placeDTO.getLocation().getLongitude() == place.getLongitude();
+			assert placeDTO.getType() == place.getType();
+		}
 	}
 }

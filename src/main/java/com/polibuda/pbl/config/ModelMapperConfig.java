@@ -20,7 +20,6 @@ public class ModelMapperConfig {
 		PropertyMap<Place, PlaceDTO> placeMap = new PropertyMap<Place, PlaceDTO>() {		
 			@Override
 			protected void configure() {
-				map().setLocation(new CoordinatesDTO());
 				map().getLocation().setLatitude(source.getLatitude());
 				map().getLocation().setLongitude(source.getLongitude());
 			}
