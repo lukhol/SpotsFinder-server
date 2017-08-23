@@ -5,8 +5,8 @@ import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.polibuda.pbl.dto.CoordinatesDTO;
-import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.HeavyPlaceDTO;
+import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.model.Place;
 
 @Configuration
@@ -16,25 +16,33 @@ public class ModelMapperConfig {
 	public ModelMapper getModelMapperBean() {
 		ModelMapper mapper = new ModelMapper();
 
-		
-		PropertyMap<Place, PlaceDTO> placeMap = new PropertyMap<Place, PlaceDTO>() {		
+		PropertyMap<Place, HeavyPlaceDTO> heavyPlaceDTOMap = new PropertyMap<Place, HeavyPlaceDTO>() {		
 			@Override
 			protected void configure() {
 				map().getLocation().setLatitude(source.getLatitude());
 				map().getLocation().setLongitude(source.getLongitude());
 			}
 		};
-		mapper.addMappings(placeMap);
+		mapper.addMappings(heavyPlaceDTOMap);
 		
+		PropertyMap<Place, LightPlaceDTO> lightPlaceDTOMap = new PropertyMap<Place, LightPlaceDTO>() {		
+			@Override
+			protected void configure() {
+				map().getLocation().setLatitude(source.getLatitude());
+				map().getLocation().setLongitude(source.getLongitude());
+				map().setMainPhoto(source.getImages().get(0));
+			}
+		};
+		mapper.addMappings(lightPlaceDTOMap);
 		
-		PropertyMap<PlaceDTO, Place> placeDTOMap = new PropertyMap<PlaceDTO, Place>() {		
+		PropertyMap<HeavyPlaceDTO, Place> placeMap = new PropertyMap<HeavyPlaceDTO, Place>() {		
 			@Override
 			protected void configure() {
 				map().setLatitude(source.getLocation().getLatitude());
 				map().setLongitude(source.getLocation().getLongitude());
 			}
 		};
-		mapper.addMappings(placeDTOMap);
+		mapper.addMappings(placeMap);
 		return mapper;
 	}
 }

@@ -3,12 +3,12 @@ package com.polibuda.pbl.endpoint;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.exception.InvalidPlaceSearchException;
 import com.polibuda.pbl.service.PlaceService;
@@ -27,12 +27,12 @@ public class PlaceSearchRestEndpoint {
 	@Autowired
 	private PlaceSearchValidator searchValidator;
 	
-	@RequestMapping(value="", method=RequestMethod.POST)
-	public List<PlaceDTO> addSkateSpot(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException {
+	@PostMapping
+	public List<LightPlaceDTO> addSkateSpot(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException {
 		log.debug("POST /places/searches body: {}", searchDto);
 		
 		searchValidator.validate(searchDto);
-		List<PlaceDTO> places = placeService.search(searchDto);
+		List<LightPlaceDTO> places = placeService.search(searchDto);
 		
 		return places;
 	}

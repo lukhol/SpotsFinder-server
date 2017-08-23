@@ -1,7 +1,6 @@
 package com.polibuda.pbl.config;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.polibuda.pbl.dto.CoordinatesDTO;
-import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.model.Place;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +32,7 @@ public class ModelMapperConfigTest {
 				.longitude(45.9876)
 				.build();
 		
-		PlaceDTO placeDTO = mapper.map(place, PlaceDTO.class);
+		HeavyPlaceDTO placeDTO = mapper.map(place, HeavyPlaceDTO.class);
 		
 		assert placeDTO.getName().equals(place.getName());
 		assert placeDTO.getDescription().equals(place.getDescription());
@@ -45,7 +44,7 @@ public class ModelMapperConfigTest {
 	
 	@Test
 	public void testPlaceDtoToModelConversion() {
-		PlaceDTO placeDTO = PlaceDTO.builder()
+		HeavyPlaceDTO placeDTO = HeavyPlaceDTO.builder()
 				.corners(true)
 				.name("nazwa")
 				.description("description")
@@ -65,7 +64,7 @@ public class ModelMapperConfigTest {
 	
 	@Test
 	public void testMultiConversion() {
-		
+		ArrayList<HeavyPlaceDTO> places = new ArrayList<HeavyPlaceDTO>();
 		for(int i = 0; i < 10; i++) {
 			Place place = Place.builder()
 					.corners(true)
@@ -76,7 +75,8 @@ public class ModelMapperConfigTest {
 					.longitude(2.9876 * i)
 					.build();
 				
-			PlaceDTO placeDTO = mapper.map(place, PlaceDTO.class);
+			HeavyPlaceDTO placeDTO = mapper.map(place, HeavyPlaceDTO.class);
+			places.add(placeDTO);
 			
 			assert placeDTO.getName().equals(place.getName());
 			assert placeDTO.getDescription().equals(place.getDescription());
@@ -85,5 +85,7 @@ public class ModelMapperConfigTest {
 			assert placeDTO.getLocation().getLongitude() == place.getLongitude();
 			assert placeDTO.getType() == place.getType();
 		}
+		for(HeavyPlaceDTO p : places) 
+		System.out.println(p);
 	}
 }

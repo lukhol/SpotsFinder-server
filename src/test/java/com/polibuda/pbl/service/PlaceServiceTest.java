@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
 
@@ -51,9 +51,9 @@ public class PlaceServiceTest {
 		
 		when(placeRepository.findAll()).thenReturn(places);
 		
-		List<PlaceDTO> placesDTO = placeService.getAll();
+		List<LightPlaceDTO> placesDTO = placeService.getAll();
 		assert placesDTO != null;
-		for(PlaceDTO p : placesDTO) {
+		for(LightPlaceDTO p : placesDTO) {
 			log.debug(p.toString());
 		}
 		

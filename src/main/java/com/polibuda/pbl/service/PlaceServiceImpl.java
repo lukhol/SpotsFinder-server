@@ -3,12 +3,14 @@ package com.polibuda.pbl.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.HeavyPlaceDTO;
+import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.mapper.PlaceDTOMapper;
+import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
 
@@ -19,20 +21,27 @@ public class PlaceServiceImpl implements PlaceService {
 	private PlaceRepository placeRepository;
 	
 	@Autowired
-	private ModelMapper modelMapper;
+	private PlaceDTOMapper placeMapper;
 	
 	@Override
-	public List<PlaceDTO> getAll() {
+	public List<LightPlaceDTO> getAll() {
 		return placeRepository.findAll()
 			.stream()
-			.map(place -> convertToDTO(place))
+			.map(place -> placeMapper.mapToLightDTO(place))
 			.collect(Collectors.toList());
 	}
 
 	@Override
-	public PlaceDTO save(PlaceDTO placeDto) {
-		Place place = placeRepository.save(convertToModel(placeDto));
-		return convertToDTO(place);
+	public HeavyPlaceDTO save(HeavyPlaceDTO placeDto) {
+		Place placeToSave = placeMapper.mapHeavyToModel(placeDto);
+		Image mainPhoto = placeToSave.getImages().get(0);
+		
+		// TODO: scale the mainPhoto
+		
+		placeToSave.getImages().add(0, mainPhoto);
+		
+		Place place = placeRepository.save(placeToSave);
+		return placeMapper.mapToHeavyDTO(place);
 	}
 
 	@Override
@@ -41,26 +50,18 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public PlaceDTO getById(Long placeId) {
+	public HeavyPlaceDTO getById(Long placeId) {
 		Place place = placeRepository.findOne(placeId).get();
-		return convertToDTO(place);
+		return placeMapper.mapToHeavyDTO(place);
 	}
 
 	@Override
 	public void delete(Long placeId) {
 		placeRepository.delete(placeId);		
 	}
-	
-	private PlaceDTO convertToDTO(Place place) {
-		return modelMapper.map(place, PlaceDTO.class);
-	}
-	
-	private Place convertToModel(PlaceDTO placeDto) {
-		return modelMapper.map(placeDto, Place.class);
-	}
 
 	@Override
-	public List<PlaceDTO> search(PlaceSearchDTO placeDto) {
+	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) {
 		// TODO Auto-generated method stub
 		return null;
 	}

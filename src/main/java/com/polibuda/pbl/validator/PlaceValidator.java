@@ -3,13 +3,13 @@ package com.polibuda.pbl.validator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.polibuda.pbl.dto.PlaceDTO;
+import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.exception.InvalidPlaceException;
 
 @Component
 public class PlaceValidator {
 	
-	public void validate(PlaceDTO place) throws InvalidPlaceException {
+	public void validate(HeavyPlaceDTO place) throws InvalidPlaceException {
 		checkCondition(place.getType() < 0 || place.getType() > 2,"Type value should be 0, 1 or 2");
 		
 		checkCondition(place.getLocation() == null, "Location should not be null!");
