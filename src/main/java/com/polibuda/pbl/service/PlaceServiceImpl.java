@@ -69,7 +69,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 }

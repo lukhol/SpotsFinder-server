@@ -32,5 +32,5 @@ public class Image {
 	
 	@Lob
 	@Column(name="IMAGE", columnDefinition="mediumblob")
-	private byte[] image;
+	private String image;
 }
