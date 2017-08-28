@@ -21,8 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ImageConverter {
 	
-	private final static int MINIATURE_WIDTH = 30;
-	private final static int MINIATURE_HEIGHT = 30;
+	private final static int MINIATURE_WIDTH = 50;
+	private final static int MINIATURE_HEIGHT = 50;
 
 	public Image createMiniature(Image firstPhoto) throws IOException {
 		log.info("Creating miniature from first photo.");
@@ -34,7 +34,7 @@ public class ImageConverter {
 		
 		int w = original.getWidth();
 		int h = original.getHeight();
-		BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage after = new BufferedImage(MINIATURE_WIDTH, MINIATURE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 				
 		double sx = ((double) MINIATURE_WIDTH)/w;
 		double sy = ((double) MINIATURE_HEIGHT)/h;
