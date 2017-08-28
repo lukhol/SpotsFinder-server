@@ -1,5 +1,6 @@
 package com.polibuda.pbl.endpoint;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PostMapping
-	public ResponseEntity<HeavyPlaceDTO> addSkateSpot(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException {
+	public ResponseEntity<HeavyPlaceDTO> addSkateSpot(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException {
 		log.debug("POST /places body: {}", placeDto);
 		
 		placeValidator.validate(placeDto);
@@ -63,7 +64,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PutMapping(value="/{placeId}")
-	public ResponseEntity<HeavyPlaceDTO> replaceSkateSpot(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException {
+	public ResponseEntity<HeavyPlaceDTO> replaceSkateSpot(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
 		placeValidator.validate(placeDto);

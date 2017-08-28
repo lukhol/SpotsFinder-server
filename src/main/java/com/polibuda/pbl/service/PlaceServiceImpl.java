@@ -1,5 +1,6 @@
 package com.polibuda.pbl.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.imageconverter.ImageConverter;
 import com.polibuda.pbl.mapper.PlaceDTOMapper;
 import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
@@ -23,6 +25,9 @@ public class PlaceServiceImpl implements PlaceService {
 	@Autowired
 	private PlaceDTOMapper placeMapper;
 	
+	@Autowired
+	private ImageConverter imageConverter;
+	
 	@Override
 	public List<LightPlaceDTO> getAll() {
 		return placeRepository.findAll()
@@ -32,13 +37,15 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public HeavyPlaceDTO save(HeavyPlaceDTO placeDto) {
+	public HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException {
 		Place placeToSave = placeMapper.mapHeavyToModel(placeDto);
-		Image mainPhoto = placeToSave.getImages().get(0);
 		
-		// TODO: scale the mainPhoto
-		
-		placeToSave.getImages().add(0, mainPhoto);
+		if(placeToSave.getId() == null) {
+			Image firstPhoto = placeToSave.getImages().get(0);
+			Image miniature = imageConverter.createMiniature(firstPhoto);
+			
+			placeToSave.getImages().add(0, miniature);
+		}
 		
 		Place place = placeRepository.save(placeToSave);
 		return placeMapper.mapToHeavyDTO(place);

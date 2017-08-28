@@ -1,5 +1,6 @@
 package com.polibuda.pbl.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.polibuda.pbl.dto.LightPlaceDTO;
@@ -10,7 +11,7 @@ public interface PlaceService {
 
 	List<LightPlaceDTO> getAll();
 
-	HeavyPlaceDTO save(HeavyPlaceDTO placeDto);
+	HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException;
 
 	boolean exists(Long placeId);
 	
