@@ -69,7 +69,9 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) {
-		
-		return null;
+		return placeRepository.search(placeDto)
+		.stream()
+		.map(place -> placeMapper.mapToLightDTO(place))
+		.collect(Collectors.toList());
 	}
 }

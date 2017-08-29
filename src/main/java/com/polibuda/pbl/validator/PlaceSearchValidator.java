@@ -12,7 +12,9 @@ public class PlaceSearchValidator {
 		checkCondition(search.getType() == null, "Type should not be null");
 		for(int i = 0; i < search.getType().length; i++) {
 			checkCondition(search.getType()[i] < 0 || search.getType()[i] > 2,"Type value should be 0, 1 or 2");
-		}		
+		}
+		checkCondition(search.getLocation() == null, "City should not be null");
+		checkCondition(search.getLocation().getCity() == null, "City should not be null");
 	}
 	
 	private void checkCondition(boolean condition, String message) throws InvalidPlaceSearchException {
