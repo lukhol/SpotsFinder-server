@@ -84,8 +84,14 @@ public class CustomPlaceRepositoryImpl implements CustomPlaceRepository {
 		return null;
 	}
 
-	private Predicate addTypeSelections(int[] type) {
-		// TODO
-		return null;
+	private Predicate addTypeSelections(int[] types) {
+		List<Predicate> conditions = new ArrayList<Predicate>();
+		for(int type : types) {
+			conditions.add( builder.equal( root.get("type"), type) );
+		}
+		if(conditions.size() > 1) {
+			return builder.or(conditions.toArray(new Predicate[conditions.size()]));
+		}
+		return conditions.get(0);
 	}
 }

@@ -10,6 +10,7 @@ public class PlaceSearchValidator {
 
 	public void validate(PlaceSearchDTO search) throws InvalidPlaceSearchException {
 		checkCondition(search.getType() == null, "Type should not be null");
+		checkCondition(search.getType().length == 0, "Type should not be empty");
 		for(int i = 0; i < search.getType().length; i++) {
 			checkCondition(search.getType()[i] < 0 || search.getType()[i] > 2,"Type value should be 0, 1 or 2");
 		}
