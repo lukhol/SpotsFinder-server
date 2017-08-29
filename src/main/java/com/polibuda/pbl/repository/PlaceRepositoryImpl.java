@@ -13,15 +13,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import com.polibuda.pbl.dto.AddressDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.location.FetchCityComponent;
 import com.polibuda.pbl.model.Place;
 
-@Repository
-public class CustomPlaceRepositoryImpl implements CustomPlaceRepository {
+public class PlaceRepositoryImpl implements CustomPlaceRepository {
 
 	@PersistenceContext
     private EntityManager entityManager;

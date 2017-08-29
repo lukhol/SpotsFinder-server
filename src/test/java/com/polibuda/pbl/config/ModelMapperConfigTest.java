@@ -1,6 +1,7 @@
 package com.polibuda.pbl.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,8 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
+import com.polibuda.pbl.dto.LightPlaceDTO;
+import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,7 +25,7 @@ public class ModelMapperConfigTest {
 	private ModelMapper mapper;
 	
 	@Test
-	public void testPlaceToDtoConversion() {
+	public void testPlaceToHeavyDtoConversion() {
 		Place place = Place.builder()
 				.corners(true)
 				.name("name")
@@ -88,4 +91,28 @@ public class ModelMapperConfigTest {
 		for(HeavyPlaceDTO p : places) 
 		System.out.println(p);
 	}
+	
+	@Test
+	public void testPlaceToLightDtoConversion() {
+		Place place = Place.builder()
+				.corners(true)
+				.name("name")
+				.description("opis")
+				.type(1)
+				.latitude(50.1234)
+				.longitude(45.9876)
+				.images(Arrays.asList(new Image(123l, "photo1"), new Image(6678l, "image2")))
+				.build();
+		
+		LightPlaceDTO placeDTO = mapper.map(place, LightPlaceDTO.class);
+		
+		assert placeDTO.getName().equals(place.getName());
+		assert placeDTO.getDescription().equals(place.getDescription());
+		assert placeDTO.getLocation().getLatitude() == place.getLatitude();
+		assert placeDTO.getLocation().getLongitude() == place.getLongitude();
+		assert placeDTO.getType() == place.getType();
+		assert placeDTO.getMainPhoto().equals(place.getImages().get(0));
+	}
+	
+	
 }
