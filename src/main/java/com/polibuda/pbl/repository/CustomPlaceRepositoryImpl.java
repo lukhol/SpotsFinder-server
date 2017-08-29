@@ -12,10 +12,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.polibuda.pbl.dto.AddressDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.location.FetchCityComponent;
 import com.polibuda.pbl.model.Place;
 
 @Repository
@@ -23,9 +25,13 @@ public class CustomPlaceRepositoryImpl implements CustomPlaceRepository {
 
 	@PersistenceContext
     private EntityManager entityManager;
+	
 	private CriteriaBuilder builder;
 	private CriteriaQuery<Place> criteria;
 	private Root<Place> root;
+	
+	@Autowired
+	private FetchCityComponent fetchCity;
 
 	@Override
 	public List<Place> search(PlaceSearchDTO searchCriteria) {
@@ -80,8 +86,15 @@ public class CustomPlaceRepositoryImpl implements CustomPlaceRepository {
 	}
 	
 	private Predicate addLocationSelections(AddressDTO address, int distance) {
-		// TODO
-		return null;
+		
+		double[] coordinates = fetchCity.fetchCityCoordinates(address.getCity());
+		double latitudeDelta = getLatitudeDelta(distance);
+		double longitudeDelta = getLongitudeDelta(distance);
+		
+		Predicate latitudePredicate = builder.between( root.get("latitude"), coordinates[0] - latitudeDelta, coordinates[0] + latitudeDelta );
+		Predicate longitudePredicate = builder.between( root.get("longitude"), coordinates[1] - longitudeDelta, coordinates[1] + longitudeDelta );
+		
+		return builder.and(latitudePredicate, longitudePredicate);
 	}
 
 	private Predicate addTypeSelections(int[] types) {
@@ -93,5 +106,23 @@ public class CustomPlaceRepositoryImpl implements CustomPlaceRepository {
 			return builder.or(conditions.toArray(new Predicate[conditions.size()]));
 		}
 		return conditions.get(0);
+	}
+	
+	/**
+	 * 
+	 * @param distance in meters
+	 * @return latitude delta
+	 */
+	private double getLatitudeDelta(double distance) {
+		return (distance * 180)/20000;
+	}
+	
+	/**
+	 * 
+	 * @param distance in meters
+	 * @return longitude delta
+	 */
+	private double getLongitudeDelta(double distance) {
+		return (distance * 360)/20000;
 	}
 }
