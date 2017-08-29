@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.polibuda.pbl.dto.AddressDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
-import com.polibuda.pbl.location.FetchCityComponent;
+import com.polibuda.pbl.geolocation.FetchCityComponent;
 import com.polibuda.pbl.model.Place;
 
 public class PlaceRepositoryImpl implements CustomPlaceRepository {
