@@ -6,6 +6,7 @@ import java.util.List;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.exception.GeocodingCityException;
 
 public interface PlaceService {
 
@@ -19,5 +20,5 @@ public interface PlaceService {
 
 	void delete(Long placeId);
 
-	List<LightPlaceDTO> search(PlaceSearchDTO placeDto);
+	List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException;
 }

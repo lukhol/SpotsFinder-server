@@ -55,7 +55,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PostMapping
-	public ResponseEntity<HeavyPlaceDTO> addSkateSpot(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException {
+	public ResponseEntity<HeavyPlaceDTO> addPlace(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException {
 		log.debug("POST /places body: {}", placeDto);
 		
 		placeValidator.validate(placeDto);
@@ -64,7 +64,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PutMapping(value="/{placeId}")
-	public ResponseEntity<HeavyPlaceDTO> replaceSkateSpot(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException {
+	public ResponseEntity<HeavyPlaceDTO> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
 		placeValidator.validate(placeDto);

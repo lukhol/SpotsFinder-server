@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.polibuda.pbl.dto.AddressDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.geolocation.FetchCityComponent;
 import com.polibuda.pbl.model.Place;
 
@@ -32,7 +33,7 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	private FetchCityComponent fetchCity;
 
 	@Override
-	public List<Place> search(PlaceSearchDTO searchCriteria) {
+	public List<Place> search(PlaceSearchDTO searchCriteria) throws GeocodingCityException {
 		builder = entityManager.getCriteriaBuilder();
 		criteria = builder.createQuery(Place.class);
 		root = criteria.from( Place.class );
@@ -83,7 +84,7 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 		return null;
 	}
 	
-	private Predicate addLocationSelections(AddressDTO address, int distance) {
+	private Predicate addLocationSelections(AddressDTO address, int distance) throws GeocodingCityException {
 		
 		double[] coordinates = fetchCity.fetchCityCoordinates(address.getCity());
 		double latitudeDelta = getLatitudeDelta(distance);

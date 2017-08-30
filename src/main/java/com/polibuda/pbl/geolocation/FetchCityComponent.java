@@ -1,25 +1,40 @@
 package com.polibuda.pbl.geolocation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import java.io.IOException;
 
+import org.springframework.stereotype.Component;
+
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
+import com.polibuda.pbl.exception.GeocodingCityException;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class FetchCityComponent {
 
-	@Autowired
-	private RestTemplate rest;
-	
 	private static final String GOOGLE_MAPS_GEOCODING_API_KEY = "AIzaSyCScQ7EgUqnPkOcxCvf_X7qOOEHIV0t74o";
 	
-	private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
-	
-	public double[] fetchCityCoordinates(String cityName) {
+	public double[] fetchCityCoordinates(String cityName) throws GeocodingCityException {
 		
-		String url = BASE_URL + cityName + "&key=" + GOOGLE_MAPS_GEOCODING_API_KEY;
+		GeoApiContext context = new GeoApiContext().setApiKey(GOOGLE_MAPS_GEOCODING_API_KEY);
 		
-		rest.getForObject(url, Object.class); // TODO
-		
-		return null;
+		GeocodingResult[] results;
+		try {
+			results = GeocodingApi.newRequest(context).address(cityName).await();
+			double latitude = results[0].geometry.location.lat;
+			double longitude = results[0].geometry.location.lng;
+			
+			return new double[] { latitude, longitude };
+		} catch (ApiException | InterruptedException | IOException e) {
+			log.error("Error while searching location coordinates of given city");
+			log.error(e.getMessage());
+			
+			throw new GeocodingCityException(e.getMessage());
+		}
+			
 	}
 }

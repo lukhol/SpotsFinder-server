@@ -34,4 +34,6 @@ dependencies {
 	compile("org.modelmapper:modelmapper:1.1.0")
 
 	compile("org.projectlombok:lombok:1.16.18")
+	
+	compile("com.google.maps:google-maps-services:0.1.20")
 }

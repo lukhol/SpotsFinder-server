@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.imageconverter.ImageConverter;
 import com.polibuda.pbl.mapper.PlaceDTOMapper;
 import com.polibuda.pbl.model.Image;
@@ -68,7 +69,7 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) {
+	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException {
 		return placeRepository.search(placeDto)
 		.stream()
 		.map(place -> placeMapper.mapToLightDTO(place))

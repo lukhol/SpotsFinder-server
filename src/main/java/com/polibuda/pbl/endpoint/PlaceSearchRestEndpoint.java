@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
+import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.exception.InvalidPlaceSearchException;
 import com.polibuda.pbl.service.PlaceService;
 import com.polibuda.pbl.validator.PlaceSearchValidator;
@@ -28,7 +29,7 @@ public class PlaceSearchRestEndpoint {
 	private PlaceSearchValidator searchValidator;
 	
 	@PostMapping
-	public List<LightPlaceDTO> addSkateSpot(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException {
+	public List<LightPlaceDTO> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
 		log.debug("POST /places/searches body: {}", searchDto);
 		
 		searchValidator.validate(searchDto);

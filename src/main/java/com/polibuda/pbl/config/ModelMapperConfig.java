@@ -59,7 +59,6 @@ public class ModelMapperConfig {
 		};
 		mapper.addConverter(converter);
 		
-		
 		return mapper;
 	}
 }
