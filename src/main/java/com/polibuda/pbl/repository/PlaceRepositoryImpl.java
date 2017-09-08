@@ -59,27 +59,27 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 		
 		List<Predicate> conditions = new ArrayList<Predicate>();
 		
-		Optional.ofNullable(where("bowl", searchCriteria.getBowl())).ifPresent(conditions::add);
-		Optional.ofNullable(where("bank", searchCriteria.getBank())).ifPresent(conditions::add);
-		Optional.ofNullable(where("corners", searchCriteria.getCorners())).ifPresent(conditions::add);
-		Optional.ofNullable(where("curb", searchCriteria.getCurb())).ifPresent(conditions::add);
-		Optional.ofNullable(where("downhill", searchCriteria.getDownhill())).ifPresent(conditions::add);
-		Optional.ofNullable(where("gap", searchCriteria.getGap())).ifPresent(conditions::add);
-		Optional.ofNullable(where("handrail", searchCriteria.getHandrail())).ifPresent(conditions::add);
-		Optional.ofNullable(where("ledge", searchCriteria.getLedge())).ifPresent(conditions::add);
-		Optional.ofNullable(where("manualpad", searchCriteria.getManualpad())).ifPresent(conditions::add);
-		Optional.ofNullable(where("openYourMind", searchCriteria.getOpenYourMind())).ifPresent(conditions::add);
-		Optional.ofNullable(where("pyramid", searchCriteria.getPyramid())).ifPresent(conditions::add);
-		Optional.ofNullable(where("rail", searchCriteria.getRail())).ifPresent(conditions::add);
-		Optional.ofNullable(where("stairs", searchCriteria.getStairs())).ifPresent(conditions::add);
-		Optional.ofNullable(where("wallride", searchCriteria.getWallride())).ifPresent(conditions::add);
+		Optional.ofNullable(where("bowl", searchCriteria.isBowl())).ifPresent(conditions::add);
+		Optional.ofNullable(where("bank", searchCriteria.isBank())).ifPresent(conditions::add);
+		Optional.ofNullable(where("corners", searchCriteria.isCorners())).ifPresent(conditions::add);
+		Optional.ofNullable(where("curb", searchCriteria.isCurb())).ifPresent(conditions::add);
+		Optional.ofNullable(where("downhill", searchCriteria.isDownhill())).ifPresent(conditions::add);
+		Optional.ofNullable(where("gap", searchCriteria.isGap())).ifPresent(conditions::add);
+		Optional.ofNullable(where("handrail", searchCriteria.isHandrail())).ifPresent(conditions::add);
+		Optional.ofNullable(where("ledge", searchCriteria.isLedge())).ifPresent(conditions::add);
+		Optional.ofNullable(where("manualpad", searchCriteria.isManualpad())).ifPresent(conditions::add);
+		Optional.ofNullable(where("openYourMind", searchCriteria.isOpenYourMind())).ifPresent(conditions::add);
+		Optional.ofNullable(where("pyramid", searchCriteria.isPyramid())).ifPresent(conditions::add);
+		Optional.ofNullable(where("rail", searchCriteria.isRail())).ifPresent(conditions::add);
+		Optional.ofNullable(where("stairs", searchCriteria.isStairs())).ifPresent(conditions::add);
+		Optional.ofNullable(where("wallride", searchCriteria.isWallride())).ifPresent(conditions::add);
 		
 		return conditions.toArray(new Predicate[conditions.size()]);
 	}
 	
-	private Predicate where(String fieldName, Boolean value) {
-		if(value != null) {
-			return builder.equal( root.get( fieldName ), value.booleanValue() );
+	private Predicate where(String fieldName, boolean value) {
+		if(value) {
+			return builder.equal( root.get( fieldName ), value);
 		}
 		return null;
 	}
