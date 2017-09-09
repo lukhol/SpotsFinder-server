@@ -47,12 +47,11 @@ public class ImageConverterTest {
 		byte[] beforeInByteArray = baos.toByteArray();
 		baos.close();
 		String beforeBase64 = Base64.encode(beforeInByteArray);
+		System.out.println("obrazek: " + beforeBase64);
 		Image bigImage = new Image();
 		bigImage.setImage(beforeBase64);
 
-		Image smallImage = imageConverter.createMiniature(bigImage);
-
-		String afterBase64 = smallImage.getImage();
+		String afterBase64 = imageConverter.createMiniature(bigImage);
 		byte[] afterInByteArray = Base64.decode(afterBase64);
 		InputStream inputStream = new ByteArrayInputStream(afterInByteArray);
 		BufferedImage after = ImageIO.read(inputStream);

@@ -45,7 +45,6 @@ public class ModelMapperConfig {
 		    protected LightPlaceDTO convert(Place source) {
 		    	LightPlaceDTO destination = new LightPlaceDTO();
 		        destination.setLocation(new CoordinatesDTO());
-		        List<Image> sourceList = source.getImages();
 		        
 		        destination.setId(source.getId());
 		        destination.setName(source.getName());
@@ -53,7 +52,7 @@ public class ModelMapperConfig {
 		        destination.setType(source.getType());
 		        destination.getLocation().setLatitude(source.getLatitude());
 		        destination.getLocation().setLongitude(source.getLongitude());
-		        destination.setMainPhoto(sourceList.get(0).getImage());
+		        destination.setMainPhoto(source.getMainPhoto());
 
 		        return destination;
 		    }

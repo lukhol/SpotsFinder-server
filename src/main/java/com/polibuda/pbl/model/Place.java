@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,9 +36,13 @@ public class Place {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="FK_PLACE_ID")
 	private List<Image> images;
+	
+	@Lob
+	@Column(name="MAIN_PHOTO", columnDefinition="mediumblob")
+	private String mainPhoto;
 	
 	@Column(name="NAME", length=30)
 	private String name;

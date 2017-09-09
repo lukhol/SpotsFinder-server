@@ -24,7 +24,7 @@ public class ImageConverter {
 	private final static int MINIATURE_WIDTH = 50;
 	private final static int MINIATURE_HEIGHT = 50;
 
-	public Image createMiniature(Image firstPhoto) throws IOException {
+	public String createMiniature(Image firstPhoto) throws IOException {
 		log.info("Creating miniature from first photo.");
 		
 		String originalBase64 = firstPhoto.getImage();
@@ -53,10 +53,7 @@ public class ImageConverter {
 		baos.close();
 		String afterBase64 = Base64.encode(afterInByteArray);
 		
-		Image miniature = new Image();
-		miniature.setImage(afterBase64);
-		
-		return miniature;
+		return afterBase64;
 	}
 
 }

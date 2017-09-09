@@ -43,9 +43,9 @@ public class PlaceServiceImpl implements PlaceService {
 		
 		if(placeToSave.getId() == null) {
 			Image firstPhoto = placeToSave.getImages().get(0);
-			Image miniature = imageConverter.createMiniature(firstPhoto);
+			String miniature = imageConverter.createMiniature(firstPhoto);
 			
-			placeToSave.getImages().add(0, miniature);
+			placeToSave.setMainPhoto(miniature);
 		}
 		
 		Place place = placeRepository.save(placeToSave);
