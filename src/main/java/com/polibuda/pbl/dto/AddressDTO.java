@@ -15,4 +15,6 @@ import lombok.ToString;
 @Builder
 public class AddressDTO {
 	private String city;
+	private Double longitude;	
+	private Double latitude;
 }

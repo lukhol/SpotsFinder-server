@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.dto.AddressDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
@@ -86,7 +87,16 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	
 	private Predicate addLocationSelections(AddressDTO address, int distance) throws GeocodingCityException {
 		
-		double[] coordinates = fetchCity.fetchCityCoordinates(address.getCity());
+		double[] coordinates = null;
+		
+		if(!StringUtils.isEmpty( address.getCity() )) {
+			coordinates = fetchCity.fetchCityCoordinates(address.getCity());
+		} else {
+			coordinates = new double[] {
+				address.getLatitude().doubleValue(),
+				address.getLongitude().doubleValue()
+			};
+		}
 		double latitudeDelta = getLatitudeDelta(distance);
 		double longitudeDelta = getLongitudeDelta(distance);
 		
