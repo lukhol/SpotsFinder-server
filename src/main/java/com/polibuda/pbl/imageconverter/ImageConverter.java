@@ -20,40 +20,45 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class ImageConverter {
-	
-	private final static int MINIATURE_WIDTH = 50;
-	private final static int MINIATURE_HEIGHT = 50;
+		
+		private final static int MINIATURE_RESOLUTION = 300;
 
-	public String createMiniature(Image firstPhoto) throws IOException {
-		log.info("Creating miniature from first photo.");
-		
-		String originalBase64 = firstPhoto.getImage();
-		byte[] originalInByteArray = Base64.decode(originalBase64);
-		InputStream inputStream = new ByteArrayInputStream(originalInByteArray);
-		BufferedImage original = ImageIO.read(inputStream);
-		
-		int w = original.getWidth();
-		int h = original.getHeight();
-		BufferedImage after = new BufferedImage(MINIATURE_WIDTH, MINIATURE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-				
-		double sx = ((double) MINIATURE_WIDTH)/w;
-		double sy = ((double) MINIATURE_HEIGHT)/h;
-		
-		log.debug("Scale( sx = {}, sy = {}", sx, sy);
-		
-		AffineTransform at = new AffineTransform();
-		at.scale(sx, sy);
-		AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		after = scaleOp.filter(original, after);
-		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(after, "jpg", baos);
-		baos.flush();
-		byte[] afterInByteArray = baos.toByteArray();
-		baos.close();
-		String afterBase64 = Base64.encode(afterInByteArray);
-		
-		return afterBase64;
-	}
+		public String createMiniature(Image firstPhoto) throws IOException {
+			log.info("Creating miniature from first photo.");
+			
+			String originalBase64 = firstPhoto.getImage();
+			byte[] originalInByteArray = Base64.decode(originalBase64);
+			InputStream inputStream = new ByteArrayInputStream(originalInByteArray);
+			BufferedImage original = ImageIO.read(inputStream);
+			
+			int w = original.getWidth();
+			int h = original.getHeight();
+			
+			double s;
+			
+			if(w>h) {
+				s = ((double) MINIATURE_RESOLUTION)/w;
+			} else {
+				s = ((double) MINIATURE_RESOLUTION)/h;
+			}
+			
+			BufferedImage after = new BufferedImage((int)(w*s), (int)(h*s), BufferedImage.TYPE_3BYTE_BGR);
+			
+			log.debug("Scale( s = {} )", s);
+			
+			AffineTransform at = new AffineTransform();
+			at.scale(s, s);
+			AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+			after = scaleOp.filter(original, after);
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(after, "jpg", baos);
+			baos.flush();
+			byte[] afterInByteArray = baos.toByteArray();
+			baos.close();
+			String afterBase64 = Base64.encode(afterInByteArray);
+			
+			return afterBase64;
+		}
 
 }

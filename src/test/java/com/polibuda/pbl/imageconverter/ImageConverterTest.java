@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
@@ -24,7 +25,7 @@ public class ImageConverterTest {
 	@Test
 	public void testCreateMiniatureSquare() throws IOException {
 		String imageName = "300x300.jpg";
-		File outputFile = new File("C:\\Users\\Public\\output.jpg");
+		File outputFile = new File("C:\\Users\\Public\\output1.jpg");
 		testCreateMiniature(imageName, outputFile);
 	}
 	
@@ -47,7 +48,6 @@ public class ImageConverterTest {
 		byte[] beforeInByteArray = baos.toByteArray();
 		baos.close();
 		String beforeBase64 = Base64.encode(beforeInByteArray);
-		System.out.println("obrazek: " + beforeBase64);
 		Image bigImage = new Image();
 		bigImage.setImage(beforeBase64);
 
