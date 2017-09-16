@@ -21,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ImageConverter {
 		
-		private final static int MINIATURE_RESOLUTION = 300;
+		private final static int MINIATURE_WIDTH = 350;
+		private final static int MINIATURE_HEIGHT = 350;
 
 		public String createMiniature(Image firstPhoto) throws IOException {
 			log.info("Creating miniature from first photo.");
@@ -34,20 +35,14 @@ public class ImageConverter {
 			int w = original.getWidth();
 			int h = original.getHeight();
 			
-			double s;
+			double sx = ((double) MINIATURE_WIDTH)/w;
+			double sy = ((double) MINIATURE_HEIGHT)/h;
 			
-			if(w>h) {
-				s = ((double) MINIATURE_RESOLUTION)/w;
-			} else {
-				s = ((double) MINIATURE_RESOLUTION)/h;
-			}
+			BufferedImage after = new BufferedImage(MINIATURE_WIDTH, MINIATURE_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 			
-			BufferedImage after = new BufferedImage((int)(w*s), (int)(h*s), BufferedImage.TYPE_3BYTE_BGR);
-			
-			log.debug("Scale( s = {} )", s);
 			
 			AffineTransform at = new AffineTransform();
-			at.scale(s, s);
+			at.scale(sx, sy);
 			AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 			after = scaleOp.filter(original, after);
 			
