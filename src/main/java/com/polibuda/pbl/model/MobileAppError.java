@@ -1,5 +1,6 @@
 package com.polibuda.pbl.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ public class MobileAppError {
 	private String className;
 	private String message;
 	private String whereOccurred;
+	
+	@Column(columnDefinition="TEXT")
 	private String stackTraceString;
 
 	public Long getErrorId() {
