@@ -1,7 +1,5 @@
 package com.polibuda.pbl.config;
 
-import java.util.List;
-
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -12,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
-import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
 
 @Configuration

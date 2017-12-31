@@ -1,7 +1,7 @@
 spring.datasource:
     username: pbluser
     password: pblpassword
-    url: jdbc:mysql://85.255.10.140:3306/pbldb
+    url: jdbc:mysql://localhost:3306/spots_finder1
 spring.jpa.hibernate.ddl-auto: update
 spring:
   jpa:
