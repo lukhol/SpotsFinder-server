@@ -70,9 +70,10 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException {
-		return placeRepository.search(placeDto)
-		.stream()
-		.map(place -> placeMapper.mapToLightDTO(place))
-		.collect(Collectors.toList());
+		return placeRepository
+				.search(placeDto)
+				.stream()
+				.map(place -> placeMapper.mapToLightDTO(place))
+				.collect(Collectors.toList());
 	}
 }
