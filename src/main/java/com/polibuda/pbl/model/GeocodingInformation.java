@@ -8,40 +8,29 @@ import javax.persistence.Id;
 
 @Entity
 public class GeocodingInformation {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
+	private Long geocodingId;
+
 	private String searchingPhrase;
 	private String oryginalCityName;
 	private double longitude;
 	private double latitude;
-	
-	@Column(columnDefinition="TEXT")
+
+	@Column(columnDefinition = "TEXT")
 	private String oryginalGoogleResponseJson;
 
-	public GeocodingInformation() {}
-	
-	public GeocodingInformation(
-			String searchingPhrase, 
-			String oryginalCityName, 
-			String oryginalGoogleResponseJson, 
-			double longitude, 
-			double latitude){
+	public GeocodingInformation() {
+	}
+
+	public GeocodingInformation(String searchingPhrase, String oryginalCityName, String oryginalGoogleResponseJson,
+			double longitude, double latitude) {
 		this.searchingPhrase = searchingPhrase;
 		this.oryginalCityName = oryginalCityName;
 		this.oryginalGoogleResponseJson = oryginalGoogleResponseJson;
 		this.longitude = longitude;
 		this.latitude = latitude;
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getSearchingPhrase() {
@@ -82,5 +71,13 @@ public class GeocodingInformation {
 
 	public void setOryginalGoogleResponseJson(String oryginalGoogleResponseJson) {
 		this.oryginalGoogleResponseJson = oryginalGoogleResponseJson;
+	}
+
+	public Long getGeocodingId() {
+		return geocodingId;
+	}
+
+	public void setGeocodingId(Long geocodingId) {
+		this.geocodingId = geocodingId;
 	}
 }
