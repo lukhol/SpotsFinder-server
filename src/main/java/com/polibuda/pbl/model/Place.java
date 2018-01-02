@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.polibuda.pbl.model.listeners.PlaceEntityListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @Entity
+@EntityListeners(value = PlaceEntityListener.class)
 @Table(name="PLACES")
 public class Place {
 
@@ -100,4 +104,14 @@ public class Place {
 	
 	@Column(name="BOWL")
 	private boolean bowl;
+	
+	@Column(name="VERSION")
+	private long version;
+	
+//	@PreUpdate
+//	@PrePersist
+//	public void updateVersion(){
+//		Calendar calendar = Calendar.getInstance();
+//		setVersion(calendar.getTimeInMillis());
+//	}
 }

@@ -44,6 +44,7 @@ public class ModelMapperConfig {
 		        destination.setLocation(new CoordinatesDTO());
 		        
 		        destination.setId(source.getId());
+		        destination.setVersion(source.getVersion());
 		        destination.setName(source.getName());
 		        destination.setDescription(source.getDescription());
 		        destination.setType(source.getType());

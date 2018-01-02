@@ -22,6 +22,7 @@ public class LightPlaceDTO implements Serializable {
 	private static final long serialVersionUID = 2494012469351998636L;
 	
 	private Long id;
+	private long version;
 	private String mainPhoto;
 	private String name;
 	private String description;

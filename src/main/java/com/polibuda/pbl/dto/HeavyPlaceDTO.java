@@ -23,6 +23,7 @@ public class HeavyPlaceDTO implements Serializable {
 	private static final long serialVersionUID = -3209056985840394608L;
 	
 	private Long id;
+	private long version;
 	private List<Image> images;
 	private String name;
 	private String description;
