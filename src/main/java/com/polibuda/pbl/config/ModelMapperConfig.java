@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
+import com.polibuda.pbl.dto.WrongPlaceReportDTO;
 import com.polibuda.pbl.model.Place;
+import com.polibuda.pbl.model.WrongPlaceReport;
 
 @Configuration
 public class ModelMapperConfig {
@@ -37,7 +39,7 @@ public class ModelMapperConfig {
 		};
 		mapper.addMappings(placeMap);
 		
-		Converter<Place, LightPlaceDTO> converter = new AbstractConverter<Place, LightPlaceDTO>() {
+		Converter<Place, LightPlaceDTO> placeConverter = new AbstractConverter<Place, LightPlaceDTO>() {
 		    @Override
 		    protected LightPlaceDTO convert(Place source) {
 		    	LightPlaceDTO destination = new LightPlaceDTO();
@@ -55,7 +57,49 @@ public class ModelMapperConfig {
 		        return destination;
 		    }
 		};
-		mapper.addConverter(converter);
+		mapper.addConverter(placeConverter);
+		
+		Converter<WrongPlaceReport, WrongPlaceReportDTO> wrongPlaceReportConverter =  new AbstractConverter<WrongPlaceReport, WrongPlaceReportDTO>(){
+			@Override 
+			protected WrongPlaceReportDTO convert(WrongPlaceReport source){
+				WrongPlaceReportDTO destination = new WrongPlaceReportDTO();
+				
+				if(source.getPlace() != null)
+					destination.setPlaceId(source.getPlace().getId());
+				else 
+					destination.setPlaceId(0);
+				
+				destination.setPlaceVersion(source.getReportedPlaceVersion());
+				destination.setDeviceId(source.getDeviceId());
+				destination.setReasonComment(source.getReasonComment());
+				destination.setNotSkateboardPlace(source.isNotSkateboardPlace());
+				
+				if(source.getUser() == null || source.getUser().getUserId() == null || source.getUser().getUserId() <= 0)
+					destination.setUserId(0);
+				else
+					destination.setUserId(source.getUser().getUserId());
+					
+				return destination;
+			}
+		};
+		mapper.addConverter(wrongPlaceReportConverter);
+		
+		Converter<WrongPlaceReportDTO, WrongPlaceReport> wrongPlaceReportDtoConverter =  new AbstractConverter<WrongPlaceReportDTO, WrongPlaceReport>(){
+			@Override
+			protected WrongPlaceReport convert(WrongPlaceReportDTO source){
+				WrongPlaceReport destination = new WrongPlaceReport();
+				
+				destination.setId(null);
+				destination.setUser(null);
+				destination.setPlace(null);
+				destination.setDeviceId(source.getDeviceId());
+				destination.setNotSkateboardPlace(source.isNotSkateboardPlace());
+				destination.setReasonComment(source.getReasonComment());
+				
+				return destination;
+			}
+		};
+		mapper.addConverter(wrongPlaceReportDtoConverter);
 		
 		return mapper;
 	}

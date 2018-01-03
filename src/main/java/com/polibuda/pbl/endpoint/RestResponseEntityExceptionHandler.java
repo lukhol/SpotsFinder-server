@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.exception.InvalidPlaceException;
 import com.polibuda.pbl.exception.InvalidPlaceSearchException;
+import com.polibuda.pbl.exception.InvalidWrongPlaceReportException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,10 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value= {InvalidPlaceException.class, GeocodingCityException.class, InvalidPlaceSearchException.class, IOException.class})
+	@ExceptionHandler(value= { InvalidPlaceException.class, GeocodingCityException.class, InvalidPlaceSearchException.class, IOException.class})
 	protected ResponseEntity<RestResponse<Void>> handlePlaceException(InvalidPlaceException ex, WebRequest request) {
 		log.error(ex.getMessage(), ex);
 
+		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(value = { InvalidWrongPlaceReportException.class, })
+	protected ResponseEntity<RestResponse<Void>> handleWrongReportPlaceException(InvalidWrongPlaceReportException ex, WebRequest request){
+		log.error(ex.getMessage(), ex);
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
 	}
 }

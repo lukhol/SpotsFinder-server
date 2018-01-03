@@ -1,7 +1,7 @@
 spring.datasource:
     username: pbluser
     password: pblpassword
-    url: jdbc:mysql://localhost:3306/spots_finder1?useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://81.2.255.46:3306/spots_finder1?useUnicode=yes&characterEncoding=UTF-8
 spring.jpa.hibernate.ddl-auto: update
 spring:
   jpa:

@@ -59,7 +59,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public HeavyPlaceDTO getById(Long placeId) {
-		Place place = placeRepository.findOne(placeId).get();
+		Place place = placeRepository.findOneById(placeId);
 		return placeMapper.mapToHeavyDTO(place);
 	}
 

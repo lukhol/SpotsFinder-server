@@ -2,8 +2,6 @@ package com.polibuda.pbl.dto;
 
 import java.io.Serializable;
 
-import com.polibuda.pbl.model.Image;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

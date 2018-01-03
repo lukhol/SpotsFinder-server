@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
+import com.polibuda.pbl.dto.LightPlaceDTO;
+import com.polibuda.pbl.dto.WrongPlaceReportDTO;
 import com.polibuda.pbl.exception.InvalidPlaceException;
+import com.polibuda.pbl.exception.InvalidWrongPlaceReportException;
 import com.polibuda.pbl.service.PlaceService;
+import com.polibuda.pbl.service.WrongPlaceReportService;
 import com.polibuda.pbl.validator.PlaceValidator;
+import com.polibuda.pbl.validator.WrongPlaceReportValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +36,13 @@ public class PlaceRestEndpoint {
 	private PlaceService placeService;
 	
 	@Autowired
+	private WrongPlaceReportService wrongPlaceReportService;
+	
+	@Autowired
 	private PlaceValidator placeValidator;
+	
+	@Autowired
+	private WrongPlaceReportValidator wrongPlaceReportValidator;
 	
 	@GetMapping
 	public List<LightPlaceDTO> getAll() {
@@ -60,6 +70,7 @@ public class PlaceRestEndpoint {
 		
 		placeValidator.validate(placeDto);
 		HeavyPlaceDTO place = placeService.save(placeDto);
+		
 		return new ResponseEntity<HeavyPlaceDTO>(place, HttpStatus.CREATED);
 	}
 	
@@ -69,6 +80,7 @@ public class PlaceRestEndpoint {
 		
 		placeValidator.validate(placeDto);
 		HeavyPlaceDTO place = placeService.save(placeDto);
+		
 		return new ResponseEntity<HeavyPlaceDTO>(place, HttpStatus.CREATED);
 	}
 	
@@ -82,7 +94,22 @@ public class PlaceRestEndpoint {
 			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 		}
 		placeService.delete(placeId);
+		
 		log.debug("Place with id = {} deleted succesfully.", placeId);
 		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/report")
+	public ResponseEntity<WrongPlaceReportDTO> report(@RequestBody WrongPlaceReportDTO wrongPlaceReportDto) throws InvalidWrongPlaceReportException {
+		log.debug("Post /places/report. PlaceId = {}, PlaceVersion = {}, UserId = {}",  wrongPlaceReportDto.getPlaceId(),
+				wrongPlaceReportDto.getPlaceVersion(), wrongPlaceReportDto.getUserId());
+		
+		wrongPlaceReportValidator.validate(wrongPlaceReportDto);
+		WrongPlaceReportDTO result = wrongPlaceReportService.save(wrongPlaceReportDto);
+		
+		if(result == null)
+			return new ResponseEntity<WrongPlaceReportDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		return new ResponseEntity<WrongPlaceReportDTO>(result, HttpStatus.OK);
 	}
 }
