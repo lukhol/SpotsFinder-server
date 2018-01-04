@@ -2,6 +2,7 @@ package com.polibuda.pbl.endpoint;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
@@ -100,12 +102,12 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PostMapping("/report")
-	public ResponseEntity<WrongPlaceReportDTO> report(@RequestBody WrongPlaceReportDTO wrongPlaceReportDto) throws InvalidWrongPlaceReportException {
+	public ResponseEntity<WrongPlaceReportDTO> report(@RequestBody WrongPlaceReportDTO wrongPlaceReportDto, @RequestParam String culture) throws InvalidWrongPlaceReportException {
 		log.debug("Post /places/report. PlaceId = {}, PlaceVersion = {}, UserId = {}",  wrongPlaceReportDto.getPlaceId(),
 				wrongPlaceReportDto.getPlaceVersion(), wrongPlaceReportDto.getUserId());
 		
 		wrongPlaceReportValidator.validate(wrongPlaceReportDto);
-		WrongPlaceReportDTO result = wrongPlaceReportService.save(wrongPlaceReportDto);
+		WrongPlaceReportDTO result = wrongPlaceReportService.save(wrongPlaceReportDto, Locale.forLanguageTag(culture));
 		
 		if(result == null)
 			return new ResponseEntity<WrongPlaceReportDTO>(HttpStatus.INTERNAL_SERVER_ERROR);

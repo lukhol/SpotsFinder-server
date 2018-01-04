@@ -1,6 +1,9 @@
 package com.polibuda.pbl.service;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.polibuda.pbl.dto.WrongPlaceReportDTO;
@@ -23,8 +26,11 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 	@Autowired
 	WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper;
 	
+	@Autowired
+	MessageSource messageSource;
+	
 	@Override
-	public WrongPlaceReportDTO save(WrongPlaceReportDTO wrongPlaceReportDto) throws InvalidWrongPlaceReportException {
+	public WrongPlaceReportDTO save(WrongPlaceReportDTO wrongPlaceReportDto, Locale locale) throws InvalidWrongPlaceReportException {
 		long placeIdFromDTO = wrongPlaceReportDto.getPlaceId();
 		long placeVersionFromDto = wrongPlaceReportDto.getPlaceVersion();
 		String deviceIdFromDto = wrongPlaceReportDto.getDeviceId();
@@ -33,16 +39,15 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 		
 		WrongPlaceReport wrongPlaceReport = wrongPlaceReportDTOMapper.mapToWrongPlaceReport(wrongPlaceReportDto);
 		
-		Place place = placeRepository.findOneById(placeIdFromDTO);
-		
-		if(place == null)
-			throw new InvalidWrongPlaceReportException(String.format("Place with id %d does not exist.", wrongPlaceReportDto.getPlaceId()));
+		Place place = placeRepository
+				.findOneById(placeIdFromDTO)
+				.orElseThrow(() -> new InvalidWrongPlaceReportException(String.format(messageSource.getMessage("error.placeWithIdNotExist", null, locale), wrongPlaceReportDto.getPlaceId())));
 		
 		if(place.getVersion() > placeVersionFromDto)
-			throw new InvalidWrongPlaceReportException("Place has aleready changed. Please reload place and check if you realy want report it.");
+			throw new InvalidWrongPlaceReportException(messageSource.getMessage("error.placeHasChanged", null, locale));
 		
 		if(place.getVersion() < placeVersionFromDto)
-			throw new InvalidWrongPlaceReportException("Waaait. Are you trying to report place not from our app? ");
+			throw new InvalidWrongPlaceReportException(messageSource.getMessage("error.reportNotFromApp", null, locale));
 		
 		wrongPlaceReport.setPlace(place);
 		wrongPlaceReport.setUser(null);
@@ -55,7 +60,7 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 			wrongPlaceReport = existPlaceReportForThisDeviceAndPlace;
 		}
 		
-		wrongPlaceReport = wrongPlaceReportRepository.save(wrongPlaceReport);
+		wrongPlaceReportRepository.save(wrongPlaceReport);
 		
 		return wrongPlaceReportDTOMapper.mapToWrongPlaceReportDTO(wrongPlaceReport);
 	}

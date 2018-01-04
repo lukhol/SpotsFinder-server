@@ -1,6 +1,7 @@
 package com.polibuda.pbl.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -14,6 +15,6 @@ public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRep
 	void delete(Long id);
 	boolean exists(Long id);
 	List<Place> findAll();
-	Place findOneById(Long id);
+	Optional<Place> findOneById(Long id);
 	Place save(Place place);
 }
