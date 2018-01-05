@@ -1,6 +1,9 @@
 package com.polibuda.pbl.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,16 +23,21 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorRestEndpoint {
 	
 	@Autowired
+	@MockBean
 	MobileAppErrorService errorService;
 	
 	@Autowired
+	@MockBean
 	EmailSender emailSender;
-
+	
 	@PostMapping
-	public void LogError(@RequestBody MobileAppError mobileAppError) throws JsonProcessingException{
+	public ResponseEntity<Void> logError(@RequestBody MobileAppError mobileAppError) throws JsonProcessingException{
 		log.info("POST /errors body: {}", mobileAppError);
+		
 		errorService.save(mobileAppError);
 		sendEmail(mobileAppError);
+		
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	private void sendEmail(MobileAppError mobileAppError) throws JsonProcessingException{

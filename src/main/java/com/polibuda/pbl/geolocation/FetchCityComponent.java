@@ -2,6 +2,8 @@ package com.polibuda.pbl.geolocation;
 
 import java.io.IOException;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,7 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.polibuda.pbl.exception.GeocodingCityException;
-import com.polibuda.pbl.exception.NotFoundGeocodingInformation;
+import com.polibuda.pbl.exception.NotFoundGeocodingInformationException;
 import com.polibuda.pbl.model.GeocodingInformation;
 import com.polibuda.pbl.service.GeocodingService;
 
@@ -21,17 +23,22 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FetchCityComponent {
 
-	@Autowired
-	GeocodingService geocodingService;
-	
 	private static final String GOOGLE_MAPS_GEOCODING_API_KEY = "AIzaSyCScQ7EgUqnPkOcxCvf_X7qOOEHIV0t74o";
+	
+	@NotNull
+	private final GeocodingService geocodingService;
+	
+	@Autowired
+	public FetchCityComponent(GeocodingService geocodingService){
+		this.geocodingService = geocodingService;
+	}
 	
 	public double[] fetchCityCoordinates(String cityName) throws GeocodingCityException {
 		
 		try {
 			GeocodingInformation geocodingInformation = geocodingService.findBySearchingPhrase(cityName);
 			return new double[] { geocodingInformation.getLatitude(), geocodingInformation.getLongitude() };
-		} catch (NotFoundGeocodingInformation ex) {
+		} catch (NotFoundGeocodingInformationException ex) {
 			log.info("Not found GeocodingInformation for searching phrase {}. Google api will be called", cityName);
 		}
 		

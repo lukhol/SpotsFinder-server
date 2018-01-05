@@ -11,7 +11,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
@@ -24,13 +23,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-		localeInterceptor.setParamName("lang"); // ?lang=en, ?lang=vi, ...
-		
-		registry.addInterceptor(localeInterceptor);
 		registry.addInterceptor((HandlerInterceptor)secureEndpointsInterceptor);
 	}
-	
+    
 	@Bean
 	public MessageSource messageSource(){
 		ReloadableResourceBundleMessageSource  messageSource = new ReloadableResourceBundleMessageSource();
@@ -42,7 +37,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
-	    slr.setDefaultLocale(Locale.forLanguageTag("en-EN"));
+	    slr.setDefaultLocale(Locale.forLanguageTag("en"));
 	    return slr;
 	}
 }

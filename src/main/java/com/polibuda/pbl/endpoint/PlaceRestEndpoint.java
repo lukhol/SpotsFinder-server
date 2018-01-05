@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
@@ -102,12 +102,16 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PostMapping("/report")
-	public ResponseEntity<WrongPlaceReportDTO> report(@RequestBody WrongPlaceReportDTO wrongPlaceReportDto, @RequestParam String culture) throws InvalidWrongPlaceReportException {
+	public ResponseEntity<WrongPlaceReportDTO> report(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody WrongPlaceReportDTO wrongPlaceReportDto) throws InvalidWrongPlaceReportException {
 		log.debug("Post /places/report. PlaceId = {}, PlaceVersion = {}, UserId = {}",  wrongPlaceReportDto.getPlaceId(),
 				wrongPlaceReportDto.getPlaceVersion(), wrongPlaceReportDto.getUserId());
 		
+//		//Walkaroung my problem:
+//		if(!acceptLanguage.contains("en") && !acceptLanguage.contains("pl"))
+//			acceptLanguage = "en";
+			
 		wrongPlaceReportValidator.validate(wrongPlaceReportDto);
-		WrongPlaceReportDTO result = wrongPlaceReportService.save(wrongPlaceReportDto, Locale.forLanguageTag(culture));
+		WrongPlaceReportDTO result = wrongPlaceReportService.save(wrongPlaceReportDto, Locale.forLanguageTag(acceptLanguage));
 		
 		if(result == null)
 			return new ResponseEntity<WrongPlaceReportDTO>(HttpStatus.INTERNAL_SERVER_ERROR);

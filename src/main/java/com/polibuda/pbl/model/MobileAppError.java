@@ -7,8 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Builder;
 import lombok.ToString;
 
+@Builder
 @ToString
 @Entity
 public class MobileAppError {

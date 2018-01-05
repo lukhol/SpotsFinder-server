@@ -3,7 +3,7 @@ package com.polibuda.pbl.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.polibuda.pbl.exception.NotFoundGeocodingInformation;
+import com.polibuda.pbl.exception.NotFoundGeocodingInformationException;
 import com.polibuda.pbl.model.GeocodingInformation;
 import com.polibuda.pbl.repository.GeocodingRepository;
 
@@ -23,7 +23,7 @@ public class GeocodingServiceImpl implements GeocodingService{
 	}
 
 	@Override
-	public GeocodingInformation findBySearchingPhrase(String searchingPhrase) throws NotFoundGeocodingInformation {
+	public GeocodingInformation findBySearchingPhrase(String searchingPhrase) throws NotFoundGeocodingInformationException {
 		GeocodingInformation geocodingInformation =  geocodingRepository.findBySearchingPhraseIgnoringCase(searchingPhrase);
 		
 		if(geocodingInformation != null)
@@ -32,7 +32,7 @@ public class GeocodingServiceImpl implements GeocodingService{
 		geocodingInformation = geocodingRepository.findByOryginalCityNameIgnoringCase(searchingPhrase);
 		
 		if(geocodingInformation == null)
-			throw new NotFoundGeocodingInformation(String.format("Not found GeocodingInformation for: %s.", searchingPhrase));
+			throw new NotFoundGeocodingInformationException(String.format("Not found GeocodingInformation for: %s.", searchingPhrase));
 		
 		return geocodingInformation;
 	}
