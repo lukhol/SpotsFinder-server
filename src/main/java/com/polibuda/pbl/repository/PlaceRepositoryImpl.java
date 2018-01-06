@@ -37,8 +37,8 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	public List<Place> search(PlaceSearchDTO searchCriteria) throws GeocodingCityException {
 		builder = entityManager.getCriteriaBuilder();
 		criteria = builder.createQuery(Place.class);
-		root = criteria.from( Place.class );
-		criteria.select( root );
+		root = criteria.from(Place.class);
+		criteria.select(root);
 		
 		Predicate booleanPredicates = builder.and(addBooleanSelections(searchCriteria));
 		

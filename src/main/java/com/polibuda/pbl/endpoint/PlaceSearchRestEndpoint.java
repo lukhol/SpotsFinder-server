@@ -2,6 +2,8 @@ package com.polibuda.pbl.endpoint;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/places/searches")
 public class PlaceSearchRestEndpoint {
 
-	@Autowired
-	private PlaceService placeService;
+	@NotNull
+	private final PlaceService placeService;
+	
+	@NotNull
+	private final PlaceSearchValidator searchValidator;
 	
 	@Autowired
-	private PlaceSearchValidator searchValidator;
-	
+	public PlaceSearchRestEndpoint(PlaceService placeService, PlaceSearchValidator searchValidator) {
+		super();
+		this.placeService = placeService;
+		this.searchValidator = searchValidator;
+	}
+
 	@PostMapping
 	public List<LightPlaceDTO> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
 		log.debug("POST /places/searches body: {}", searchDto);

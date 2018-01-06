@@ -23,7 +23,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@ExceptionHandler(value= { InvalidPlaceException.class, GeocodingCityException.class, InvalidPlaceSearchException.class, IOException.class})
 	protected ResponseEntity<RestResponse<Void>> handlePlaceException(Exception ex, WebRequest request) {
 		log.error(ex.getMessage(), ex);
-
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
 	}
 	

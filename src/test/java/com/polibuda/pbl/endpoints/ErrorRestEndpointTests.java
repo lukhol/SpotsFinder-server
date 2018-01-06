@@ -24,8 +24,7 @@ import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
 import com.polibuda.pbl.model.MobileAppError;
 import com.polibuda.pbl.service.MobileAppErrorService;
 
-//@SpringBootTest(classes = Application.class)
-@WebMvcTest({ ErrorRestEndpoint.class, EmailSender.class, SecureEndpointsInterceptor.class })
+@WebMvcTest({ ErrorRestEndpoint.class, SecureEndpointsInterceptor.class })
 @RunWith(SpringRunner.class)
 public class ErrorRestEndpointTests {
 	
@@ -41,7 +40,7 @@ public class ErrorRestEndpointTests {
 	@MockBean
 	private EmailSender emailSender;
 	
-	private String exampleErrorJson = "{  \r\n   \"errorId\":11,\r\n   \"deviceInfo\":{  \r\n      \"idiom\":\"Phone\",\r\n      \"model\":\"LG-M200\",\r\n      \"version\":\"7.0\",\r\n      \"versionNumber\":\"7.0\",\r\n      \"platform\":\"Android\"\r\n   },\r\n   \"className\":\"Error\",\r\n   \"message\":\"Error message.\"\r\n}";
+	private String exampleErrorJson = "{\"errorId\":9,\"deviceInfo\":{\"idiom\":\"Phone\",\"model\":\"Redmi Note 3\",\"version\":\"6.0.1\",\"versionNumber\":\"6.0.1\",\"platform\":\"Android\"},\"className\":\"Error\",\"message\":\"Exception has been thrown by the target of an invocation.\",\"whereOccurred\":\"AndroidCurrentDomain\",\"stackTraceString\":\"StackTraceString\"}";
 	
 	@Test
 	public void canCreateErrorRestEndpoint(){
@@ -70,6 +69,6 @@ public class ErrorRestEndpointTests {
 		
 		Mockito
 			.verify(emailSender, Mockito.times(1))
-			.sendEmail(Mockito.matches("lukasz.holdrowicz@gmail.com"), Mockito.matches("Error json:"), Mockito.anyString());
+			.sendEmail("lukasz.holdrowicz@gmail.com", "Error json:", exampleErrorJson);
 	}
 }

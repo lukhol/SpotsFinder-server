@@ -2,7 +2,8 @@ package com.polibuda.pbl.endpoint;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
+
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,19 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
-import com.polibuda.pbl.dto.WrongPlaceReportDTO;
 import com.polibuda.pbl.exception.InvalidPlaceException;
-import com.polibuda.pbl.exception.InvalidWrongPlaceReportException;
 import com.polibuda.pbl.service.PlaceService;
-import com.polibuda.pbl.service.WrongPlaceReportService;
 import com.polibuda.pbl.validator.PlaceValidator;
-import com.polibuda.pbl.validator.WrongPlaceReportValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,18 +31,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/places")
 public class PlaceRestEndpoint {
 
-	@Autowired
+	@NotNull
 	private PlaceService placeService;
 	
-	@Autowired
-	private WrongPlaceReportService wrongPlaceReportService;
-	
-	@Autowired
+	@NotNull
 	private PlaceValidator placeValidator;
 	
 	@Autowired
-	private WrongPlaceReportValidator wrongPlaceReportValidator;
-	
+	public PlaceRestEndpoint(PlaceService placeService, PlaceValidator placeValidator) {
+		super();
+		this.placeService = placeService;
+		this.placeValidator = placeValidator;
+	}
+
 	@GetMapping
 	public List<LightPlaceDTO> getAll() {
 		log.debug("GET /places");
@@ -87,8 +85,11 @@ public class PlaceRestEndpoint {
 	}
 	
 	@DeleteMapping(value="/{placeId}")
-	public ResponseEntity<String> delete(@PathVariable Long placeId) {
+	public ResponseEntity<String> delete(@PathVariable Long placeId, @RequestParam String deleteKey) {
 		log.debug("DELETE /places/{}", placeId);
+		
+		if(deleteKey != "I have to insert here delete key.")
+			return new ResponseEntity<>("You ain't gona do this.", HttpStatus.UNAUTHORIZED);
 		
 		boolean exists = placeService.exists(placeId);
 		if(!exists) {
@@ -99,23 +100,5 @@ public class PlaceRestEndpoint {
 		
 		log.debug("Place with id = {} deleted succesfully.", placeId);
 		return new ResponseEntity<String>(HttpStatus.OK);
-	}
-	
-	@PostMapping("/report")
-	public ResponseEntity<WrongPlaceReportDTO> report(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody WrongPlaceReportDTO wrongPlaceReportDto) throws InvalidWrongPlaceReportException {
-		log.debug("Post /places/report. PlaceId = {}, PlaceVersion = {}, UserId = {}",  wrongPlaceReportDto.getPlaceId(),
-				wrongPlaceReportDto.getPlaceVersion(), wrongPlaceReportDto.getUserId());
-		
-//		//Walkaroung my problem:
-//		if(!acceptLanguage.contains("en") && !acceptLanguage.contains("pl"))
-//			acceptLanguage = "en";
-			
-		wrongPlaceReportValidator.validate(wrongPlaceReportDto);
-		WrongPlaceReportDTO result = wrongPlaceReportService.save(wrongPlaceReportDto, Locale.forLanguageTag(acceptLanguage));
-		
-		if(result == null)
-			return new ResponseEntity<WrongPlaceReportDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		return new ResponseEntity<WrongPlaceReportDTO>(result, HttpStatus.OK);
 	}
 }
