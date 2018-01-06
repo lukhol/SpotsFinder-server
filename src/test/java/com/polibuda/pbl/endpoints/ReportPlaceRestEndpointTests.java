@@ -9,7 +9,6 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -73,14 +72,14 @@ public class ReportPlaceRestEndpointTests {
 	@Test
 	public void canReportWrongPlace() throws Exception{
 		
-		Locale requestLocale = Locale.forLanguageTag("pl-PL");
+		Locale requestLocale = Locale.forLanguageTag("fr-FR");
 		
 		Mockito
-			.when(wrongPlaceReportService.save(Matchers.refEq(wrongPlaceReportDTO), Matchers.refEq(requestLocale)))
+			.when(wrongPlaceReportService.save(Mockito.refEq(wrongPlaceReportDTO), Mockito.refEq(requestLocale)))
 			.thenReturn(wrongPlaceReportDTO);
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Accept-Language", "pl-PL");
+		httpHeaders.add("Accept-Language", "fr-FR");
 		httpHeaders.add("Authorization", "Basic c3BvdDpmaW5kZXI=");
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -98,10 +97,12 @@ public class ReportPlaceRestEndpointTests {
 		
 		Mockito
 			.verify(wrongPlaceReportValidator, Mockito.times(1))
-			.validate(Matchers.refEq(wrongPlaceReportDTO));
+			.validate(Mockito.refEq(wrongPlaceReportDTO));
 		
 		Mockito
 			.verify(wrongPlaceReportService, Mockito.times(1))
-			.save(Matchers.refEq(wrongPlaceReportDTO), Matchers.refEq(requestLocale));
+			.save(Mockito.refEq(wrongPlaceReportDTO), Mockito.argThat(locale -> ((Locale)locale).getLanguage() == "en"));
+		
+		
 	}
 }

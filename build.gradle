@@ -2,6 +2,9 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    
+    ext['mockito.version'] = '2.1.0'
+    
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
     }
