@@ -43,7 +43,6 @@ public class PlaceRestEndpoint {
 	@GetMapping
 	public List<LightPlaceDTO> getAll() {
 		log.debug("GET /places");
-		
 		return placeService.getAll();
 	}
 	

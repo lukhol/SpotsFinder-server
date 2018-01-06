@@ -37,10 +37,11 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public List<LightPlaceDTO> getAll() {
-		return placeRepository.findAll()
-			.stream()
-			.map(place -> placeMapper.mapToLightDTO(place))
-			.collect(Collectors.toList());
+		return placeRepository
+				.findAll()
+				.stream()
+				.map(place -> placeMapper.mapToLightDTO(place))
+				.collect(Collectors.toList());
 	}
 
 	@Override

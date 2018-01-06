@@ -3,6 +3,8 @@ package com.polibuda.pbl.endpoint;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +36,17 @@ public class PlaceSearchRestEndpoint {
 	}
 
 	@PostMapping
-	public List<LightPlaceDTO> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
+	public ResponseEntity<List<LightPlaceDTO>> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
 		log.debug("POST /places/searches body: {}", searchDto);
 		
 		searchValidator.validate(searchDto);
 		List<LightPlaceDTO> places = placeService.search(searchDto);
 		
-		return places;
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		if(places == null || places.size() == 0)
+			httpStatus = HttpStatus.NOT_FOUND;
+		
+		return new ResponseEntity<List<LightPlaceDTO>>(places, httpStatus);
 	}
 }

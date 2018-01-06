@@ -24,8 +24,8 @@ import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
 import com.polibuda.pbl.model.MobileAppError;
 import com.polibuda.pbl.service.MobileAppErrorService;
 
-@WebMvcTest({ ErrorRestEndpoint.class, SecureEndpointsInterceptor.class })
 @RunWith(SpringRunner.class)
+@WebMvcTest({ ErrorRestEndpoint.class, SecureEndpointsInterceptor.class })
 public class ErrorRestEndpointTests {
 	
 	@Autowired

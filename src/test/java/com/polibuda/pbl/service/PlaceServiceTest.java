@@ -5,31 +5,37 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.polibuda.pbl.dto.LightPlaceDTO;
+import com.polibuda.pbl.imageconverter.ImageConverter;
+import com.polibuda.pbl.mapper.PlaceDTOMapper;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PlaceServiceTest {
 
-	@Mock
-	private PlaceRepository placeRepository;
+	@Mock private PlaceRepository placeRepository;
+	@Mock private ImageConverter imageConverter;
+	@Autowired private PlaceDTOMapper placeDTOMapper;
 	
 	@Autowired
-	@InjectMocks
 	private PlaceService placeService;
+	
+	@Before
+	public void setUp(){
+		MockitoAnnotations.initMocks(this);
+		placeService = new PlaceServiceImpl(placeRepository, placeDTOMapper, imageConverter);
+	}
 	
 	@Test
 	public void testGetAll() {
@@ -53,9 +59,7 @@ public class PlaceServiceTest {
 		
 		List<LightPlaceDTO> placesDTO = placeService.getAll();
 		assert placesDTO != null;
-		for(LightPlaceDTO p : placesDTO) {
-			log.debug(p.toString());
-		}
+		assert placesDTO.size() == 10;
 		
 	}
 }
