@@ -47,6 +47,11 @@ public class ErrorRestEndpointTests {
 		assertThat(errorRestEndpoint).isNotNull();
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void cannotCreateErrorRestEndpoint(){
+		errorRestEndpoint = new ErrorRestEndpoint(null,  null);
+	}
+	
 	@Test
 	public void canPostError() throws Exception {
 

@@ -17,18 +17,24 @@ import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
 
+import lombok.NonNull;
+
 @Service
 public class PlaceServiceImpl implements PlaceService {
 
-	@Autowired
-	private PlaceRepository placeRepository;
+	private final PlaceRepository placeRepository;
+	private final PlaceDTOMapper placeMapper;
+	private final ImageConverter imageConverter;
 	
 	@Autowired
-	private PlaceDTOMapper placeMapper;
-	
-	@Autowired
-	private ImageConverter imageConverter;
-	
+	public PlaceServiceImpl(@NonNull PlaceRepository placeRepository, @NonNull PlaceDTOMapper placeMapper, 
+			@NonNull ImageConverter imageConverter) {
+		super();
+		this.placeRepository = placeRepository;
+		this.placeMapper = placeMapper;
+		this.imageConverter = imageConverter;
+	}
+
 	@Override
 	public List<LightPlaceDTO> getAll() {
 		return placeRepository.findAll()

@@ -1,7 +1,5 @@
 package com.polibuda.pbl.endpoint;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,7 @@ import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.model.MobileAppError;
 import com.polibuda.pbl.service.MobileAppErrorService;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,14 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/errors")
 public class ErrorRestEndpoint {
 	
-	@NotNull
 	private final MobileAppErrorService errorService;
-	
-	@NotNull
 	private final EmailSender emailSender;
 	
 	@Autowired
-	public ErrorRestEndpoint(MobileAppErrorService errorService, EmailSender emailSender){
+	public ErrorRestEndpoint(@NonNull MobileAppErrorService errorService, @NonNull EmailSender emailSender){
 		this.errorService = errorService;
 		this.emailSender = emailSender;
 	}

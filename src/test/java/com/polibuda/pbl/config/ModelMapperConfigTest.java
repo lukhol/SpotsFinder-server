@@ -14,9 +14,16 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
+import com.polibuda.pbl.dto.WrongPlaceReportDTO;
 import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
+import com.polibuda.pbl.model.User;
+import com.polibuda.pbl.model.WrongPlaceReport;
 
+/**
+ * @author Lukasz
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=ModelMapperConfig.class, loader=AnnotationConfigContextLoader.class)
 public class ModelMapperConfigTest {
@@ -102,6 +109,7 @@ public class ModelMapperConfigTest {
 				.latitude(50.1234)
 				.longitude(45.9876)
 				.images(Arrays.asList(new Image(123l, "photo1"), new Image(6678l, "image2")))
+				.mainPhoto("Main photo base64string")
 				.build();
 		
 		LightPlaceDTO placeDTO = mapper.map(place, LightPlaceDTO.class);
@@ -111,8 +119,77 @@ public class ModelMapperConfigTest {
 		assert placeDTO.getLocation().getLatitude() == place.getLatitude();
 		assert placeDTO.getLocation().getLongitude() == place.getLongitude();
 		assert placeDTO.getType() == place.getType();
-		assert placeDTO.getMainPhoto().equals(place.getImages().get(0));
+		assert placeDTO.getMainPhoto().equals(place.getMainPhoto());
 	}
 	
+	@Test
+	public void canConvertWrongPlaceReportDtoToCore(){
+		WrongPlaceReportDTO wrongPlaceReportDTO = 
+				WrongPlaceReportDTO
+					.builder()
+					.placeId(1l)
+					.placeVersion(12345)
+					.userId(0)
+					.deviceId("12345")
+					.reasonComment("Not a skateboard place!")
+					.isNotSkateboardPlace(false)
+					.build();
+		
+		WrongPlaceReport wrongPlaceReport = mapper.map(wrongPlaceReportDTO, WrongPlaceReport.class);
+		
+		assert wrongPlaceReport.getPlace() == null;
+		assert wrongPlaceReport.getUser() == null;
+		assert wrongPlaceReport.getId() == null;
+		assert wrongPlaceReport.getDeviceId().equals(wrongPlaceReportDTO.getDeviceId());
+		assert wrongPlaceReport.getReasonComment().equals(wrongPlaceReportDTO.getReasonComment());
+		assert wrongPlaceReport.isNotSkateboardPlace() == wrongPlaceReportDTO.isNotSkateboardPlace();
+		assert wrongPlaceReport.getReportedPlaceVersion() == wrongPlaceReportDTO.getPlaceVersion();	
+	}
 	
+	@Test 
+	public void canConvertWrongPlaceReportCoreToDto_nullPlaceAndUserVersion(){
+		WrongPlaceReport wrongPlaceReport = 
+				WrongPlaceReport
+					.builder()
+					.place(null)
+					.user(null)
+					.reportedPlaceVersion(123456l)
+					.deviceId("deviceId")
+					.reasonComment("Reason commnet.")
+					.isNotSkateboardPlace(true)
+					.build();
+		
+		WrongPlaceReportDTO wrongPlaceReportDTO = mapper.map(wrongPlaceReport, WrongPlaceReportDTO.class);
+		
+		assert wrongPlaceReportDTO.getPlaceId() == 0;
+		assert wrongPlaceReportDTO.getUserId() == 0;
+		assertSimpleFieldOnWrongPlace(wrongPlaceReportDTO, wrongPlaceReport);
+	}
+	
+	@Test
+	public void canConvertWrongPlaceReportCoreToDto_notNullPlaceAndUserVersion(){
+		WrongPlaceReport wrongPlaceReport = 
+				WrongPlaceReport
+					.builder()
+					.place(Place.builder().id(1l).build())
+					.user(User.builder().id(12l).build())
+					.reportedPlaceVersion(123456l)
+					.deviceId("DeviceId")
+					.reasonComment("Reason comment.")
+					.isNotSkateboardPlace(false)
+					.build();
+		
+		WrongPlaceReportDTO wrongPlaceReportDTO = mapper.map(wrongPlaceReport, WrongPlaceReportDTO.class);
+		
+		assert wrongPlaceReportDTO.getPlaceId() == wrongPlaceReport.getPlace().getId();
+		assert wrongPlaceReportDTO.getUserId() == wrongPlaceReport.getUser().getId();
+		assertSimpleFieldOnWrongPlace(wrongPlaceReportDTO, wrongPlaceReport);
+	}
+	
+	private void assertSimpleFieldOnWrongPlace(WrongPlaceReportDTO wrongPlaceReportDTO, WrongPlaceReport wrongPlaceReport){
+		assert wrongPlaceReportDTO.getReasonComment().equals(wrongPlaceReport.getReasonComment());
+		assert wrongPlaceReportDTO.getDeviceId().equals(wrongPlaceReport.getDeviceId());
+		assert wrongPlaceReportDTO.isNotSkateboardPlace() == wrongPlaceReport.isNotSkateboardPlace();
+		assert wrongPlaceReportDTO.getPlaceVersion() == wrongPlaceReport.getReportedPlaceVersion();
+	}
 }

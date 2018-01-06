@@ -2,8 +2,6 @@ package com.polibuda.pbl.geolocation;
 
 import java.io.IOException;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +15,7 @@ import com.polibuda.pbl.exception.NotFoundGeocodingInformationException;
 import com.polibuda.pbl.model.GeocodingInformation;
 import com.polibuda.pbl.service.GeocodingService;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,12 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 public class FetchCityComponent {
 
 	private static final String GOOGLE_MAPS_GEOCODING_API_KEY = "AIzaSyCScQ7EgUqnPkOcxCvf_X7qOOEHIV0t74o";
-	
-	@NotNull
 	private final GeocodingService geocodingService;
 	
 	@Autowired
-	public FetchCityComponent(GeocodingService geocodingService){
+	public FetchCityComponent(@NonNull GeocodingService geocodingService){
 		this.geocodingService = geocodingService;
 	}
 	

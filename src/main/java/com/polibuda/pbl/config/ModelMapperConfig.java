@@ -74,10 +74,10 @@ public class ModelMapperConfig {
 				destination.setReasonComment(source.getReasonComment());
 				destination.setNotSkateboardPlace(source.isNotSkateboardPlace());
 				
-				if(source.getUser() == null || source.getUser().getUserId() == null || source.getUser().getUserId() <= 0)
+				if(source.getUser() == null || source.getUser().getId() == null || source.getUser().getId() <= 0)
 					destination.setUserId(0);
 				else
-					destination.setUserId(source.getUser().getUserId());
+					destination.setUserId(source.getUser().getId());
 					
 				return destination;
 			}
@@ -95,6 +95,7 @@ public class ModelMapperConfig {
 				destination.setDeviceId(source.getDeviceId());
 				destination.setNotSkateboardPlace(source.isNotSkateboardPlace());
 				destination.setReasonComment(source.getReasonComment());
+				destination.setReportedPlaceVersion(source.getPlaceVersion());
 				
 				return destination;
 			}

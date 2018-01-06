@@ -7,15 +7,21 @@ import com.polibuda.pbl.exception.NotFoundGeocodingInformationException;
 import com.polibuda.pbl.model.GeocodingInformation;
 import com.polibuda.pbl.repository.GeocodingRepository;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class GeocodingServiceImpl implements GeocodingService{
 
-	@Autowired
-	GeocodingRepository geocodingRepository;
+	private final GeocodingRepository geocodingRepository;
 	
+	@Autowired
+	public GeocodingServiceImpl(@NonNull GeocodingRepository geocodingRepository) {
+		super();
+		this.geocodingRepository = geocodingRepository;
+	}
+
 	@Override
 	public void save(GeocodingInformation geocodingInformation) {
 		geocodingRepository.save(geocodingInformation);

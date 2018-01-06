@@ -1,6 +1,7 @@
 package com.polibuda.pbl.config;
 
 import java.util.Locale;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,12 +16,19 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
 
+import lombok.NonNull;
+
 @Configuration
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-	@Autowired
-	SecureEndpointsInterceptor secureEndpointsInterceptor;
+	private final SecureEndpointsInterceptor secureEndpointsInterceptor;
 	
+	@Autowired
+	public AppConfig(@NonNull SecureEndpointsInterceptor secureEndpointsInterceptor) {
+		super();
+		this.secureEndpointsInterceptor = secureEndpointsInterceptor;
+	}
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor((HandlerInterceptor)secureEndpointsInterceptor);
@@ -39,5 +47,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		SessionLocaleResolver slr = new SessionLocaleResolver();
 	    slr.setDefaultLocale(Locale.forLanguageTag("en"));
 	    return slr;
+	}
+	
+	@Bean
+	public Properties emailProperties(){
+		Properties properties = new Properties();
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.port", "587");
+		return properties;
 	}
 }

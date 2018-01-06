@@ -30,6 +30,11 @@ public class FetchCityComponentTest {
 		fetchCityComponent = new FetchCityComponent(geocodingService);
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void cannotCreatFetchCityComponent_nullInjectionOnConstructor(){
+		fetchCityComponent = new FetchCityComponent(null);
+	}
+	
 	@Test
 	public void canFetchCityCoordinates_fromGeocodingService() throws GeocodingCityException, NotFoundGeocodingInformationException {
 		
@@ -54,7 +59,6 @@ public class FetchCityComponentTest {
 	}
 	
 	@Test
-	@SuppressWarnings("unchecked")
 	public void canFetchCityCoordinates_fromGoogleGeocodingApi() throws NotFoundGeocodingInformationException, GeocodingCityException{
 		when(geocodingService.findBySearchingPhrase("Warszawa")).thenThrow(NotFoundGeocodingInformationException.class);
 		

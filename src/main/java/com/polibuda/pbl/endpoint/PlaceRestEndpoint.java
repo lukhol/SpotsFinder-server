@@ -3,8 +3,6 @@ package com.polibuda.pbl.endpoint;
 import java.io.IOException;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +22,7 @@ import com.polibuda.pbl.exception.InvalidPlaceException;
 import com.polibuda.pbl.service.PlaceService;
 import com.polibuda.pbl.validator.PlaceValidator;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,14 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/places")
 public class PlaceRestEndpoint {
 
-	@NotNull
 	private PlaceService placeService;
-	
-	@NotNull
 	private PlaceValidator placeValidator;
 	
 	@Autowired
-	public PlaceRestEndpoint(PlaceService placeService, PlaceValidator placeValidator) {
+	public PlaceRestEndpoint(@NonNull PlaceService placeService, @NonNull PlaceValidator placeValidator) {
 		super();
 		this.placeService = placeService;
 		this.placeValidator = placeValidator;

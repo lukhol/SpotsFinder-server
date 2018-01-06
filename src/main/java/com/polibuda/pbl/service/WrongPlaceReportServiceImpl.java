@@ -14,21 +14,27 @@ import com.polibuda.pbl.model.WrongPlaceReport;
 import com.polibuda.pbl.repository.PlaceRepository;
 import com.polibuda.pbl.repository.WrongPlaceReportRepository;
 
+import lombok.NonNull;
+
 @Service
 public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 
-	@Autowired
-	WrongPlaceReportRepository wrongPlaceReportRepository;
+	private final WrongPlaceReportRepository wrongPlaceReportRepository;
+	private final PlaceRepository placeRepository;
+	private final WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper;
+	private final MessageSource messageSource;
 	
 	@Autowired
-	PlaceRepository placeRepository;
-	
-	@Autowired
-	WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper;
-	
-	@Autowired
-	MessageSource messageSource;
-	
+	public WrongPlaceReportServiceImpl(@NonNull WrongPlaceReportRepository wrongPlaceReportRepository,
+			@NonNull PlaceRepository placeRepository, @NonNull WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper,
+			@NonNull MessageSource messageSource) {
+		super();
+		this.wrongPlaceReportRepository = wrongPlaceReportRepository;
+		this.placeRepository = placeRepository;
+		this.wrongPlaceReportDTOMapper = wrongPlaceReportDTOMapper;
+		this.messageSource = messageSource;
+	}
+
 	@Override
 	public WrongPlaceReportDTO save(WrongPlaceReportDTO wrongPlaceReportDto, Locale locale) throws InvalidWrongPlaceReportException {
 		long placeIdFromDTO = wrongPlaceReportDto.getPlaceId();

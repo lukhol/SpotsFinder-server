@@ -8,12 +8,19 @@ import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.model.Place;
 
+import lombok.NonNull;
+
 @Component
 public class PlaceDTOMapper {
 
-	@Autowired
-	private ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 	
+	@Autowired
+	public PlaceDTOMapper(@NonNull ModelMapper modelMapper) {
+		super();
+		this.modelMapper = modelMapper;
+	}
+
 	public HeavyPlaceDTO mapToHeavyDTO(Place place) {
 		return modelMapper.map(place, HeavyPlaceDTO.class);
 	}

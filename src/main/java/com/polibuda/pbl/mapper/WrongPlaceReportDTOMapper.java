@@ -7,12 +7,19 @@ import org.springframework.stereotype.Component;
 import com.polibuda.pbl.dto.WrongPlaceReportDTO;
 import com.polibuda.pbl.model.WrongPlaceReport;
 
+import lombok.NonNull;
+
 @Component
 public class WrongPlaceReportDTOMapper {
 
-	@Autowired
-	ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 	
+	@Autowired
+	public WrongPlaceReportDTOMapper(@NonNull ModelMapper modelMapper) {
+		super();
+		this.modelMapper = modelMapper;
+	}
+
 	public WrongPlaceReport mapToWrongPlaceReport(WrongPlaceReportDTO wrongPlaceReportDto){
 		return modelMapper.map(wrongPlaceReportDto, WrongPlaceReport.class);
 	}

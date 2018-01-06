@@ -2,8 +2,6 @@ package com.polibuda.pbl.endpoint;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +15,7 @@ import com.polibuda.pbl.exception.InvalidPlaceSearchException;
 import com.polibuda.pbl.service.PlaceService;
 import com.polibuda.pbl.validator.PlaceSearchValidator;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,14 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/places/searches")
 public class PlaceSearchRestEndpoint {
 
-	@NotNull
 	private final PlaceService placeService;
-	
-	@NotNull
 	private final PlaceSearchValidator searchValidator;
 	
 	@Autowired
-	public PlaceSearchRestEndpoint(PlaceService placeService, PlaceSearchValidator searchValidator) {
+	public PlaceSearchRestEndpoint(@NonNull PlaceService placeService, @NonNull PlaceSearchValidator searchValidator) {
 		super();
 		this.placeService = placeService;
 		this.searchValidator = searchValidator;

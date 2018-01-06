@@ -2,8 +2,6 @@ package com.polibuda.pbl.endpoint;
 
 import java.util.Locale;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +15,19 @@ import com.polibuda.pbl.exception.InvalidWrongPlaceReportException;
 import com.polibuda.pbl.service.WrongPlaceReportService;
 import com.polibuda.pbl.validator.WrongPlaceReportValidator;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 public class ReportPlaceRestEndpoint {
 
-	@NotNull
 	private final WrongPlaceReportValidator wrongPlaceReportValidator;
-	
-	@NotNull
 	private final WrongPlaceReportService wrongPlaceReportService;
 	
 	@Autowired
-	public ReportPlaceRestEndpoint(WrongPlaceReportValidator wrongPlaceReportValidator, WrongPlaceReportService wrongPlaceReportService) {
+	public ReportPlaceRestEndpoint(@NonNull WrongPlaceReportValidator wrongPlaceReportValidator,
+			@NonNull WrongPlaceReportService wrongPlaceReportService) {
 		super();
 		this.wrongPlaceReportValidator = wrongPlaceReportValidator;
 		this.wrongPlaceReportService = wrongPlaceReportService;

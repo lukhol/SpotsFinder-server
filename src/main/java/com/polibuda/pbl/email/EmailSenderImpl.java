@@ -1,6 +1,9 @@
 package com.polibuda.pbl.email;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import lombok.NonNull;
 
 import java.util.Properties;
 
@@ -13,13 +16,14 @@ public class EmailSenderImpl implements EmailSender {
 
 	private static final String FROM_MAIL = "nsai.activatorsender@gmail.com";
 	private static final String PASSWORD = "nsaiactivator";
+	private final Properties properties;
+	
+	@Autowired
+	public EmailSenderImpl(@NonNull Properties properties){
+		this.properties = properties;
+	}
 	
 	public boolean sendEmail(String toAdress, String subject, String message) {
-		Properties properties = new Properties();
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put("mail.smtp.port", "587");
 		
 		Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {

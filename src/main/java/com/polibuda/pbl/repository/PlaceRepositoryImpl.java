@@ -21,6 +21,8 @@ import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.geolocation.FetchCityComponent;
 import com.polibuda.pbl.model.Place;
 
+import lombok.NonNull;
+
 public class PlaceRepositoryImpl implements CustomPlaceRepository {
 
 	@PersistenceContext
@@ -30,8 +32,13 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	private CriteriaQuery<Place> criteria;
 	private Root<Place> root;
 	
+	private final FetchCityComponent fetchCity;
+
 	@Autowired
-	private FetchCityComponent fetchCity;
+	public PlaceRepositoryImpl(@NonNull FetchCityComponent fetchCity) {
+		super();
+		this.fetchCity = fetchCity;
+	}
 
 	@Override
 	public List<Place> search(PlaceSearchDTO searchCriteria) throws GeocodingCityException {
