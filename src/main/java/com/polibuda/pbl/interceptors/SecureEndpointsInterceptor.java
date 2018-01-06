@@ -1,11 +1,13 @@
 package com.polibuda.pbl.interceptors;
 
+import java.nio.charset.Charset;
 import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,14 +17,16 @@ public class SecureEndpointsInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String authorizationHeader = request.getHeader("Authorization");
-		authorizationHeader = authorizationHeader.replaceAll("Basic " , "");
-		
-		byte[] decodedBytes = Base64.getDecoder().decode(authorizationHeader);
-		
-		if(decodedBytes.toString().equals("spot:finder"))
+		if(StringUtils.isEmpty(authorizationHeader))
 			return false;
-		else 
+		
+		authorizationHeader = authorizationHeader.replaceAll("Basic " , "");
+		String decodedCode = new String(Base64.getDecoder().decode(authorizationHeader), Charset.forName("UTF-8"));
+		
+		if(decodedCode.equals("spot:finder"))
 			return true;
+		else 
+			return false;
 	}
 
 	@Override
