@@ -49,7 +49,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	    return slr;
 	}
 	
-	@Bean
+	@Bean(name="emailProperties")
 	public Properties emailProperties(){
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", "true");

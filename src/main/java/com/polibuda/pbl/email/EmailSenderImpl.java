@@ -1,6 +1,7 @@
 package com.polibuda.pbl.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import lombok.NonNull;
@@ -19,7 +20,7 @@ public class EmailSenderImpl implements EmailSender {
 	private final Properties properties;
 	
 	@Autowired
-	public EmailSenderImpl(@NonNull Properties properties){
+	public EmailSenderImpl(@Qualifier("emailProperties") @NonNull Properties properties){
 		this.properties = properties;
 	}
 	

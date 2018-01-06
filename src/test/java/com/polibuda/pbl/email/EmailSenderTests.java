@@ -2,30 +2,23 @@ package com.polibuda.pbl.email;
 
 import java.util.Properties;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=EmailSenderImpl.class, loader=AnnotationConfigContextLoader.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class EmailSenderTests {
-	
+
 	@Autowired
 	private EmailSenderImpl emailSender;
 	
-	@Before
-	public void setUp(){
-		Properties properties = new Properties();
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put("mail.smtp.port", "587");
-		emailSender = new EmailSenderImpl(properties);
-	}
+	@Autowired
+	@Qualifier("emailProperties")
+	private Properties properties;
 	
 	@Test(expected = NullPointerException.class)
 	public void cannotCreateEmailSender_nullProperties(){
