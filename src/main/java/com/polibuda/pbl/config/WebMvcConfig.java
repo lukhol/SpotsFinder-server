@@ -19,12 +19,12 @@ import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
 import lombok.NonNull;
 
 @Configuration
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	private final SecureEndpointsInterceptor secureEndpointsInterceptor;
 	
 	@Autowired
-	public AppConfig(@NonNull SecureEndpointsInterceptor secureEndpointsInterceptor) {
+	public WebMvcConfig(@NonNull SecureEndpointsInterceptor secureEndpointsInterceptor) {
 		super();
 		this.secureEndpointsInterceptor = secureEndpointsInterceptor;
 	}
@@ -33,7 +33,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor((HandlerInterceptor)secureEndpointsInterceptor);
 	}
-    
+	
 	@Bean
 	public MessageSource messageSource(){
 		ReloadableResourceBundleMessageSource  messageSource = new ReloadableResourceBundleMessageSource();

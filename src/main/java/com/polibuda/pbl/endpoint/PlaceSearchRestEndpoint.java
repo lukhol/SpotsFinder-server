@@ -36,7 +36,7 @@ public class PlaceSearchRestEndpoint {
 	}
 
 	@PostMapping
-	public ResponseEntity<List<LightPlaceDTO>> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
+	public ResponseEntity<?> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
 		log.debug("POST /places/searches body: {}", searchDto);
 		
 		searchValidator.validate(searchDto);
