@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
+			.antMatcher("/user")
 			.httpBasic().realmName(securityRealm)
 			.and()
 			.csrf().disable();

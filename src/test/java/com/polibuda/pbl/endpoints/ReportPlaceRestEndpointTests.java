@@ -27,12 +27,11 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.polibuda.pbl.dto.WrongPlaceReportDTO;
 import com.polibuda.pbl.endpoint.ReportPlaceRestEndpoint;
-import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
 import com.polibuda.pbl.service.WrongPlaceReportService;
 import com.polibuda.pbl.validator.WrongPlaceReportValidator;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest({ReportPlaceRestEndpoint.class, SecureEndpointsInterceptor.class , WrongPlaceReportValidator.class })
+@WebMvcTest({ReportPlaceRestEndpoint.class, WrongPlaceReportValidator.class })
 public class ReportPlaceRestEndpointTests {
 
 	@Autowired
@@ -80,7 +79,7 @@ public class ReportPlaceRestEndpointTests {
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Accept-Language", "fr-FR");
-		httpHeaders.add("Authorization", "Basic c3BvdDpmaW5kZXI=");
+		httpHeaders.add("Authorization", "Basic dXNlcjpzcG90ZmluZGVy==");
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/places/report")

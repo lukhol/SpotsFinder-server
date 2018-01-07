@@ -3,36 +3,16 @@ package com.polibuda.pbl.config;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
-
-import lombok.NonNull;
-
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-
-	private final SecureEndpointsInterceptor secureEndpointsInterceptor;
-	
-	@Autowired
-	public WebMvcConfig(@NonNull SecureEndpointsInterceptor secureEndpointsInterceptor) {
-		super();
-		this.secureEndpointsInterceptor = secureEndpointsInterceptor;
-	}
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		//registry.addInterceptor((HandlerInterceptor)secureEndpointsInterceptor);
-	}
 	
 	@Bean
 	public MessageSource messageSource(){

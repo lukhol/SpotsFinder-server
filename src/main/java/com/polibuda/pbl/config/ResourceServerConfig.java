@@ -21,7 +21,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId(resourceIds).tokenServices(tokenServices);
+        resources
+        	.resourceId(resourceIds)
+        	.tokenServices(tokenServices);
     }
 
     @Override
@@ -30,8 +32,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .requestMatchers()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/places").authenticated()
+                .antMatchers("/places/**").authenticated()
                 .antMatchers("/welcome").permitAll()
-                .antMatchers("/welcome/**").permitAll()
-                .antMatchers("/**" ).authenticated();
+                .antMatchers("/welcome/**").permitAll();
     }
 }

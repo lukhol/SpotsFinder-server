@@ -1,10 +1,10 @@
 package com.polibuda.pbl.endpoints;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +26,11 @@ import com.polibuda.pbl.dto.CoordinatesDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.endpoint.PlaceSearchRestEndpoint;
-import com.polibuda.pbl.interceptors.SecureEndpointsInterceptor;
 import com.polibuda.pbl.service.PlaceService;
 import com.polibuda.pbl.validator.PlaceSearchValidator;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest({PlaceSearchRestEndpoint.class, SecureEndpointsInterceptor.class, PlaceSearchValidator.class})
+@WebMvcTest({PlaceSearchRestEndpoint.class, PlaceSearchValidator.class})
 public class PlaceSearchRestEndpointTests {
 
 	@Autowired
@@ -86,7 +85,7 @@ public class PlaceSearchRestEndpointTests {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/places/searches")
-				.header("Authorization", "Basic c3BvdDpmaW5kZXI=")
+				.header("Authorization", "Basic dXNlcjpzcG90ZmluZGVy==")
 				.accept(MediaType.APPLICATION_JSON)
 				.content(placeSearchDtoJson)
 				.contentType(MediaType.APPLICATION_JSON);
