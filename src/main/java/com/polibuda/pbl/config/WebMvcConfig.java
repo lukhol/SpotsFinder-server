@@ -31,7 +31,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor((HandlerInterceptor)secureEndpointsInterceptor);
+		//registry.addInterceptor((HandlerInterceptor)secureEndpointsInterceptor);
 	}
 	
 	@Bean
