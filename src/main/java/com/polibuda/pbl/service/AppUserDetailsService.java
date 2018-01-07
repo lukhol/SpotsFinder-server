@@ -15,7 +15,9 @@ import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.repository.UserRepository;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class AppUserDetailsService implements UserDetailsService {
 
@@ -29,6 +31,8 @@ public class AppUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.info("Checking username: {} credential.", username);
+		
 		User user = userRepository.findOneByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException(String.format("The username %s doesn't exist", username)));
 		
