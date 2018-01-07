@@ -30,14 +30,22 @@ repositories {
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa:1.5.4.RELEASE")
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.4.RELEASE'
 	testCompile("org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE")
 	
 	compile("mysql:mysql-connector-java:5.1.41")
-	
 	compile("org.modelmapper:modelmapper:1.1.0")
-
 	compile("org.projectlombok:lombok:1.16.18")
-	
 	compile("com.google.maps:google-maps-services:0.1.20")
 	compile ("javax.mail:mail:1.4.7")
+	
+	//Security with OAuth2 and JsonWebToken
+	compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.7.RELEASE'
+	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.1.0.RELEASE'
+	
+	
+	
+	//compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.0.0.RELEASE'
+	//compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.0.0.RELEASE'
+	//compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.0.0.RELEASE'
 }
