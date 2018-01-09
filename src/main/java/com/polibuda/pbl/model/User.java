@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.validator.constraints.Email;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,9 +32,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id")
 	private Long id;
-	
-	private String username;
+	@Email
+	@Column(nullable = false)
+	private String email;
 	private String password;
+	private String firstname;
+	private String lastname;
 	private boolean isActive;
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Role> roles;

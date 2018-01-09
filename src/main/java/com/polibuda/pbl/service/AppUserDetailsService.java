@@ -30,11 +30,11 @@ public class AppUserDetailsService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("Checking username: {} credential.", username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		log.info("Checking email: {} credential.", email);
 		
-		User user = userRepository.findOneByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException(String.format("The username %s doesn't exist", username)));
+		User user = userRepository.findOneByEmail(email)
+				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", email)));
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> {
@@ -42,7 +42,7 @@ public class AppUserDetailsService implements UserDetailsService {
         });
 		
 		UserDetails userDetails = new org.springframework.security.core.userdetails.
-                User(user.getUsername(), user.getPassword(), authorities);
+                User(user.getEmail(), user.getPassword(), authorities);
 
         return userDetails;
 	}	

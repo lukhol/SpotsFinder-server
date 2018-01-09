@@ -9,5 +9,5 @@ import com.polibuda.pbl.model.User;
 
 @Transactional
 public interface UserRepository extends Repository<User, Long>{
-	Optional<User> findOneByUsername(String username);
+	Optional<User> findOneByEmail(String username);
 }

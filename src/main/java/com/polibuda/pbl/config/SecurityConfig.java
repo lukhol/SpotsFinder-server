@@ -3,6 +3,7 @@ package com.polibuda.pbl.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -19,13 +20,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private String securityRealm = "SpotFinderRealm";
+	private String realmName = "SpotFinderRealm";
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	MyAuthenticationProvider myAuthenticationProvider;
 
 	@Bean
 	@Override
@@ -51,8 +55,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.httpBasic().realmName(securityRealm)
+			.httpBasic().realmName(realmName)
 			.and()
 			.csrf().disable();
+	}
+	
+	@Order(1)
+	@Configuration
+	public static class SecondConfig extends WebSecurityConfigurerAdapter {
+		 @Override
+	        protected void configure(HttpSecurity http) throws Exception {
+	            http
+	              	.antMatcher("/user")
+	              	.httpBasic()
+	              	.and()
+	              	.authorizeRequests().antMatchers("/user").authenticated()
+	              	.and()
+	              	.csrf().disable();
+	        }
 	}
 }
