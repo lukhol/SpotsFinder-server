@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.repository.UserRepository;
@@ -30,19 +31,28 @@ public class AppUserDetailsService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		log.info("Checking email: {} credential.", email);
+	public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
+		log.info("Checking email: {} credential.", identifier);
 		
-		User user = userRepository.findOneByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", email)));
+		User user = userRepository
+				.findOneByEmail(identifier)
+				.orElse(userRepository
+							.findOneByFacebookId(identifier)
+							.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", identifier)))
+						);
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> {
 			authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         });
 		
+		String identifierToPass = user.getFacebookId();
+		
+		if(!StringUtils.isEmpty(user.getEmail()))
+			identifierToPass = user.getEmail();
+		
 		UserDetails userDetails = new org.springframework.security.core.userdetails.
-                User(user.getEmail(), user.getPassword(), authorities);
+                User(identifierToPass, user.getPassword(), authorities);
 
         return userDetails;
 	}	

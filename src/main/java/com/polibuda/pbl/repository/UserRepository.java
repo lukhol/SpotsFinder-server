@@ -10,4 +10,6 @@ import com.polibuda.pbl.model.User;
 @Transactional
 public interface UserRepository extends Repository<User, Long>{
 	Optional<User> findOneByEmail(String email);
+	Optional<User> findOneByFacebookId(String facebookId);
+	User save(User user);
 }
