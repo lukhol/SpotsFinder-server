@@ -25,8 +25,10 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 	private final MessageSource messageSource;
 	
 	@Autowired
-	public WrongPlaceReportServiceImpl(@NonNull WrongPlaceReportRepository wrongPlaceReportRepository,
-			@NonNull PlaceRepository placeRepository, @NonNull WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper,
+	public WrongPlaceReportServiceImpl(
+			@NonNull WrongPlaceReportRepository wrongPlaceReportRepository,
+			@NonNull PlaceRepository placeRepository,
+			@NonNull WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper,
 			@NonNull MessageSource messageSource) {
 		super();
 		this.wrongPlaceReportRepository = wrongPlaceReportRepository;

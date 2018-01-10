@@ -60,6 +60,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<HeavyPlaceDTO> addPlace(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException {
 		log.debug("POST /places body: {}", placeDto);
 		
@@ -70,6 +71,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PutMapping(value="/{placeId}")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<HeavyPlaceDTO> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
@@ -80,10 +82,10 @@ public class PlaceRestEndpoint {
 	}
 	
 	@DeleteMapping(value="/{placeId}")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<String> delete(@PathVariable Long placeId) {
 		log.debug("DELETE /places/{}", placeId);
-		
+		//TO DO: Only owner of place or admin should have opportunity to delete place.
 		boolean exists = placeService.exists(placeId);
 		if(!exists) {
 			log.warn("No place with id = {}", placeId);

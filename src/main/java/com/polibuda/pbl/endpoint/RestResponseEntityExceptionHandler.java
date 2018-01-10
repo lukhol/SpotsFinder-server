@@ -14,6 +14,7 @@ import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.exception.InvalidPlaceException;
 import com.polibuda.pbl.exception.InvalidPlaceSearchException;
 import com.polibuda.pbl.exception.InvalidWrongPlaceReportException;
+import com.polibuda.pbl.exception.NotFoundUserException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +38,12 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 	public ResponseEntity<RestResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException error, WebRequest request)  {
 	   return parseErrors(error.getBindingResult());
 	}
+	
+	@ExceptionHandler(value = NotFoundUserException.class)
+	public ResponseEntity<RestResponse<Void>> handleNotFoundUserException(NotFoundUserException ex, WebRequest request)  {
+		   log.error(ex.getMessage());
+		   return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.UNAUTHORIZED);
+		}
 	
 	private ResponseEntity<RestResponse<Void>> parseErrors(BindingResult bindingResult){
 		return new ResponseEntity<RestResponse<Void>>(HttpStatus.BAD_REQUEST);

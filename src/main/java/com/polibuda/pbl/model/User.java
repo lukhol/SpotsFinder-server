@@ -33,8 +33,8 @@ public class User {
 	@Column(name="user_id")
 	private Long id;
 	@Email
-	@Column(nullable = false)
 	private String email;
+	private String facebookId;
 	private String password;
 	private String firstname;
 	private String lastname;

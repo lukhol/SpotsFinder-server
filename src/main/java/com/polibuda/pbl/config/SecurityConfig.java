@@ -63,15 +63,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Order(1)
 	@Configuration
 	public static class SecondConfig extends WebSecurityConfigurerAdapter {
+		
 		 @Override
 	        protected void configure(HttpSecurity http) throws Exception {
 	            http
 	              	.antMatcher("/user")
-	              	.httpBasic()
-	              	.and()
-	              	.authorizeRequests().antMatchers("/user").authenticated()
-	              	.and()
-	              	.csrf().disable();
+	              		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	              		.and()
+		              	.httpBasic()
+		              	.and()
+		              	.authorizeRequests().antMatchers("/user").authenticated()
+		              	.and()
+		              	.csrf().disable();
+	        }
+	}
+	
+	@Order(2)
+	@Configuration
+	public static class FourthConfig extends WebSecurityConfigurerAdapter {
+		
+		 @Override
+	        protected void configure(HttpSecurity http) throws Exception {
+	            http
+	              	.antMatcher("/places/**")
+		              	.httpBasic()
+		              	.and()
+		              	.authorizeRequests()
+		              		.antMatchers("/places/report").authenticated()
+		              		.antMatchers("/places/searches").authenticated()
+		              	.and()
+		              	.csrf().disable();
 	        }
 	}
 }
