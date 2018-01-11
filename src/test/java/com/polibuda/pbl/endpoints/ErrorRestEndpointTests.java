@@ -77,7 +77,7 @@ public class ErrorRestEndpointTests {
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/errors")
-				.header("Authorization", "Basic dXNlcjpzcG90ZmluZGVy=")
+				.header("Authorization", "Basic c3BvdGZpbmRlcjpzcG90ZmluZGVyU2VjcmV0")
 				.accept(MediaType.APPLICATION_JSON)
 				.content(exampleErrorJson)
 				.contentType(MediaType.APPLICATION_JSON);

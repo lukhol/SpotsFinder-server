@@ -79,7 +79,7 @@ public class ReportPlaceRestEndpointTests {
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Accept-Language", "fr-FR");
-		httpHeaders.add("Authorization", "Basic dXNlcjpzcG90ZmluZGVy==");
+		httpHeaders.add("Authorization", "Basic c3BvdGZpbmRlcjpzcG90ZmluZGVyU2VjcmV0");
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/places/report")

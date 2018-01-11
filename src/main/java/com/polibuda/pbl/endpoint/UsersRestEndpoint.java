@@ -36,6 +36,7 @@ public class UsersRestEndpoint {
 		log.info("User with email: {} is trying to log in.", email);
 		
 		User user = userService.findUserByEmailAndPassword(email, password);
+		log.info("User with email: {} logged in succesfully.", email);
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
@@ -49,11 +50,14 @@ public class UsersRestEndpoint {
 		try {
 			user = userService.findUserByFacebookId(facebookUser.getFacebookId());
 			user = userService.updateFacebookUser(user, facebookUser);
+			log.info("User with facebook id: {} successfully logged in.", user.getFacebookId());
+			
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (NotFoundUserException e) {
 			user = userService.registerFacebookUser(facebookUser, facebookAccessToken);
 		}
 		
+		log.info("USer with facebook id: {} created and logged in.", user.getFacebookId());
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

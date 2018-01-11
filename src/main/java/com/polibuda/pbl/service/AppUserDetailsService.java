@@ -33,9 +33,6 @@ public class AppUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
 		log.info("Checking email: {} credential.", identifier);
-		
-		User user2 = userRepository.findOneByEmail(identifier).get();
-		System.out.println(user2);
 	
 		//NOT WORKING! But for now i don't want to delete it. 
 //		User user = userRepository
@@ -61,6 +58,8 @@ public class AppUserDetailsService implements UserDetailsService {
 		
 		UserDetails userDetails = new org.springframework.security.core.userdetails.
                 User(identifierToPass, user.getPassword(), authorities);
+		
+		log.info("User with identifier: {} login successfully.", identifierToPass);
 
         return userDetails;
 	}	

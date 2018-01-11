@@ -14,7 +14,9 @@ import com.polibuda.pbl.repository.RoleRepository;
 import com.polibuda.pbl.repository.UserRepository;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
