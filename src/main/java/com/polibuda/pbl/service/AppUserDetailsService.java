@@ -2,7 +2,6 @@ package com.polibuda.pbl.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,17 +34,20 @@ public class AppUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
 		log.info("Checking email: {} credential.", identifier);
 		
-		User user;
-		Optional<User> optionalUser = userRepository.findOneByEmail(identifier);
+		User user2 = userRepository.findOneByEmail(identifier).get();
+		System.out.println(user2);
+	
+		//NOT WORKING! But for now i don't want to delete it. 
+//		User user = userRepository
+//				.findOneByEmail(identifier)
+//				.orElse(userRepository
+//							.findOneByFacebookId(identifier)
+//							.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", identifier)))
+//						);
 		
-		if(!optionalUser.isPresent()){
-			optionalUser = userRepository.findOneByFacebookId(identifier);
-			
-			if(!optionalUser.isPresent())
-				throw new UsernameNotFoundException(identifier);
-		}
-
-		user = optionalUser.get();
+		User user = userRepository
+				.findOneByEmailOrFacebookId(identifier, identifier)
+				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", identifier)));
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> {
