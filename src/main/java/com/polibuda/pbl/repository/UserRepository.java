@@ -11,6 +11,8 @@ import com.polibuda.pbl.model.User;
 public interface UserRepository extends Repository<User, Long>{
 	Optional<User> findOneByEmail(String email);
 	Optional<User> findOneByFacebookId(String facebookId);
+	Optional<User> findOneByGoogleId(String googleId);
 	Optional<User> findOneByEmailOrFacebookId(String email, String facebookId);
+	Optional<User> findOneById(Long id);
 	User save(User user);
 }

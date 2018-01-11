@@ -31,20 +31,14 @@ public class AppUserDetailsService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-		log.info("Checking email: {} credential.", identifier);
-	
-		//NOT WORKING! But for now i don't want to delete it. 
-//		User user = userRepository
-//				.findOneByEmail(identifier)
-//				.orElse(userRepository
-//							.findOneByFacebookId(identifier)
-//							.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", identifier)))
-//						);
+	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+		log.info("Checking userId: {} credential.", userId);
+		
+		Long id = Long.valueOf(userId);
 		
 		User user = userRepository
-				.findOneByEmailOrFacebookId(identifier, identifier)
-				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s doesn't exist", identifier)));
+				.findOneById(id)
+				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s doesn't exist", userId)));
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> {

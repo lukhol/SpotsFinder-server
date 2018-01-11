@@ -1,13 +1,15 @@
 package com.polibuda.pbl.service;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.exception.NotFoundUserException;
-import com.polibuda.pbl.exception.RegisterFacebookUserException;
+import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.repository.RoleRepository;
@@ -43,25 +45,27 @@ public class UserServiceImpl implements UserService {
 			return user;
 		}
 		
+		log.info("Not found user by email {}, and provided password.", email);
 		throw new NotFoundUserException("Wrong credential.");
 	}
 
 	@Override
-	public User findUserByFacebookId(String facebookId) throws NotFoundUserException {
-		User user = userRepository
-				.findOneByFacebookId(facebookId)
-				.orElseThrow(() -> new NotFoundUserException("Not found user by facebookId"));
-		
-		return user;
+	public Optional<User> findUserByFacebookId(String facebookId) throws NotFoundUserException {
+		return userRepository.findOneByFacebookId(facebookId);
+	}
+	
+	@Override
+	public Optional<User> findUserByGoogleId(String googleId){
+		return userRepository.findOneByGoogleId(googleId);
 	}
 
 	@Override
-	public User registerFacebookUser(User user, String facebookAccessToken) throws RegisterFacebookUserException {
+	public User registerExternalUser(User user, String externalAccessToken) throws RegisterExternalServiceUserException {
 		Role userRole = roleRepository
 				.findOneByRoleName("ROLE_USER")
-				.orElseThrow(() -> new RegisterFacebookUserException("Could not find role: " + "ROLE_USER"));
+				.orElseThrow(() -> new RegisterExternalServiceUserException("Could not find role: " + "ROLE_USER"));
 				
-		user.setPassword(passwordEncoder.encode("facebookUserPassword"));
+		user.setPassword(passwordEncoder.encode("externaluser"));
 		user.setRoles(Arrays.asList(userRole));
 		user.setActive(true);
 		
@@ -71,11 +75,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateFacebookUser(User userToUpdate, User facebookUser) {
-		userToUpdate.setFirstname(facebookUser.getFirstname());
-		userToUpdate.setLastname(facebookUser.getLastname());
-		userToUpdate.setEmail(facebookUser.getEmail());
+	public User updateUserInfo(User userToUpdate, User userWithNewInformation) {
+		userToUpdate.setFirstname(userWithNewInformation.getFirstname());
+		userToUpdate.setLastname(userWithNewInformation.getLastname());
+		userToUpdate.setEmail(userWithNewInformation.getEmail());
 		return userRepository.save(userToUpdate);
 	}
 
+	@Override
+	public User findExternalServiceUser(User externalUser) throws NotFoundUserException {
+		User user = null;
+		
+		if(!StringUtils.isEmpty(externalUser.getFacebookId()))
+			user = userRepository
+					.findOneByFacebookId(externalUser.getFacebookId())
+					.orElse(null);
+		
+		if(!StringUtils.isEmpty(externalUser.getGoogleId()))
+			user = userRepository
+					.findOneByGoogleId(externalUser.getGoogleId())
+					.orElse(null);
+		
+		if(user == null)
+			throw new NotFoundUserException("Could not find external user.");
+				
+		return user;
+	}
 }

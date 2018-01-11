@@ -34,7 +34,10 @@ public class User {
 	private Long id;
 	@Email
 	private String email;
+	@Column(nullable = true)
 	private String facebookId;
+	@Column(nullable = true)
+	private String googleId;
 	private String password;
 	private String firstname;
 	private String lastname;

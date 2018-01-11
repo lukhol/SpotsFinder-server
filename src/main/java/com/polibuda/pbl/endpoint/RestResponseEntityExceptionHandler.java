@@ -15,7 +15,7 @@ import com.polibuda.pbl.exception.InvalidPlaceException;
 import com.polibuda.pbl.exception.InvalidPlaceSearchException;
 import com.polibuda.pbl.exception.InvalidWrongPlaceReportException;
 import com.polibuda.pbl.exception.NotFoundUserException;
-import com.polibuda.pbl.exception.RegisterFacebookUserException;
+import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,8 +46,8 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 		   return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.UNAUTHORIZED);
 		}
 	
-	@ExceptionHandler(value = RegisterFacebookUserException.class)
-	public ResponseEntity<RestResponse<Void>> handleRegisterFacebookUserException(RegisterFacebookUserException ex, WebRequest request){
+	@ExceptionHandler(value = RegisterExternalServiceUserException.class)
+	public ResponseEntity<RestResponse<Void>> handleRegisterFacebookUserException(RegisterExternalServiceUserException ex, WebRequest request){
 		log.error(ex.getMessage());
 		   return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 	}

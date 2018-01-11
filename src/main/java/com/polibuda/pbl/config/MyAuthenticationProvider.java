@@ -17,13 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
-//	private final UserRepository userRepository;
-//	
-//	@Autowired
-//	public MyAuthenticationProvider(@NonNull UserRepository userRepository) {
-//		this.userRepository = userRepository;
-//	}
-	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		log.info("MyAuthenticationProvider executed authentication for user {}", authentication.getName());
