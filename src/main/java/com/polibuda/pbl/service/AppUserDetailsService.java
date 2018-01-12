@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.repository.UserRepository;
@@ -45,15 +44,10 @@ public class AppUserDetailsService implements UserDetailsService {
 			authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         });
 		
-		String identifierToPass = user.getFacebookId();
-		
-		if(!StringUtils.isEmpty(user.getEmail()))
-			identifierToPass = user.getEmail();
-		
 		UserDetails userDetails = new org.springframework.security.core.userdetails.
-                User(identifierToPass, user.getPassword(), authorities);
+                User(user.getId().toString(), user.getPassword(), authorities);
 		
-		log.info("User with identifier: {} login successfully.", identifierToPass);
+		log.info("User with userId: {} login successfully.", user.getId());
 
         return userDetails;
 	}	
