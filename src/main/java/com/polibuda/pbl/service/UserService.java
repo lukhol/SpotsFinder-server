@@ -1,9 +1,11 @@
 package com.polibuda.pbl.service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
+import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.model.User;
 
 public interface UserService {
@@ -14,4 +16,6 @@ public interface UserService {
 	User findExternalServiceUser(User externalUser) throws NotFoundUserException;
 	User registerExternalUser(User user, String externalAccessToken) throws RegisterExternalServiceUserException;
 	User updateUserInfo(User userToUpdate, User userWithNewInformation);
+	
+	User registerUser(User user, Locale locale) throws RegisterUserException;
 }

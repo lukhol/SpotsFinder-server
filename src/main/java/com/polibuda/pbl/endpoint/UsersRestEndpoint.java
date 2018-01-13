@@ -1,5 +1,7 @@
 package com.polibuda.pbl.endpoint;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,12 +9,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
+import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.service.UserService;
 
@@ -36,8 +40,7 @@ public class UsersRestEndpoint {
 		return "Ok";
 	}
 	
-	@GetMapping
-	@RequestMapping("/login")
+	@GetMapping("/login")
 	public ResponseEntity<User> loginAppUser(@RequestParam String email, @RequestParam String password) throws NotFoundUserException {
 		log.info("User with email: {} is trying to log in.", email);
 		
@@ -47,8 +50,7 @@ public class UsersRestEndpoint {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@PostMapping
-	@RequestMapping("/login/external")
+	@PostMapping("/login/external")
 	public ResponseEntity<User> loginFacebookUser(@RequestBody User externalUser, @RequestParam String externalAccessToken) throws RegisterExternalServiceUserException {
 		log.info("User with facebookId: {}{} is trying to log in.", externalUser.getFacebookId(), externalUser.getGoogleId());
 		
@@ -71,6 +73,18 @@ public class UsersRestEndpoint {
 		}
 		
 		log.info("User with id: {}{} created and logged in.", user.getFacebookId(), user.getGoogleId());
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<User> registerUser(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody User user, 
+			@RequestParam String psw) throws RegisterUserException {
+		
+		log.info("Started registering user with email: {}.", user.getEmail());
+		user.setPassword(psw);
+		userService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
+		log.info("Registering user with email: {} has been completed succesfully.", user.getEmail());
+		
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

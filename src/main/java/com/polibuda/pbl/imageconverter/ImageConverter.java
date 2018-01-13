@@ -23,7 +23,9 @@ public class ImageConverter {
 		
 		private final static int MINIATURE_WIDTH = 350;
 		private final static int MINIATURE_HEIGHT = 350;
-
+		
+		
+		
 		public String createMiniature(Image firstPhoto) throws IOException {
 			log.info("Creating miniature from first photo.");
 			

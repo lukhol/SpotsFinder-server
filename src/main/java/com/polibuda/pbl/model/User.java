@@ -42,6 +42,7 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private boolean isActive;
+	private String avatarUrl;
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Role> roles;
 }

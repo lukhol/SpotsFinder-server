@@ -1,15 +1,19 @@
 package com.polibuda.pbl.service;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
+import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.repository.RoleRepository;
@@ -22,16 +26,21 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserServiceImpl implements UserService {
 
+	@Value("${user.avatar.path}")
+	private String AVATARS_PATH;
+	
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
+	private final MessageSource messageSource;
 	
 	@Autowired
 	public UserServiceImpl(@NonNull UserRepository userRepository, @NonNull PasswordEncoder passwordEncoder,
-			@NonNull RoleRepository roleRepository){
+			@NonNull RoleRepository roleRepository, @NonNull MessageSource messageSource){
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.roleRepository = roleRepository;
+		this.messageSource = messageSource;
 	}
 	
 	@Override
@@ -69,7 +78,7 @@ public class UserServiceImpl implements UserService {
 		user.setRoles(Arrays.asList(userRole));
 		user.setActive(true);
 		
-		user = userRepository.save(user);
+		user = userRepository.save(user).get();
 		
 		return user;
 	}
@@ -79,7 +88,8 @@ public class UserServiceImpl implements UserService {
 		userToUpdate.setFirstname(userWithNewInformation.getFirstname());
 		userToUpdate.setLastname(userWithNewInformation.getLastname());
 		userToUpdate.setEmail(userWithNewInformation.getEmail());
-		return userRepository.save(userToUpdate);
+		userToUpdate.setAvatarUrl(userWithNewInformation.getAvatarUrl());
+		return userRepository.save(userToUpdate).get();
 	}
 
 	@Override
@@ -100,5 +110,25 @@ public class UserServiceImpl implements UserService {
 			throw new NotFoundUserException("Could not find external user.");
 				
 		return user;
+	}
+
+	@Override
+	public User registerUser(User user, Locale locale) throws RegisterUserException {
+		
+		Optional<User> userByEmailOptional = userRepository.findOneByEmail(user.getEmail());
+		
+		if(userByEmailOptional.isPresent())
+			throw new RegisterUserException(messageSource.getMessage("error.register.emailInUse", null, locale));
+		
+		Role userRole = roleRepository
+				.findOneByRoleName("ROLE_USER")
+				.orElseThrow(() -> new RegisterUserException("Could not find role: " + "ROLE_USER"));
+				
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setRoles(Arrays.asList(userRole));
+		user.setAvatarUrl(null);
+		user.setActive(true);
+		
+		return userRepository.save(user).get();
 	}
 }

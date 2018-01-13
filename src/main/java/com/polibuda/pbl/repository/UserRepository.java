@@ -14,5 +14,6 @@ public interface UserRepository extends Repository<User, Long>{
 	Optional<User> findOneByGoogleId(String googleId);
 	Optional<User> findOneByEmailOrFacebookId(String email, String facebookId);
 	Optional<User> findOneById(Long id);
-	User save(User user);
+	
+	Optional<User> save(User user);
 }
