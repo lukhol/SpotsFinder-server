@@ -52,7 +52,8 @@ public class UsersRestEndpoint {
 		log.info("User with email: {} is trying to log in.", email);
 		
 		User user = userService.findUserByEmailAndPassword(email, password);
-		
+		user.setPassword("You ain't gona get it ;)");
+
 		log.info("User with email: {} logged in succesfully.", email);
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);

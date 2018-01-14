@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new NotFoundUserException("Not found user by email."));
 		
 		if(passwordEncoder.matches(password, user.getPassword())){
-			user.setPassword("You ain't gona get it ;)");
 			return user;
 		}
 		
