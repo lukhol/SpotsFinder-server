@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
 	@Value("${user.avatar.path}")
 	private String AVATARS_PATH;
 	
+	@Value("${server.baseurl}")
+	private String BASE_URL;
+	
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
@@ -128,8 +131,10 @@ public class UserServiceImpl implements UserService {
 				
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRoles(Arrays.asList(userRole));
-		user.setAvatarUrl(String.format(String.format("%s\\%d.jpg", AVATARS_PATH , user.getId())));
 		user.setActive(true);
+		
+		user = userRepository.save(user).get();
+		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())));
 		
 		return userRepository.save(user).get();
 	}
@@ -149,5 +154,12 @@ public class UserServiceImpl implements UserService {
 		finally {
 		    fos.close();
 		}
+	}
+
+	@Override
+	public String setInternalAvatarUrl(User user) {
+		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())));
+		userRepository.save(user);
+		return user.getAvatarUrl();
 	}
 }

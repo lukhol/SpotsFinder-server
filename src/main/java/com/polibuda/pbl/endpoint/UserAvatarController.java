@@ -3,7 +3,6 @@ package com.polibuda.pbl.endpoint;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Optional;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.service.UserService;
 
@@ -43,8 +43,13 @@ public class UserAvatarController {
 	}
 	
 	@GetMapping("/{userId}")
-	public void getUserAvatar(HttpServletResponse response, @PathVariable long userId) throws IOException{
+	public void getUserAvatar(HttpServletResponse response, @PathVariable long userId) throws IOException, NotFoundUserException{
 
+		@SuppressWarnings("unused")
+		User user = userService
+				.findUserById(userId)
+				.orElseThrow(() -> new NotFoundUserException("Not found user: " + userId));
+		
 		File fileImage = new File(String.format("%s\\%d.jpg", AVATARS_PATH , userId));
 		byte[] imageBytes;
 		
@@ -68,17 +73,17 @@ public class UserAvatarController {
 	}
 	
 	@PostMapping("/{userId}")
-	public @ResponseBody ResponseEntity<?> postAvatar(@PathVariable long userId, @RequestParam("avatar") MultipartFile inputMultipartFile) throws Exception{
+	public @ResponseBody ResponseEntity<?> postAvatar(@PathVariable long userId, @RequestParam("avatar") MultipartFile inputMultipartFile) throws NotFoundUserException, IOException {
 		
 		log.info("Started uploading image for user {}.", userId);
 		
-		Optional<User> userOptional = userService.findUserById(userId);
-		
-		if(!userOptional.isPresent())
-			throw new Exception("User with this id does not exist.");
+		User user = userService
+				.findUserById(userId)
+				.orElseThrow(() -> new NotFoundUserException("User with this id does not exist."));
 		
 		userService.saveAvatar(inputMultipartFile.getBytes(), userId);
+		String avatarUrl = userService.setInternalAvatarUrl(user);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>(avatarUrl, HttpStatus.OK);
 	}
 }

@@ -87,9 +87,8 @@ public class UsersRestEndpoint {
 		
 		log.info("Started registering user with email: {}.", user.getEmail());
 		
-		registerUserValidator.validate(user);
-		
 		user.setPassword(psw);
+		registerUserValidator.validate(user);		
 		user = userService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
 		
 		log.info("Registering user with email: {} has been completed succesfully.", user.getEmail());

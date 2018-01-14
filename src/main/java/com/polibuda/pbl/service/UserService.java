@@ -22,4 +22,5 @@ public interface UserService {
 	User registerUser(User user, Locale locale) throws RegisterUserException;
 	
 	void saveAvatar(byte[] avatarBytes, long userId) throws IOException;
+	String setInternalAvatarUrl(User user);
 }
