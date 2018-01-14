@@ -2,6 +2,7 @@ package com.polibuda.pbl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.polibuda.pbl.exception.NotFoundGeocodingInformationException;
 import com.polibuda.pbl.model.GeocodingInformation;
@@ -23,12 +24,15 @@ public class GeocodingServiceImpl implements GeocodingService{
 	}
 
 	@Override
-	public void save(GeocodingInformation geocodingInformation) {
-		geocodingRepository.save(geocodingInformation);
+	@Transactional
+	public GeocodingInformation save(GeocodingInformation geocodingInformation) {
+		GeocodingInformation gi = geocodingRepository.save(geocodingInformation);
 		log.info("GeocodingInformation for city {} has been saved to the database.", geocodingInformation.getOryginalCityName());
+		return gi;
 	}
 
 	@Override
+	@Transactional
 	public GeocodingInformation findBySearchingPhrase(String searchingPhrase) throws NotFoundGeocodingInformationException {
 		GeocodingInformation geocodingInformation =  geocodingRepository.findBySearchingPhraseIgnoringCase(searchingPhrase);
 		

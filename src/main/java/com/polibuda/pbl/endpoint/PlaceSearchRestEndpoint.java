@@ -55,6 +55,7 @@ public class PlaceSearchRestEndpoint {
 	
 	@GetMapping
 	public ResponseEntity<?> searchUserPlaces(@RequestParam long userId) throws NotFoundUserException {
+		log.debug("GET /places/searches/{}", userId);
 		
 		List<LightPlaceDTO> places = placeService.searchByUserId(userId);
 		

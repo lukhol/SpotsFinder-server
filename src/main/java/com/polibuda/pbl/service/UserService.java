@@ -10,6 +10,8 @@ import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.model.User;
 
 public interface UserService {
+	boolean exists(Long id);
+	
 	User findUserByEmailAndPassword(String email, String password) throws NotFoundUserException;
 	Optional<User> findUserByFacebookId(String facebookId) throws NotFoundUserException;
 	Optional<User> findUserByGoogleId(String googleId) throws NotFoundUserException;
@@ -23,4 +25,5 @@ public interface UserService {
 	
 	void saveAvatar(byte[] avatarBytes, long userId) throws IOException;
 	String setInternalAvatarUrl(User user);
+	byte[] getUserAvatar(long userId) throws NotFoundUserException, IOException;
 }

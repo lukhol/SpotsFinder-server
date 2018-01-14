@@ -1,7 +1,9 @@
 package com.polibuda.pbl.service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.exception.NotFoundUserException;
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public User findUserByEmailAndPassword(String email, String password) throws NotFoundUserException {
 		User user = userRepository
 				.findOneByEmail(email)
@@ -64,21 +68,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public Optional<User> findUserByFacebookId(String facebookId) throws NotFoundUserException {
 		return userRepository.findOneByFacebookId(facebookId);
 	}
 	
 	@Override
+	@Transactional
 	public Optional<User> findUserByGoogleId(String googleId){
 		return userRepository.findOneByGoogleId(googleId);
 	}
 
 	@Override
+	@Transactional
 	public User registerExternalUser(User user, String externalAccessToken) throws RegisterExternalServiceUserException {
 		Role userRole = roleRepository
 				.findOneByRoleName("ROLE_USER")
-				.orElseThrow(() -> new RegisterExternalServiceUserException("Could not find role: " + "ROLE_USER"));
-				
+				.orElseThrow(() -> new RegisterExternalServiceUserException(String.format("Could not find role: %s.", "ROLE_USER")));
+		
 		user.setPassword(passwordEncoder.encode("externaluser"));
 		user.setRoles(Arrays.asList(userRole));
 		user.setActive(true);
@@ -89,6 +96,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User updateUserInfo(User userToUpdate, User userWithNewInformation) {
 		userToUpdate.setFirstname(userWithNewInformation.getFirstname());
 		userToUpdate.setLastname(userWithNewInformation.getLastname());
@@ -98,6 +106,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User findExternalServiceUser(User externalUser) throws NotFoundUserException {
 		User user = null;
 		
@@ -118,6 +127,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User registerUser(User user, Locale locale) throws RegisterUserException {
 		
 		Optional<User> userByEmailOptional = userRepository.findOneByEmail(user.getEmail());
@@ -134,17 +144,20 @@ public class UserServiceImpl implements UserService {
 		user.setActive(true);
 		
 		user = userRepository.save(user).get();
-		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())));
 		
-		return userRepository.save(user).get();
+		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId()))); //This will be save without call .sace() because method is inside transaction.
+		
+		return user;
 	}
 
 	@Override
+	@Transactional
 	public Optional<User> findUserById(Long id) {
 		return userRepository.findOneById(id);
 	}
 
 	@Override
+	@Transactional
 	public void saveAvatar(byte[] avatarBytes, long userId) throws IOException {
 		FileOutputStream fos = new FileOutputStream(String.format("%s\\%d.jpg", AVATARS_PATH , userId)); 
 		
@@ -157,9 +170,36 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public String setInternalAvatarUrl(User user) {
 		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())));
 		userRepository.save(user);
 		return user.getAvatarUrl();
+	}
+
+	@Override
+	@Transactional
+	public byte[] getUserAvatar(long userId) throws NotFoundUserException, IOException {
+		
+		if(!userRepository.exists(userId))
+			throw new NotFoundUserException("Not found user: " + userId);
+		
+		File fileImage = new File(String.format("%s\\%d.jpg", AVATARS_PATH , userId));
+		byte[] imageBytes;
+		
+		if(fileImage.exists()){
+			imageBytes = Files.readAllBytes(fileImage.toPath());
+		}
+		else{
+			File anonymousUserFile = new File(String.format("%s\\%s.jpg", AVATARS_PATH , "anonymous"));
+			imageBytes = Files.readAllBytes(anonymousUserFile.toPath());
+		}
+		
+		return imageBytes;
+	}
+
+	@Override
+	public boolean exists(Long id) {
+		return userRepository.exists(id);
 	}
 }

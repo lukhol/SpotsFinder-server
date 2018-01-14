@@ -1,8 +1,6 @@
 package com.polibuda.pbl.endpoint;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -44,22 +42,9 @@ public class UserAvatarController {
 	
 	@GetMapping("/{userId}")
 	public void getUserAvatar(HttpServletResponse response, @PathVariable long userId) throws IOException, NotFoundUserException{
-
-		@SuppressWarnings("unused")
-		User user = userService
-				.findUserById(userId)
-				.orElseThrow(() -> new NotFoundUserException("Not found user: " + userId));
+		log.debug("GET /user/avatar/{}", userId);
 		
-		File fileImage = new File(String.format("%s\\%d.jpg", AVATARS_PATH , userId));
-		byte[] imageBytes;
-		
-		if(fileImage.exists()){
-			imageBytes = Files.readAllBytes(fileImage.toPath());
-		}
-		else{
-			File anonymousUserFile = new File(String.format("%s\\%s.jpg", AVATARS_PATH , "anonymous"));
-			imageBytes = Files.readAllBytes(anonymousUserFile.toPath());
-		}
+		byte[] imageBytes = userService.getUserAvatar(userId);
 		
 		response.setHeader("Cache-Control", "no-store");
 	    response.setHeader("Pragma", "no-cache");
@@ -74,8 +59,7 @@ public class UserAvatarController {
 	
 	@PostMapping("/{userId}")
 	public @ResponseBody ResponseEntity<?> postAvatar(@PathVariable long userId, @RequestParam("avatar") MultipartFile inputMultipartFile) throws NotFoundUserException, IOException {
-		
-		log.info("Started uploading image for user {}.", userId);
+		log.info("POST /user/avatar/{} - Started uploading image.", userId);
 		
 		User user = userService
 				.findUserById(userId)

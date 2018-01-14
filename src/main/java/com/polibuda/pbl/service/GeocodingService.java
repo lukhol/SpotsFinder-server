@@ -5,5 +5,5 @@ import com.polibuda.pbl.model.GeocodingInformation;
 
 public interface GeocodingService {
 	GeocodingInformation findBySearchingPhrase(String searchingPhrase) throws NotFoundGeocodingInformationException;
-	void save(GeocodingInformation geocodingInformation);
+	GeocodingInformation save(GeocodingInformation geocodingInformation);
 }

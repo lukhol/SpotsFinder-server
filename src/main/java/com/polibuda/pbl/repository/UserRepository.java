@@ -16,4 +16,5 @@ public interface UserRepository extends Repository<User, Long>{
 	Optional<User> findOneById(Long id);
 	
 	Optional<User> save(User user);
+	boolean exists(Long id);
 }
