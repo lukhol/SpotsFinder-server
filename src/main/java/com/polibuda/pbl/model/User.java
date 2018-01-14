@@ -29,6 +29,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @Entity
+@JsonIgnoreProperties({"places"})
 public class User {
 
 	@Id
@@ -49,7 +50,6 @@ public class User {
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Role> roles;
 	
-	@JsonIgnoreProperties
 	@OneToMany(mappedBy="owner")
 	private List<Place> places;
 }
