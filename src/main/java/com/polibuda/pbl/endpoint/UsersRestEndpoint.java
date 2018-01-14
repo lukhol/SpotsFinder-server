@@ -82,7 +82,7 @@ public class UsersRestEndpoint {
 		
 		log.info("Started registering user with email: {}.", user.getEmail());
 		user.setPassword(psw);
-		userService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
+		user = userService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
 		log.info("Registering user with email: {} has been completed succesfully.", user.getEmail());
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);

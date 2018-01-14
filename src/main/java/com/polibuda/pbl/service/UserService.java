@@ -1,5 +1,6 @@
 package com.polibuda.pbl.service;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -12,10 +13,13 @@ public interface UserService {
 	User findUserByEmailAndPassword(String email, String password) throws NotFoundUserException;
 	Optional<User> findUserByFacebookId(String facebookId) throws NotFoundUserException;
 	Optional<User> findUserByGoogleId(String googleId) throws NotFoundUserException;
+	Optional<User> findUserById(Long id);
 	
 	User findExternalServiceUser(User externalUser) throws NotFoundUserException;
 	User registerExternalUser(User user, String externalAccessToken) throws RegisterExternalServiceUserException;
 	User updateUserInfo(User userToUpdate, User userWithNewInformation);
 	
 	User registerUser(User user, Locale locale) throws RegisterUserException;
+	
+	void saveAvatar(byte[] avatarBytes, long userId) throws IOException;
 }

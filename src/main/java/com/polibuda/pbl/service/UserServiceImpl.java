@@ -1,5 +1,7 @@
 package com.polibuda.pbl.service;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
@@ -126,9 +128,26 @@ public class UserServiceImpl implements UserService {
 				
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRoles(Arrays.asList(userRole));
-		user.setAvatarUrl(null);
+		user.setAvatarUrl(String.format(String.format("%s\\%d.jpg", AVATARS_PATH , user.getId())));
 		user.setActive(true);
 		
 		return userRepository.save(user).get();
+	}
+
+	@Override
+	public Optional<User> findUserById(Long id) {
+		return userRepository.findOneById(id);
+	}
+
+	@Override
+	public void saveAvatar(byte[] avatarBytes, long userId) throws IOException {
+		FileOutputStream fos = new FileOutputStream(String.format("%s\\%d.jpg", AVATARS_PATH , userId)); 
+		
+		try {
+		    fos.write(avatarBytes);
+		}
+		finally {
+		    fos.close();
+		}
 	}
 }
