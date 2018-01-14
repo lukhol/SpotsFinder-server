@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.exception.InvalidPlaceException;
+import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.service.PlaceService;
 import com.polibuda.pbl.validator.PlaceValidator;
 
@@ -60,8 +60,8 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<HeavyPlaceDTO> addPlace(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException {
+	//@PreAuthorize("hasAuthority('ROLE_USER')")
+	public ResponseEntity<HeavyPlaceDTO> addPlace(@RequestBody HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException, NotFoundUserException {
 		log.debug("POST /places body: {}", placeDto);
 		
 		placeValidator.validate(placeDto);
@@ -71,8 +71,8 @@ public class PlaceRestEndpoint {
 	}
 	
 	@PutMapping(value="/{placeId}")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<HeavyPlaceDTO> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException {
+	//@PreAuthorize("hasAuthority('ROLE_USER')")
+	public ResponseEntity<HeavyPlaceDTO> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException, NotFoundUserException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
 		placeValidator.validate(placeDto);
@@ -82,7 +82,7 @@ public class PlaceRestEndpoint {
 	}
 	
 	@DeleteMapping(value="/{placeId}")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	//@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<String> delete(@PathVariable Long placeId) {
 		log.debug("DELETE /places/{}", placeId);
 		//TO DO: Only owner of place or admin should have opportunity to delete place.

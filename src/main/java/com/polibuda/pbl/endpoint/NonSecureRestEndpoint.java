@@ -24,8 +24,7 @@ public class NonSecureRestEndpoint {
 		return "welcome";
 	}
 	
-	@GetMapping
-	@RequestMapping("/{password}")
+	@GetMapping("/{password}")
 	public String getPasswordEncoded(@PathVariable String password){
 		return passwordEncoder.encode(password);
 	}

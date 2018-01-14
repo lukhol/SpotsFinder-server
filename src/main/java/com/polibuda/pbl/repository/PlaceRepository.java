@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.repository.Repository;
 
 import com.polibuda.pbl.model.Place;
+import com.polibuda.pbl.model.User;
 
 @Transactional
 public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRepository {
@@ -17,4 +18,5 @@ public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRep
 	List<Place> findAll();
 	Optional<Place> findOneById(Long id);
 	Place save(Place place);
+	List<Place> findByOwner(User owner);
 }

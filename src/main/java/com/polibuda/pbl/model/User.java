@@ -9,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,4 +48,8 @@ public class User {
 	private String avatarUrl;
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Role> roles;
+	
+	@JsonIgnoreProperties
+	@OneToMany(mappedBy="owner")
+	private List<Place> places;
 }

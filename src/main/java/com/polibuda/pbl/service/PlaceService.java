@@ -7,12 +7,13 @@ import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.exception.GeocodingCityException;
+import com.polibuda.pbl.exception.NotFoundUserException;
 
 public interface PlaceService {
 
 	List<LightPlaceDTO> getAll();
 
-	HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException;
+	HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException, NotFoundUserException;
 
 	boolean exists(Long placeId);
 	
@@ -21,4 +22,6 @@ public interface PlaceService {
 	void delete(Long placeId);
 
 	List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException;
+	
+	List<LightPlaceDTO> searchByUserId(long userId) throws NotFoundUserException;
 }

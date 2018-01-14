@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +18,8 @@ import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.service.UserService;
+import com.polibuda.pbl.validator.ExternalUserValidator;
+import com.polibuda.pbl.validator.RegisterUserValidator;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersRestEndpoint {
 
 	private final UserService userService;
+	private final RegisterUserValidator registerUserValidator;
+	private final ExternalUserValidator externalUserValidator;
 	
 	@Autowired
-	public UsersRestEndpoint(@NonNull UserService userService){
+	public UsersRestEndpoint(@NonNull UserService userService, @NonNull RegisterUserValidator registerUserValidator,
+			@NonNull ExternalUserValidator externalUserValidator){
 		this.userService = userService;
+		this.registerUserValidator = registerUserValidator;
+		this.externalUserValidator = externalUserValidator;
 	}
 	
 	@GetMapping
@@ -42,30 +48,28 @@ public class UsersRestEndpoint {
 	
 	@GetMapping("/login")
 	public ResponseEntity<User> loginAppUser(@RequestParam String email, @RequestParam String password) throws NotFoundUserException {
+		
 		log.info("User with email: {} is trying to log in.", email);
 		
 		User user = userService.findUserByEmailAndPassword(email, password);
+		
 		log.info("User with email: {} logged in succesfully.", email);
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@PostMapping("/login/external")
-	public ResponseEntity<User> loginFacebookUser(@RequestBody User externalUser, @RequestParam String externalAccessToken) throws RegisterExternalServiceUserException {
-		log.info("User with facebookId: {}{} is trying to log in.", externalUser.getFacebookId(), externalUser.getGoogleId());
+	public ResponseEntity<User> loginExternalUser(@RequestBody User externalUser, @RequestParam String externalAccessToken) throws RegisterExternalServiceUserException {
+		log.info("User with fbId: {}, googleId: {} is trying to log in.", externalUser.getFacebookId(), externalUser.getGoogleId());
 		
-		//Validator
-		if(StringUtils.isEmpty(externalUser.getFacebookId()) && StringUtils.isEmpty(externalUser.getGoogleId()))
-			throw new RegisterExternalServiceUserException("At least one external id must be provided.");
-		
-		if(!StringUtils.isEmpty(externalUser.getFacebookId()) && !StringUtils.isEmpty(externalUser.getGoogleId()))
-			throw new RegisterExternalServiceUserException("Only one external id must be provided.");
+		externalUserValidator.validate(externalUser);
 		
 		User user;
 		try {
 			user = userService.findExternalServiceUser(externalUser);
 			user = userService.updateUserInfo(user, externalUser);
-			log.info("User with facebook id: {} successfully logged in.", user.getFacebookId());
+			
+			log.info("User with fbId: {}, googleId: {} successfully logged in.", user.getFacebookId(), user.getGoogleId());
 			
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (NotFoundUserException e) {
@@ -73,6 +77,7 @@ public class UsersRestEndpoint {
 		}
 		
 		log.info("User with id: {}{} created and logged in.", user.getFacebookId(), user.getGoogleId());
+		
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
@@ -81,8 +86,12 @@ public class UsersRestEndpoint {
 			@RequestParam String psw) throws RegisterUserException {
 		
 		log.info("Started registering user with email: {}.", user.getEmail());
+		
+		registerUserValidator.validate(user);
+		
 		user.setPassword(psw);
 		user = userService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
+		
 		log.info("Registering user with email: {} has been completed succesfully.", user.getEmail());
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);

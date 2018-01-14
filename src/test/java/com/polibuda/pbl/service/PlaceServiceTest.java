@@ -19,6 +19,7 @@ import com.polibuda.pbl.imageconverter.ImageConverter;
 import com.polibuda.pbl.mapper.PlaceDTOMapper;
 import com.polibuda.pbl.model.Place;
 import com.polibuda.pbl.repository.PlaceRepository;
+import com.polibuda.pbl.repository.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,6 +27,7 @@ public class PlaceServiceTest {
 
 	@Mock private PlaceRepository placeRepository;
 	@Mock private ImageConverter imageConverter;
+	@Mock private UserRepository userRepository;
 	@Autowired private PlaceDTOMapper placeDTOMapper;
 	
 	@Autowired
@@ -34,7 +36,7 @@ public class PlaceServiceTest {
 	@Before
 	public void setUp(){
 		MockitoAnnotations.initMocks(this);
-		placeService = new PlaceServiceImpl(placeRepository, placeDTOMapper, imageConverter);
+		placeService = new PlaceServiceImpl(placeRepository, userRepository, placeDTOMapper, imageConverter);
 	}
 	
 	@Test

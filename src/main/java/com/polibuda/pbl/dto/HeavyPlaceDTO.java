@@ -44,4 +44,6 @@ public class HeavyPlaceDTO implements Serializable {
 	private boolean curb;
 	private boolean bank;
 	private boolean bowl;
+	
+	private long userId;
 }

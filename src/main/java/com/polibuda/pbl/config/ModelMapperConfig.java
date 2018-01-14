@@ -16,7 +16,7 @@ import com.polibuda.pbl.model.WrongPlaceReport;
 
 @Configuration
 public class ModelMapperConfig {
-
+	
 	@Bean
 	public ModelMapper getModelMapperBean() {
 		ModelMapper mapper = new ModelMapper();
@@ -24,6 +24,7 @@ public class ModelMapperConfig {
 		PropertyMap<Place, HeavyPlaceDTO> heavyPlaceDTOMap = new PropertyMap<Place, HeavyPlaceDTO>() {		
 			@Override
 			protected void configure() {
+				map().setUserId(source.getOwner().getId());
 				map().getLocation().setLatitude(source.getLatitude());
 				map().getLocation().setLongitude(source.getLongitude());
 			}

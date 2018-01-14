@@ -5,15 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.exception.InvalidPlaceSearchException;
+import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.service.PlaceService;
 import com.polibuda.pbl.validator.PlaceSearchValidator;
 
@@ -45,6 +48,19 @@ public class PlaceSearchRestEndpoint {
 		HttpStatus httpStatus = HttpStatus.OK;
 		
 		if(places == null || places.size() == 0)
+			httpStatus = HttpStatus.NOT_FOUND;
+		
+		return new ResponseEntity<List<LightPlaceDTO>>(places, httpStatus);
+	}
+	
+	@GetMapping
+	public ResponseEntity<?> searchUserPlaces(@RequestParam long userId) throws NotFoundUserException {
+		
+		List<LightPlaceDTO> places = placeService.searchByUserId(userId);
+		
+		HttpStatus httpStatus = HttpStatus.OK;
+		
+		if(places == null || places.isEmpty())
 			httpStatus = HttpStatus.NOT_FOUND;
 		
 		return new ResponseEntity<List<LightPlaceDTO>>(places, httpStatus);

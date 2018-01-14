@@ -11,11 +11,14 @@ import com.polibuda.pbl.dto.HeavyPlaceDTO;
 import com.polibuda.pbl.dto.LightPlaceDTO;
 import com.polibuda.pbl.dto.PlaceSearchDTO;
 import com.polibuda.pbl.exception.GeocodingCityException;
+import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.imageconverter.ImageConverter;
 import com.polibuda.pbl.mapper.PlaceDTOMapper;
 import com.polibuda.pbl.model.Image;
 import com.polibuda.pbl.model.Place;
+import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.repository.PlaceRepository;
+import com.polibuda.pbl.repository.UserRepository;
 
 import lombok.NonNull;
 
@@ -23,16 +26,18 @@ import lombok.NonNull;
 public class PlaceServiceImpl implements PlaceService {
 
 	private final PlaceRepository placeRepository;
+	private final UserRepository userRepository;
 	private final PlaceDTOMapper placeMapper;
 	private final ImageConverter imageConverter;
 	
 	@Autowired
-	public PlaceServiceImpl(@NonNull PlaceRepository placeRepository, @NonNull PlaceDTOMapper placeMapper, 
+	public PlaceServiceImpl(@NonNull PlaceRepository placeRepository, @NonNull UserRepository userRepository, @NonNull PlaceDTOMapper placeMapper, 
 			@NonNull ImageConverter imageConverter) {
 		super();
 		this.placeRepository = placeRepository;
 		this.placeMapper = placeMapper;
 		this.imageConverter = imageConverter;
+		this.userRepository = userRepository;
 	}
 
 	@Override
@@ -45,8 +50,14 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException {
+	public HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException, NotFoundUserException {
 		Place placeToSave = placeMapper.mapHeavyToModel(placeDto);
+		
+		User userOwner = userRepository
+				.findOneById(placeDto.getUserId())
+				.orElseThrow(() -> new NotFoundUserException("Not found user with provided id."));
+		
+		placeToSave.setOwner(userOwner);
 		
 		if(placeToSave.getId() == null) {
 			Image firstPhoto = placeToSave.getImages().get(0);
@@ -79,6 +90,20 @@ public class PlaceServiceImpl implements PlaceService {
 	public List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException {
 		return placeRepository
 				.search(placeDto)
+				.stream()
+				.map(place -> placeMapper.mapToLightDTO(place))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<LightPlaceDTO> searchByUserId(long userId) throws NotFoundUserException {
+		User user = userRepository
+				.findOneById(userId)
+				.orElseThrow(() -> new NotFoundUserException("Not found user with id: " + userId));
+				
+		
+		return placeRepository
+				.findByOwner(user)
 				.stream()
 				.map(place -> placeMapper.mapToLightDTO(place))
 				.collect(Collectors.toList());
