@@ -6,7 +6,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class GeocodingInformation {
 
 	@Id
@@ -21,8 +30,7 @@ public class GeocodingInformation {
 	@Column(columnDefinition = "TEXT")
 	private String oryginalGoogleResponseJson;
 
-	public GeocodingInformation() {
-	}
+	public GeocodingInformation() { }
 
 	public GeocodingInformation(String searchingPhrase, String oryginalCityName, String oryginalGoogleResponseJson,
 			double longitude, double latitude) {
@@ -31,53 +39,5 @@ public class GeocodingInformation {
 		this.oryginalGoogleResponseJson = oryginalGoogleResponseJson;
 		this.longitude = longitude;
 		this.latitude = latitude;
-	}
-
-	public String getSearchingPhrase() {
-		return searchingPhrase;
-	}
-
-	public void setSearchingPhrase(String searchingPhrase) {
-		this.searchingPhrase = searchingPhrase;
-	}
-
-	public String getOryginalCityName() {
-		return oryginalCityName;
-	}
-
-	public void setOryginalCityName(String oryginalCityName) {
-		this.oryginalCityName = oryginalCityName;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getOryginalGoogleResponseJson() {
-		return oryginalGoogleResponseJson;
-	}
-
-	public void setOryginalGoogleResponseJson(String oryginalGoogleResponseJson) {
-		this.oryginalGoogleResponseJson = oryginalGoogleResponseJson;
-	}
-
-	public Long getGeocodingId() {
-		return geocodingId;
-	}
-
-	public void setGeocodingId(Long geocodingId) {
-		this.geocodingId = geocodingId;
 	}
 }

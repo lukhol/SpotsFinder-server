@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
 		
 		user = userRepository.save(user).get();
 		
-		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId()))); //This will be save without call .sace() because method is inside transaction.
+		user.setAvatarUrl(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())); //This will be save without call .save() because method is inside transaction.
 		
 		return user;
 	}
