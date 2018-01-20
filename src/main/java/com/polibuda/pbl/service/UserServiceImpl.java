@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +22,10 @@ import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
+import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
+import com.polibuda.pbl.repository.AccountRecoverRepository;
 import com.polibuda.pbl.repository.RoleRepository;
 import com.polibuda.pbl.repository.UserRepository;
 
@@ -43,15 +47,17 @@ public class UserServiceImpl implements UserService {
 	private final RoleRepository roleRepository;
 	private final MessageSource messageSource;
 	private final EmailSender emailSender;
+	private final AccountRecoverRepository accountRecoverRepository;
 	
 	@Autowired
-	public UserServiceImpl(@NonNull UserRepository userRepository, @NonNull PasswordEncoder passwordEncoder,
-			@NonNull RoleRepository roleRepository, @NonNull MessageSource messageSource, @NonNull EmailSender emailSender){
+	public UserServiceImpl(@NonNull UserRepository userRepository, @NonNull PasswordEncoder passwordEncoder, @NonNull RoleRepository roleRepository, 
+			@NonNull MessageSource messageSource, @NonNull EmailSender emailSender, @NonNull AccountRecoverRepository accountRecoverRepository){
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.roleRepository = roleRepository;
 		this.messageSource = messageSource;
 		this.emailSender = emailSender;
+		this.accountRecoverRepository = accountRecoverRepository;
 	}
 	
 	@Override
@@ -147,7 +153,7 @@ public class UserServiceImpl implements UserService {
 		
 		user = userRepository.save(user).get();
 		
-		user.setAvatarUrl(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())); //This will be save without call .save() because method is inside transaction.
+		user.setAvatarUrl(String.format("%s%s%d.jpg", BASE_URL, "/user/avatar/", user.getId())); //This will be save without call .save() because method is inside transaction.
 		
 		return user;
 	}
@@ -174,7 +180,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public String setInternalAvatarUrl(User user) {
-		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "user/avatar/", user.getId())));
+		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "/user/avatar/", user.getId())));
 		userRepository.save(user);
 		return user.getAvatarUrl();
 	}
@@ -206,13 +212,43 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean recoverAccount(String email) throws NotFoundUserException {
-//		User userByEmail = userRepository
-//				.findOneByEmail(email)
-//				.orElseThrow(() -> new NotFoundUserException("Not foud user with email: " + email));
+	@Transactional
+	public void recoverAccount(String email) throws NotFoundUserException {
+		boolean userExist = userRepository.existByEmail(email);
 		
+		if(!userExist)
+			throw new NotFoundUserException(String.format("Not found user with provided email: %s.", email));
 		
+		AccountRecover accountRecover = accountRecoverRepository
+			.findOneByEmail(email)
+			.orElseGet(() -> {
+				UUID uuid = UUID.randomUUID();
+				String guid = uuid.toString();
+				
+				return AccountRecover.builder()
+						.email(email)
+						.guid(guid)
+						.build();
+			});
 		
-		return userRepository.existByEmail(email);
+		accountRecover.setTimestamp(new Date());
+		
+		accountRecoverRepository.save(accountRecover);
+		
+		StringBuilder urlStringBuilder = new StringBuilder();
+		urlStringBuilder
+			.append(BASE_URL)
+			.append("/views/user/recover/accept?guid=")
+			.append(accountRecover.getGuid());
+		
+		StringBuilder messageBuilder = new StringBuilder();
+		messageBuilder
+			.append("Please click on: ")
+			.append(urlStringBuilder.toString())
+			.append("\n\n")
+			.append("This link will be active for 24 hours.")
+			.append("\n\nSpots Finder");
+		
+		emailSender.sendEmail(email, "Spots Finder - email reset.", messageBuilder.toString());
 	}
 }

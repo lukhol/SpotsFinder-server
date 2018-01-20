@@ -27,5 +27,5 @@ public interface UserService {
 	String setInternalAvatarUrl(User user);
 	byte[] getUserAvatar(long userId) throws NotFoundUserException, IOException;
 	
-	boolean recoverAccount(String email) throws NotFoundUserException;
+	void recoverAccount(String email) throws NotFoundUserException;
 }

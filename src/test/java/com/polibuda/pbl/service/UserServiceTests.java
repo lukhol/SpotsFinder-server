@@ -1,14 +1,17 @@
 package com.polibuda.pbl.service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
@@ -19,8 +22,10 @@ import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
+import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
+import com.polibuda.pbl.repository.AccountRecoverRepository;
 import com.polibuda.pbl.repository.RoleRepository;
 import com.polibuda.pbl.repository.UserRepository;
 
@@ -42,6 +47,9 @@ public class UserServiceTests {
 	@Mock
 	private EmailSender emailSender;
 	
+	@Mock
+	private AccountRecoverRepository accountRecoverRepository;
+	
 	@Autowired
 	private MessageSource messageSource;
 	
@@ -52,7 +60,7 @@ public class UserServiceTests {
 	
 	@Before
 	public void setUp(){
-		userService = new UserServiceImpl(userRepository, passwordEncoder, roleRepository, messageSource, emailSender);
+		userService = new UserServiceImpl(userRepository, passwordEncoder, roleRepository, messageSource, emailSender, accountRecoverRepository);
 		
 		sampleUser = User.builder()
 				.id(1l)
@@ -345,5 +353,83 @@ public class UserServiceTests {
 		Mockito
 			.verify(userRepository, Mockito.times(1))
 			.save(Mockito.isA(User.class));
+	}
+	
+	@Test(expected = NotFoundUserException.class)
+	public void cannotRecoverAccount_userByEmailNotFound() throws NotFoundUserException {
+		Mockito
+			.when(userRepository.existByEmail(email))
+			.thenReturn(false);
+		
+		userService.recoverAccount(email);
+	}
+	
+	@Test
+	public void canRecoverAccount_newRecover() throws NotFoundUserException {
+		Mockito
+			.when(userRepository.existByEmail(email))
+			.thenReturn(true);
+		
+		Mockito
+			.when(accountRecoverRepository.findOneByEmail(email))
+			.thenReturn(Optional.empty());
+		
+		userService.recoverAccount(email);
+	
+		Mockito
+			.verify(accountRecoverRepository, Mockito.times(1))
+			.save(Mockito.argThat(matcher -> {
+				AccountRecover ar = (AccountRecover)matcher;
+				return ar.getEmail().equals(email) &&
+						ar.getTimestamp() != null &&
+						!StringUtils.isEmpty(ar.getGuid());
+			}));
+		
+		Mockito
+			.verify(emailSender, Mockito.times(1))
+			.sendEmail(Mockito.startsWith(email), Mockito.startsWith("Spots Finder - email reset."), Mockito.contains("/views/user/recover/accept?guid="));
+	}
+	
+	@Test
+	public void canRecoverAccount_retrieveFromDatabase() throws NotFoundUserException {
+		String guid = UUID.randomUUID().toString();
+		Date date = new Date();
+		AccountRecover expectedAccountRecover = AccountRecover
+				.builder()
+				.email(email)
+				.guid(guid)
+				.id(15l)
+				.timestamp(date)
+				.build();
+		
+		Mockito
+			.when(userRepository.existByEmail(email))
+			.thenReturn(true);
+		
+		Mockito
+			.when(accountRecoverRepository.findOneByEmail(email))
+			.thenReturn(Optional.of(expectedAccountRecover));
+		
+		userService.recoverAccount(email);
+		
+		Mockito
+			.verify(userRepository, Mockito.times(1))
+			.existByEmail(email);
+		
+		Mockito
+			.verify(accountRecoverRepository, Mockito.times(1))
+			.findOneByEmail(email);
+		
+		Mockito
+			.verify(accountRecoverRepository, Mockito.times(1))
+			.save(Mockito.argThat(matcher -> {
+				AccountRecover ar = (AccountRecover)matcher;
+				return ar.getTimestamp() != date &&
+						ar.getGuid().equals(expectedAccountRecover.getGuid());
+			}));
+		
+		Mockito
+			.verify(emailSender, Mockito.times(1))
+			.sendEmail(Mockito.startsWith(email), Mockito.startsWith("Spots Finder - email reset."), Mockito.contains("/views/user/recover/accept?guid="));
 	}
 }

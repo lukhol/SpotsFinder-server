@@ -19,12 +19,10 @@ function resetPasswordEmail(){
 		type: "GET",
 		dataType: "text",
 		success: function(data) {
-			if(data == "OK") {
-				successMessageDiv.innerHTML = "Message with instruction has been send to " + email;
-				successMessageDiv.style.display = "inline-block";
-				errorMessageDiv.style.display = "none";
-				loaderContainer.style.display = "none";
-			}
+			successMessageDiv.innerHTML = "Message with instruction has been send to " + email;
+			successMessageDiv.style.display = "inline-block";
+			errorMessageDiv.style.display = "none";
+			loaderContainer.style.display = "none";
 		}, 
 		error: function(error) {
 			errorMessageDiv.innerHTML = "Not found email " + email;
