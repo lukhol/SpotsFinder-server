@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
@@ -41,14 +42,16 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final MessageSource messageSource;
+	private final EmailSender emailSender;
 	
 	@Autowired
 	public UserServiceImpl(@NonNull UserRepository userRepository, @NonNull PasswordEncoder passwordEncoder,
-			@NonNull RoleRepository roleRepository, @NonNull MessageSource messageSource){
+			@NonNull RoleRepository roleRepository, @NonNull MessageSource messageSource, @NonNull EmailSender emailSender){
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.roleRepository = roleRepository;
 		this.messageSource = messageSource;
+		this.emailSender = emailSender;
 	}
 	
 	@Override
@@ -200,5 +203,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean exists(Long id) {
 		return userRepository.exists(id);
+	}
+
+	@Override
+	public boolean recoverAccount(String email) throws NotFoundUserException {
+//		User userByEmail = userRepository
+//				.findOneByEmail(email)
+//				.orElseThrow(() -> new NotFoundUserException("Not foud user with email: " + email));
+		
+		
+		
+		return userRepository.existByEmail(email);
 	}
 }

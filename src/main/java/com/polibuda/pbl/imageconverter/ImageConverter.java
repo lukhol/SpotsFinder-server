@@ -7,13 +7,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
 import org.springframework.stereotype.Component;
 
 import com.polibuda.pbl.model.Image;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,13 +24,13 @@ public class ImageConverter {
 		private final static int MINIATURE_WIDTH = 350;
 		private final static int MINIATURE_HEIGHT = 350;
 		
-		
-		
 		public String createMiniature(Image firstPhoto) throws IOException {
 			log.info("Creating miniature from first photo.");
 			
 			String originalBase64 = firstPhoto.getImage();
-			byte[] originalInByteArray = Base64.decode(originalBase64);
+			Base64.Decoder decoder = Base64.getDecoder();
+			
+			byte[] originalInByteArray = decoder.decode(originalBase64);
 			InputStream inputStream = new ByteArrayInputStream(originalInByteArray);
 			BufferedImage original = ImageIO.read(inputStream);
 			
@@ -53,7 +53,8 @@ public class ImageConverter {
 			baos.flush();
 			byte[] afterInByteArray = baos.toByteArray();
 			baos.close();
-			String afterBase64 = Base64.encode(afterInByteArray);
+			Base64.Encoder encoder = Base64.getEncoder();
+			String afterBase64 = encoder.encodeToString(afterInByteArray);
 			
 			return afterBase64;
 		}

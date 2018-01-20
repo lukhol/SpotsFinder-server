@@ -96,4 +96,15 @@ public class UsersRestEndpoint {
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
+	
+	@GetMapping("/recover")
+	public ResponseEntity<?> recoverAccount(@RequestParam String emailAddress) throws NotFoundUserException {
+		
+		boolean result = userService.recoverAccount(emailAddress);
+		
+		if(result)
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
+		else 
+			return new ResponseEntity<String>("BAD", HttpStatus.NOT_FOUND);
+	}
 }

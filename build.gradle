@@ -34,6 +34,9 @@ dependencies {
 	testCompile("org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE")
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.6.8'
 	
+	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.8'
+	compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.2.3-1'
+	
 	compile("mysql:mysql-connector-java:5.1.41")
 	compile("org.modelmapper:modelmapper:1.1.0")
 	compile("org.projectlombok:lombok:1.16.18")
@@ -43,6 +46,13 @@ dependencies {
 	//Security with OAuth2 and JsonWebToken
 	compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.7.RELEASE'
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.1.0.RELEASE'
+	
+	//views
+	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.9.RELEASE'
+	compile group: 'javax.servlet.jsp.jstl', name: 'javax.servlet.jsp.jstl-api', version: '1.2.1'
+	compile group: 'taglibs', name: 'standard', version: '1.1.2'
+	compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '8.0.36'
+	compile group: 'org.webjars', name: 'jquery', version: '2.2.4'
 	
 	//compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.0.0.RELEASE'
 	//compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.0.0.RELEASE'

@@ -26,4 +26,6 @@ public interface UserService {
 	void saveAvatar(byte[] avatarBytes, long userId) throws IOException;
 	String setInternalAvatarUrl(User user);
 	byte[] getUserAvatar(long userId) throws NotFoundUserException, IOException;
+	
+	boolean recoverAccount(String email) throws NotFoundUserException;
 }

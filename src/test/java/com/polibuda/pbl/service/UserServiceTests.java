@@ -15,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
@@ -38,6 +39,9 @@ public class UserServiceTests {
 	@Mock
 	private RoleRepository roleRepository;
 	
+	@Mock
+	private EmailSender emailSender;
+	
 	@Autowired
 	private MessageSource messageSource;
 	
@@ -48,7 +52,7 @@ public class UserServiceTests {
 	
 	@Before
 	public void setUp(){
-		userService = new UserServiceImpl(userRepository, passwordEncoder, roleRepository, messageSource);
+		userService = new UserServiceImpl(userRepository, passwordEncoder, roleRepository, messageSource, emailSender);
 		
 		sampleUser = User.builder()
 				.id(1l)
