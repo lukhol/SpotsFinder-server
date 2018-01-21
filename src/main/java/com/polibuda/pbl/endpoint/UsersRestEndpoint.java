@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
+import com.polibuda.pbl.exception.ResetPasswordException;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.service.UserService;
 import com.polibuda.pbl.validator.ExternalUserValidator;
@@ -39,11 +40,6 @@ public class UsersRestEndpoint {
 		this.userService = userService;
 		this.registerUserValidator = registerUserValidator;
 		this.externalUserValidator = externalUserValidator;
-	}
-	
-	@GetMapping
-	public String testMapping(){
-		return "Ok";
 	}
 	
 	@GetMapping("/login")
@@ -104,5 +100,14 @@ public class UsersRestEndpoint {
 		userService.recoverAccount(emailAddress);
 			
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@GetMapping("resetPassword")
+	public ResponseEntity<?> resetPassword(@RequestParam String code, @RequestParam String email, @RequestParam String newPassword) throws ResetPasswordException, NotFoundUserException {
+		log.info("GET /user/resetPassword code={}, email={}, newPassword={}", code, email, newPassword);
+		
+		userService.resetPassword(code, email, newPassword);
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }

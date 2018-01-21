@@ -22,6 +22,7 @@ import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
+import com.polibuda.pbl.exception.ResetPasswordException;
 import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
@@ -250,5 +251,28 @@ public class UserServiceImpl implements UserService {
 			.append("\n\nSpots Finder");
 		
 		emailSender.sendEmail(email, "Spots Finder - email reset.", messageBuilder.toString());
+	}
+
+	@Override
+	public Optional<AccountRecover> findOneByGuid(String guid) {
+		return accountRecoverRepository.findOneByGuid(guid);
+	}
+
+	@Override
+	public void resetPassword(String code, String email, String newPassword) throws ResetPasswordException, NotFoundUserException {
+		AccountRecover accountRecover = accountRecoverRepository
+			.findOneByGuid(code)
+			.orElseThrow(() -> new ResetPasswordException("Link expired."));
+		
+		if(!accountRecover.getEmail().equals(email))
+			throw new ResetPasswordException("This link seems to be wrong. Try generate reset password link again.");
+		
+		User user = userRepository
+				.findOneByEmail(email)
+				.orElseThrow(() -> new NotFoundUserException("Not found user with provided email."));
+		
+		user.setPassword(passwordEncoder.encode(newPassword));
+		userRepository.save(user);
+		accountRecoverRepository.delete(accountRecover.getId());
 	}
 }

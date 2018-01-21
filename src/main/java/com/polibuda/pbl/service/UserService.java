@@ -7,6 +7,8 @@ import java.util.Optional;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
+import com.polibuda.pbl.exception.ResetPasswordException;
+import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.User;
 
 public interface UserService {
@@ -28,4 +30,6 @@ public interface UserService {
 	byte[] getUserAvatar(long userId) throws NotFoundUserException, IOException;
 	
 	void recoverAccount(String email) throws NotFoundUserException;
+	Optional<AccountRecover> findOneByGuid(String guid);
+	void resetPassword(String code, String email, String newPassword) throws ResetPasswordException, NotFoundUserException;
 }

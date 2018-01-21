@@ -1,10 +1,10 @@
 function resetPasswordEmail(){
-	var email = document.getElementById("email_input").value;
+	var email = document.getElementById("email-input").value;
 	
 	if(!validateEmail(email)) {
 		return;
 	}
-	
+
 	var loaderContainer = document.getElementById("loader-container");
 	
 	var successMessageDiv = document.getElementById("success-message");
@@ -39,8 +39,8 @@ function validateEmail(email) {
 }
 
 $(document).ready(function() {
-	$('#email_input').on('input', function() {
-		var input=$(this);
+	$('#email-input').on('input', function() {
+		var input = $(this);
 		var isEmail = validateEmail(input.val());
 		if(isEmail){
 			input.removeClass("invalid").addClass("valid");

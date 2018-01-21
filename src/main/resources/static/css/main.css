@@ -25,10 +25,7 @@ h2 {
 #container {
 	padding: 25px;
 	padding-left: 10px;
-}
-
-#password-container {
-	text-align: center;
+	color: white;
 }
 
 #success-message {
@@ -70,6 +67,7 @@ h2 {
     margin-right: 10px;
 }
 
+input[type=password],
 input[type=text] {
     padding: 15px;
     border: 1px solid #ccc;
@@ -83,33 +81,16 @@ input[type=text] {
     margin-right: 10px;
 }
 
-input.invalid, textarea.invalid{
+input.invalid, textarea.invalid {
 	border: 3px solid red;
 }
 
-input.valid, textarea.valid{
+input.valid, textarea.valid {
 	border: 3px solid green;
 }
 
 input.placeholder {
     text-align: center;
-}
-
-#input-section {
-	max-width: 400px;
-	min-width: 200px;
-	display: inline-block;
-}
-
-#password-container {
-	width: 100%;
-}
-
-#loader-container {
-	text-align: center;
-	display: inline-block;
-	padding: 10px;
-	display: none;
 }
 
 .loader {
