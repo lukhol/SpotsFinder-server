@@ -11,3 +11,10 @@ spring:
       max-file-size: 5MB
       max-request-size: 20MB
       enabled: true
+    encoding:
+      charset: UTF-8
+  messages:
+    encoding: UTF-8
+server:
+  tomcat:
+    uri-encoding: UTF-8

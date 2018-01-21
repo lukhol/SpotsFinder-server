@@ -1,10 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Forget password?</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>
+		<spring:message code="label.title.recoverAccount"/>
+	</title>
 	
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/recoverAccount.css">
@@ -14,7 +18,9 @@
 </head>
 <body>
 	<div id="header">
-		<h2>Spots Finder - reset password.</h2>
+		<h2>
+			<spring:message code="label.header.recoverAccount"/>
+		</h2>
 	</div>
 	
 	<div id="container">
@@ -23,7 +29,7 @@
 			
 			<input id="email-input" type="text" placeholder="email">
 			<br/>
-			<button class="button" type="button" onclick="resetPasswordEmail()">Reset password</button>
+			<button class="button" type="button" onclick="resetPasswordEmail()"><spring:message code="label.button.resetPassword"/></button>
 			
 			<div>
 				<div id="loader-container">
