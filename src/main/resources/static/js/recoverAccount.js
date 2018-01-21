@@ -22,13 +22,13 @@ function resetPasswordEmail(){
 		type: "GET",
 		dataType: "text",
 		success: function(data) {
-			successMessageDiv.innerHTML = "Message with instruction has been send to " + email;
+			successMessageDiv.innerHTML = $('#label-message-emailSend').val() + email;
 			successMessageDiv.style.display = "inline-block";
 			errorMessageDiv.style.display = "none";
 			loaderContainer.style.display = "none";
 		}, 
 		error: function(error) {
-			errorMessageDiv.innerHTML = "Not found email " + email;
+			errorMessageDiv.innerHTML = $('#label-message-emailNotFound').val() + email;
 			errorMessageDiv.style.display = "inline-block";
 			successMessageDiv.style.display = "none";
 			loaderContainer.style.display = "none";

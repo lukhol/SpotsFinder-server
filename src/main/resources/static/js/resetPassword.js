@@ -9,11 +9,11 @@ function resetPassword() {
 
     if(password != confirmPassword || password == '' || confirmPassword == ''){
         errorMessageDiv.style.display = "inline-block";
-        errorMessageDiv.innerHTML = "Provided passwords are not equal."
+        errorMessageDiv.innerHTML = $('#label-message-notEqualPasswords').val();
         return;
     } else if(password.length < 4 || confirmPassword.length < 4) {
         errorMessageDiv.style.display = "inline-block";
-        errorMessageDiv.innerHTML = "Password is to short. Must be more or equal than 5 character.";
+        errorMessageDiv.innerHTML = $('#label-message-wrongPassword').val();
         return;
     } else {
         errorMessageDiv.style.display = "none";
@@ -30,15 +30,15 @@ function resetPassword() {
         success: function(data) {
         	var container = document.getElementById("container");
         	container.style.textAlign = "center";
-        	container.innerHTML = "Password succesfully changed.";
+        	container.innerHTML = $('#label-message-passwordChanged').val();
         	
-        	successMessageDiv.innerHTML = "Password succesfully changed.";
+        	successMessageDiv.innerHTML = $('#label-message-passwordChanged').val();
 			successMessageDiv.style.display = "inline-block";
 			errorMessageDiv.style.display = "none";
 			loaderContainer.style.display = "none";
         },
         error: function(error) {
-            errorMessageDiv.innerHTML = "Something went wrong. " + JSON.parse(error.responseText).message;
+            errorMessageDiv.innerHTML = $('#label-message-somethingWrong').val() + JSON.parse(error.responseText).message;
 			errorMessageDiv.style.display = "inline-block";
 			successMessageDiv.style.display = "none";
 			loaderContainer.style.display = "none";

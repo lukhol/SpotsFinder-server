@@ -24,10 +24,24 @@
 	</div>
 	
 	<div id="container">
-		<input type="hidden" id="email" value="${email}"/>
-		<input type="hidden" id="code" value="${code}" />
-		<input type="hidden" id="base-url" value="${BASE_URL}" />
+		<div>
+			<input type="hidden" id="email" value="${email}"/>
+			<input type="hidden" id="code" value="${code}" />
+			<input type="hidden" id="base-url" value="${BASE_URL}" />
+			
+			<c:set var="msg1"><spring:message code="label.message.wrongPassword"/></c:set>
+			<input id="label-message-wrongPassword" type="hidden" value="${msg1 } "/>
+				
+			<c:set var="msg2"><spring:message code="label.message.passwordChanged"/></c:set>
+			<input id="label-message-passwordChanged" type="hidden" value="${msg2 } "/>
+			
+			<c:set var="msg3"><spring:message code="label.message.somethingWrong"/></c:set>
+			<input id="label-message-somethingWrong" type="hidden" value="${msg3 } "/>
+			
+			<c:set var="msg4"><spring:message code="label.message.notEqualPasswords"/></c:set>
+			<input id="label-message-notEqualPasswords" type="hidden" value="${msg4 } "/>
 		
+		</div>
 		<div id="password-container">
 			<h2> <spring:message code="label.message.changePassword" /> ${email} </h2>
 			<br/>
