@@ -19,6 +19,8 @@
 	
 	<div id="container">
 		<div id="password-container">
+			<input type="hidden" id="base-url" value="${BASE_URL}" />
+			
 			<input id="email-input" type="text" placeholder="email">
 			<br/>
 			<button class="button" type="button" onclick="resetPasswordEmail()">Reset password</button>

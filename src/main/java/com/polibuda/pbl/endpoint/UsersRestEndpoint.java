@@ -99,7 +99,7 @@ public class UsersRestEndpoint {
 		
 		userService.recoverAccount(emailAddress);
 			
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<String>("Success", HttpStatus.OK);
 	}
 	
 	@GetMapping("resetPassword")

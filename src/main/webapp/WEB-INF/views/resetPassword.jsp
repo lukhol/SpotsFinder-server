@@ -21,6 +21,8 @@
 	<div id="container">
 		<input type="hidden" id="email" value="${email}"/>
 		<input type="hidden" id="code" value="${code}" />
+		<input type="hidden" id="base-url" value="${BASE_URL}" />
+		
 		<div id="password-container">
 			<h2> Change password for: ${email} </h2>
 			<br/>

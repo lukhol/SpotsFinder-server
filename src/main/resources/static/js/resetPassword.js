@@ -21,9 +21,10 @@ function resetPassword() {
     
     var code = $('#code').val();
     var email = $('#email').val();
+    var baseUrl = $("#base-url").val();
 
     $.ajax({
-        url: 'http://localhost:8080/user/resetPassword?code=' + code + '&email=' + email + "&newPassword=" + password,
+        url: baseUrl + '/user/resetPassword?code=' + code + '&email=' + email + '&newPassword=' + password,
         type: "GET",
         dataType: "text",
         success: function(data) {

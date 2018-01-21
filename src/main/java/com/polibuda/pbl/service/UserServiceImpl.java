@@ -239,7 +239,7 @@ public class UserServiceImpl implements UserService {
 		StringBuilder urlStringBuilder = new StringBuilder();
 		urlStringBuilder
 			.append(BASE_URL)
-			.append("/views/user/recover/accept?guid=")
+			.append("/views/user/recover/")
 			.append(accountRecover.getGuid());
 		
 		StringBuilder messageBuilder = new StringBuilder();

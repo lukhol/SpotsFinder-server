@@ -387,7 +387,7 @@ public class UserServiceTests {
 		
 		Mockito
 			.verify(emailSender, Mockito.times(1))
-			.sendEmail(Mockito.startsWith(email), Mockito.startsWith("Spots Finder - email reset."), Mockito.contains("/views/user/recover/accept?guid="));
+			.sendEmail(Mockito.startsWith(email), Mockito.startsWith("Spots Finder - email reset."), Mockito.contains("/views/user/recover/"));
 	}
 	
 	@Test

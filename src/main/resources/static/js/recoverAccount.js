@@ -14,8 +14,11 @@ function resetPasswordEmail(){
 	errorMessageDiv.style.display = "none";
 	loaderContainer.style.display = "inline-block";
 	
+	var baseUrl = $("#base-url").val();
+	var queryUrl = baseUrl + '/user/recover?emailAddress=' + email;
+	
 	$.ajax({
-		url: 'http://localhost:8080/user/recover?emailAddress=' + email,
+		url: queryUrl,
 		type: "GET",
 		dataType: "text",
 		success: function(data) {
