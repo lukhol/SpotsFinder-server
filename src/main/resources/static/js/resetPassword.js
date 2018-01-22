@@ -11,7 +11,7 @@ function resetPassword() {
         errorMessageDiv.style.display = "inline-block";
         errorMessageDiv.innerHTML = $('#label-message-notEqualPasswords').val();
         return;
-    } else if(password.length < 4 || confirmPassword.length < 4) {
+    } else if(password.length < 5 || confirmPassword.length < 5) {
         errorMessageDiv.style.display = "inline-block";
         errorMessageDiv.innerHTML = $('#label-message-wrongPassword').val();
         return;

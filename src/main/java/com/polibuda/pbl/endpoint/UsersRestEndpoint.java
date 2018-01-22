@@ -17,6 +17,7 @@ import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.exception.ResetPasswordException;
+import com.polibuda.pbl.exception.UpdateUserException;
 import com.polibuda.pbl.model.User;
 import com.polibuda.pbl.service.UserService;
 import com.polibuda.pbl.validator.ExternalUserValidator;
@@ -102,7 +103,7 @@ public class UsersRestEndpoint {
 		return new ResponseEntity<String>("Success", HttpStatus.OK);
 	}
 	
-	@GetMapping("resetPassword")
+	@GetMapping("/resetPassword")
 	public ResponseEntity<?> resetPassword(@RequestParam String code, @RequestParam String email, @RequestParam String newPassword) throws ResetPasswordException, NotFoundUserException {
 		log.info("GET /user/resetPassword code={}, email={}, newPassword={}", code, email, newPassword);
 		
@@ -110,4 +111,24 @@ public class UsersRestEndpoint {
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> updateUser(@RequestBody User user) throws UpdateUserException{
+		log.info("POST /update userId = {}", user.getId());
+		
+		userService.updateUser(user);
+		
+		return null;
+	}
+	
+	@GetMapping("/checkfree")
+	public ResponseEntity<?> checkIfEmailIsFree(@RequestParam String emailAddress){
+		log.info("GET /check?emailAddress = {}", emailAddress);
+		
+		boolean exist = userService.existsByEmail(emailAddress);
+		
+		return new ResponseEntity<Boolean>(!exist, HttpStatus.OK);
+	}
+	
+	
 }

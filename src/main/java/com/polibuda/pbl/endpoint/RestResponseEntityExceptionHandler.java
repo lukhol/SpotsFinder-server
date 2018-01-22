@@ -18,6 +18,7 @@ import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.exception.ResetPasswordException;
+import com.polibuda.pbl.exception.UpdateUserException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RestResponseEntityExceptionHandler {//extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value= { InvalidPlaceException.class, GeocodingCityException.class, InvalidPlaceSearchException.class,
-			IOException.class, ResetPasswordException.class})
+			IOException.class, ResetPasswordException.class, UpdateUserException.class })
 	protected ResponseEntity<RestResponse<Void>> handlePlaceException(Exception ex, WebRequest request) {
 		log.error(ex.getMessage(), ex);
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);

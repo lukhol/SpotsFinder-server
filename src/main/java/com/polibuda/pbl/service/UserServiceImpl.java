@@ -23,6 +23,7 @@ import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.exception.ResetPasswordException;
+import com.polibuda.pbl.exception.UpdateUserException;
 import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
@@ -254,11 +255,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public Optional<AccountRecover> findOneByGuid(String guid) {
 		return accountRecoverRepository.findOneByGuid(guid);
 	}
 
 	@Override
+	@Transactional
 	public void resetPassword(String code, String email, String newPassword) throws ResetPasswordException, NotFoundUserException {
 		AccountRecover accountRecover = accountRecoverRepository
 			.findOneByGuid(code)
@@ -274,5 +277,29 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 		accountRecoverRepository.delete(accountRecover.getId());
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		return userRepository.existByEmail(email);
+	}
+
+	@Override
+	@Transactional
+	public User updateUser(User user) throws UpdateUserException {
+		if(userRepository.existByEmail(user.getEmail()))
+			throw new UpdateUserException("Not foud user with provided email!");
+		
+		User userFromDb = userRepository
+				.findOneById(user.getId())
+				.orElseThrow(() -> new UpdateUserException("Not found user with provided id!"));
+		
+		userFromDb.setFirstname(user.getFirstname());
+		userFromDb.setLastname(user.getLastname());
+		userFromDb.setEmail(user.getEmail());
+		
+		Optional<User> updateUser = userRepository.save(userFromDb);
+		
+		return updateUser.get();
 	}
 }

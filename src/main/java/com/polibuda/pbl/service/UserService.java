@@ -8,11 +8,13 @@ import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.exception.ResetPasswordException;
+import com.polibuda.pbl.exception.UpdateUserException;
 import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.User;
 
 public interface UserService {
 	boolean exists(Long id);
+	boolean existsByEmail(String email);
 	
 	User findUserByEmailAndPassword(String email, String password) throws NotFoundUserException;
 	Optional<User> findUserByFacebookId(String facebookId) throws NotFoundUserException;
@@ -22,6 +24,7 @@ public interface UserService {
 	User findExternalServiceUser(User externalUser) throws NotFoundUserException;
 	User registerExternalUser(User user, String externalAccessToken) throws RegisterExternalServiceUserException;
 	User updateUserInfo(User userToUpdate, User userWithNewInformation);
+	User updateUser(User user) throws UpdateUserException;
 	
 	User registerUser(User user, Locale locale) throws RegisterUserException;
 	
