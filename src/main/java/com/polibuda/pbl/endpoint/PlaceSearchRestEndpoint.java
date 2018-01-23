@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class PlaceSearchRestEndpoint {
 
 	@PostMapping
 	public ResponseEntity<?> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {
-		log.debug("POST /places/searches body: {}", searchDto);
+		log.info("POST /places/searches body: {}", searchDto);
 		
 		searchValidator.validate(searchDto);
 		List<LightPlaceDTO> places = placeService.search(searchDto);
@@ -53,9 +54,9 @@ public class PlaceSearchRestEndpoint {
 		return new ResponseEntity<List<LightPlaceDTO>>(places, httpStatus);
 	}
 	
-	@GetMapping
-	public ResponseEntity<?> searchUserPlaces(@RequestParam long userId) throws NotFoundUserException {
-		log.debug("GET /places/searches/{}", userId);
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> searchUserPlaces(@PathVariable long userId) throws NotFoundUserException {
+		log.info("GET /places/searches/{}", userId);
 		
 		List<LightPlaceDTO> places = placeService.searchByUserId(userId);
 		
