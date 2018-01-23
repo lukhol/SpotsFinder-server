@@ -23,7 +23,6 @@ import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
 import com.polibuda.pbl.exception.ResetPasswordException;
-import com.polibuda.pbl.exception.UpdateUserException;
 import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
@@ -503,83 +502,5 @@ public class UserServiceTests {
 		Mockito
 			.verify(accountRecoverRepository, Mockito.times(1))
 			.delete(1l);
-	}
-	
-	@Test(expected = UpdateUserException.class)
-	public void cannotUpdateUser_emailIsOccupied() throws UpdateUserException {
-		User user = User.builder()
-				.email(email)
-				.id(10l)
-				.build();
-		
-		Mockito
-			.when(userRepository.existByEmail(user.getEmail()))
-			.thenReturn(true);
-		
-		userService.updateUser(user);
-	}
-	
-	@Test(expected = UpdateUserException.class)
-	public void cannotUpdateUser_notFoundUserById() throws UpdateUserException {
-		User user = User.builder()
-				.email(email)
-				.id(10l)
-				.build();
-		
-		Mockito
-			.when(userRepository.existByEmail(user.getEmail()))
-			.thenReturn(false);
-		
-		Mockito
-			.when(userRepository.findOneById(user.getId()))
-			.thenReturn(Optional.empty());
-		
-		userService.updateUser(user);
-	}
-	
-	@Test
-	public void canUpdateUser() throws UpdateUserException {
-		User userWithNewInfo = User.builder()
-				.email("newemail@email.pl")
-				.id(10l)
-				.firstname("newfirstname")
-				.lastname("newlastname")
-				.build();
-		
-		User userFromDb = User.builder()
-				.email("oldemail@email.pl")
-				.firstname("oldfirstname")
-				.lastname("oldlastname")
-				.build();
-		
-		Mockito
-			.when(userRepository.existByEmail(userWithNewInfo.getEmail()))
-			.thenReturn(false);
-		
-		Mockito
-			.when(userRepository.findOneById(userWithNewInfo.getId()))
-			.thenReturn(Optional.of(userFromDb));
-		
-		Mockito
-			.when(userRepository.save(userFromDb))
-			.thenReturn(Optional.of(userFromDb));
-		
-		userService.updateUser(userWithNewInfo);
-		
-		assert userFromDb.getEmail().equals("newemail@email.pl");
-		assert userFromDb.getFirstname().equals("newfirstname");
-		assert userFromDb.getLastname().equals("newlastname");
-		
-		Mockito
-			.verify(userRepository, Mockito.times(1))
-			.existByEmail("newemail@email.pl");
-		
-		Mockito
-			.verify(userRepository, Mockito.times(1))
-			.findOneById(10l);
-		
-		Mockito
-			.verify(userRepository, Mockito.times(1))
-			.save(Mockito.isA(User.class));
 	}
 }
