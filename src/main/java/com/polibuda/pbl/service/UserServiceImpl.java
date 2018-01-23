@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public String setInternalAvatarUrl(User user) {
-		user.setAvatarUrl(String.format(String.format("%s%s%d.jpg", BASE_URL, "/user/avatar/", user.getId())));
+		user.setAvatarUrl(String.format(String.format("%s%d.jpg", "/user/avatar/", user.getId())));
 		userRepository.save(user);
 		return user.getAvatarUrl();
 	}
@@ -287,13 +287,24 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User updateUser(User user) throws UpdateUserException {
-		if(userRepository.existByEmail(user.getEmail()))
-			throw new UpdateUserException("Not foud user with provided email!");
 		
-		User userFromDb = userRepository
-				.findOneById(user.getId())
-				.orElseThrow(() -> new UpdateUserException("Not found user with provided id!"));
+		User userFromDb;
 		
+		Optional<User> optionalUserByEamil = userRepository
+				.findOneByEmail(user.getEmail());
+		
+		if(optionalUserByEamil.isPresent()) {
+			if(optionalUserByEamil.get().getId() != user.getId())
+				throw new UpdateUserException("Email is occupied by another user!");
+			else
+				userFromDb = optionalUserByEamil.get();
+		}
+		else {
+			userFromDb = userRepository
+					.findOneById(user.getId())
+					.orElseThrow(() -> new UpdateUserException("Could not find user with provided id!"));
+		}
+
 		userFromDb.setFirstname(user.getFirstname());
 		userFromDb.setLastname(user.getLastname());
 		userFromDb.setEmail(user.getEmail());

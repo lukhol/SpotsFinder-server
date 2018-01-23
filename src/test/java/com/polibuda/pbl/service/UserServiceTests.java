@@ -11,17 +11,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
 
 import com.polibuda.pbl.email.EmailSender;
 import com.polibuda.pbl.exception.NotFoundUserException;
 import com.polibuda.pbl.exception.RegisterExternalServiceUserException;
 import com.polibuda.pbl.exception.RegisterUserException;
+import com.polibuda.pbl.exception.ResetPasswordException;
+import com.polibuda.pbl.exception.UpdateUserException;
 import com.polibuda.pbl.model.AccountRecover;
 import com.polibuda.pbl.model.Role;
 import com.polibuda.pbl.model.User;
@@ -430,6 +432,154 @@ public class UserServiceTests {
 		
 		Mockito
 			.verify(emailSender, Mockito.times(1))
-			.sendEmail(Mockito.startsWith(email), Mockito.startsWith("Spots Finder - email reset."), Mockito.contains("/views/user/recover/accept?guid="));
+			.sendEmail(Mockito.startsWith(email), Mockito.startsWith("Spots Finder - email reset."), Mockito.contains("/views/user/recover/"));
+	}
+	
+	@Test(expected = ResetPasswordException.class)
+	public void cannotResetPassword_expiredBecauseNotFoundInDatabase() throws ResetPasswordException, NotFoundUserException {
+		String guid = UUID.randomUUID().toString();
+		
+		Mockito
+			.when(accountRecoverRepository.findOneByGuid(guid))
+			.thenReturn(Optional.empty());
+		
+		userService.resetPassword(guid, email, password);
+	}
+	
+	@Test(expected = ResetPasswordException.class)
+	public void cannotResetPassword_guidAndEmailAreNotForTheSameUser() throws ResetPasswordException, NotFoundUserException {
+		String guid = UUID.randomUUID().toString();
+		AccountRecover ar = AccountRecover
+				.builder()
+				.email("notgoodemail@email.com")
+				.timestamp(new Date())
+				.id(1l)
+				.guid(guid)
+				.build();
+		
+		Mockito
+			.when(accountRecoverRepository.findOneByGuid(guid))
+			.thenReturn(Optional.of(ar));
+		
+		userService.resetPassword(guid, email, password);
+	}
+	
+	@Test
+	public void canResetPassword() throws ResetPasswordException, NotFoundUserException {
+		String guid = UUID.randomUUID().toString();
+		AccountRecover ar = AccountRecover
+				.builder()
+				.email(email)
+				.timestamp(new Date())
+				.id(1l)
+				.guid(guid)
+				.build();
+		
+		User user = User
+				.builder()
+				.id(10l)
+				.password("password")
+				.build();
+		
+		Mockito
+			.when(accountRecoverRepository.findOneByGuid(guid))
+			.thenReturn(Optional.of(ar));
+		
+		Mockito
+			.when(userRepository.findOneByEmail(email))
+			.thenReturn(Optional.of(user));
+		
+		userService.resetPassword(guid, email, password);
+		
+		assert !user.getPassword().equals(password);
+		
+		Mockito
+			.verify(userRepository, Mockito.times(1))
+			.save(Mockito.argThat(matcher -> {
+				User userToMatch = (User)matcher;
+				return userToMatch.getId() == 10l;
+			}));
+		
+		Mockito
+			.verify(accountRecoverRepository, Mockito.times(1))
+			.delete(1l);
+	}
+	
+	@Test(expected = UpdateUserException.class)
+	public void cannotUpdateUser_emailIsOccupied() throws UpdateUserException {
+		User user = User.builder()
+				.email(email)
+				.id(10l)
+				.build();
+		
+		Mockito
+			.when(userRepository.existByEmail(user.getEmail()))
+			.thenReturn(true);
+		
+		userService.updateUser(user);
+	}
+	
+	@Test(expected = UpdateUserException.class)
+	public void cannotUpdateUser_notFoundUserById() throws UpdateUserException {
+		User user = User.builder()
+				.email(email)
+				.id(10l)
+				.build();
+		
+		Mockito
+			.when(userRepository.existByEmail(user.getEmail()))
+			.thenReturn(false);
+		
+		Mockito
+			.when(userRepository.findOneById(user.getId()))
+			.thenReturn(Optional.empty());
+		
+		userService.updateUser(user);
+	}
+	
+	@Test
+	public void canUpdateUser() throws UpdateUserException {
+		User userWithNewInfo = User.builder()
+				.email("newemail@email.pl")
+				.id(10l)
+				.firstname("newfirstname")
+				.lastname("newlastname")
+				.build();
+		
+		User userFromDb = User.builder()
+				.email("oldemail@email.pl")
+				.firstname("oldfirstname")
+				.lastname("oldlastname")
+				.build();
+		
+		Mockito
+			.when(userRepository.existByEmail(userWithNewInfo.getEmail()))
+			.thenReturn(false);
+		
+		Mockito
+			.when(userRepository.findOneById(userWithNewInfo.getId()))
+			.thenReturn(Optional.of(userFromDb));
+		
+		Mockito
+			.when(userRepository.save(userFromDb))
+			.thenReturn(Optional.of(userFromDb));
+		
+		userService.updateUser(userWithNewInfo);
+		
+		assert userFromDb.getEmail().equals("newemail@email.pl");
+		assert userFromDb.getFirstname().equals("newfirstname");
+		assert userFromDb.getLastname().equals("newlastname");
+		
+		Mockito
+			.verify(userRepository, Mockito.times(1))
+			.existByEmail("newemail@email.pl");
+		
+		Mockito
+			.verify(userRepository, Mockito.times(1))
+			.findOneById(10l);
+		
+		Mockito
+			.verify(userRepository, Mockito.times(1))
+			.save(Mockito.isA(User.class));
 	}
 }

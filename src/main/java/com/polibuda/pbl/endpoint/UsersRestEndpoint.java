@@ -2,9 +2,12 @@ package com.polibuda.pbl.endpoint;
 
 import java.util.Locale;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +30,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/user")
 public class UsersRestEndpoint {
@@ -95,7 +99,7 @@ public class UsersRestEndpoint {
 	}
 	
 	@GetMapping("/recover")
-	public ResponseEntity<?> recoverAccount(@RequestParam String emailAddress) throws NotFoundUserException {
+	public ResponseEntity<?> recoverAccount(@RequestParam @Email String emailAddress) throws NotFoundUserException {
 		log.info("GET /user/recover?emailAddress={}", emailAddress);
 		
 		userService.recoverAccount(emailAddress);
@@ -104,7 +108,7 @@ public class UsersRestEndpoint {
 	}
 	
 	@GetMapping("/resetPassword")
-	public ResponseEntity<?> resetPassword(@RequestParam String code, @RequestParam String email, @RequestParam String newPassword) throws ResetPasswordException, NotFoundUserException {
+	public ResponseEntity<?> resetPassword(@RequestParam String code, @RequestParam @Email String email, @RequestParam @Length(min = 5) String newPassword) throws ResetPasswordException, NotFoundUserException {
 		log.info("GET /user/resetPassword code={}, email={}, newPassword={}", code, email, newPassword);
 		
 		userService.resetPassword(code, email, newPassword);

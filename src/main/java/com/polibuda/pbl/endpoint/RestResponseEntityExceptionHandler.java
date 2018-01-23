@@ -1,6 +1,11 @@
 package com.polibuda.pbl.endpoint;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +47,17 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	public ResponseEntity<RestResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException error, WebRequest request)  {
 	   return parseErrors(error.getBindingResult());
+	}
+	
+	@ExceptionHandler(value = ConstraintViolationException.class)
+	public ResponseEntity<?> handleControllerFieldsValidationException(ConstraintViolationException exception, WebRequest request){
+		List<String> listOfErrors =  exception
+				.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.toList());
+		
+		return new ResponseEntity<List<String>>(listOfErrors, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(value = NotFoundUserException.class)
