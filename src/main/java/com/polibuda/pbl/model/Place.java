@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.polibuda.pbl.model.listeners.PlaceEntityListener;
 
 import lombok.AllArgsConstructor;
@@ -111,4 +113,8 @@ public class Place {
 	
 	@ManyToOne
 	private User owner;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="place", cascade=CascadeType.ALL)
+	private List<WrongPlaceReport> wrongPlaceReports;
 }

@@ -10,18 +10,15 @@ import com.polibuda.pbl.exception.GeocodingCityException;
 import com.polibuda.pbl.exception.NotFoundUserException;
 
 public interface PlaceService {
-
-	List<LightPlaceDTO> getAll();
-
 	HeavyPlaceDTO save(HeavyPlaceDTO placeDto) throws IOException, NotFoundUserException;
-
+	HeavyPlaceDTO update(HeavyPlaceDTO placeDTO) throws IOException, NotFoundUserException;
+	
+	void delete(Long placeId);
 	boolean exists(Long placeId);
 	
+	List<LightPlaceDTO> getAll();
 	HeavyPlaceDTO getById(Long placeId);
-
-	void delete(Long placeId);
-
-	List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException;
 	
+	List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException;
 	List<LightPlaceDTO> searchByUserId(long userId) throws NotFoundUserException;
 }

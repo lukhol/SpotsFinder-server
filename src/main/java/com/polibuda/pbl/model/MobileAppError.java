@@ -7,12 +7,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Builder
 @ToString
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class MobileAppError {
 
 	@Id
@@ -28,52 +36,4 @@ public class MobileAppError {
 	
 	@Column(columnDefinition="TEXT")
 	private String stackTraceString;
-
-	public Long getErrorId() {
-		return errorId;
-	}
-
-	public void setErrorId(Long errorId) {
-		this.errorId = errorId;
-	}
-
-	public String getWhereOccurred() {
-		return whereOccurred;
-	}
-
-	public void setWhereOccurred(String whereOccurred) {
-		this.whereOccurred = whereOccurred;
-	}
-
-	public DeviceInfo getDeviceInfo() {
-		return deviceInfo;
-	}
-
-	public void setDeviceInfo(DeviceInfo deviceInfo) {
-		this.deviceInfo = deviceInfo;
-	}
-
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getStackTraceString() {
-		return stackTraceString;
-	}
-
-	public void setStackTraceString(String stackTraceString) {
-		this.stackTraceString = stackTraceString;
-	}
 }

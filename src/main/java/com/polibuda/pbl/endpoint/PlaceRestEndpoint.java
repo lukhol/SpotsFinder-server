@@ -72,13 +72,13 @@ public class PlaceRestEndpoint {
 	
 	@PutMapping(value="/{placeId}")
 	//@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<HeavyPlaceDTO> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException, NotFoundUserException {
+	public ResponseEntity<Long> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException, NotFoundUserException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
 		placeValidator.validate(placeDto);
-		HeavyPlaceDTO place = placeService.save(placeDto);
+		HeavyPlaceDTO place = placeService.update(placeDto);
 		
-		return new ResponseEntity<HeavyPlaceDTO>(place, HttpStatus.CREATED);
+		return new ResponseEntity<Long>(place.getVersion(), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value="/{placeId}")

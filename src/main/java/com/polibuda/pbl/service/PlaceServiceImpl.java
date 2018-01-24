@@ -108,4 +108,10 @@ public class PlaceServiceImpl implements PlaceService {
 				.map(place -> placeMapper.mapToLightDTO(place))
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public HeavyPlaceDTO update(HeavyPlaceDTO placeDTO) throws IOException, NotFoundUserException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
