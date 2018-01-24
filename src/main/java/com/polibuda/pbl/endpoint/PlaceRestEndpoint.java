@@ -76,7 +76,7 @@ public class PlaceRestEndpoint {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
 		placeValidator.validate(placeDto);
-		HeavyPlaceDTO place = placeService.update(placeDto);
+		HeavyPlaceDTO place = placeService.save(placeDto);
 		
 		return new ResponseEntity<Long>(place.getVersion(), HttpStatus.CREATED);
 	}

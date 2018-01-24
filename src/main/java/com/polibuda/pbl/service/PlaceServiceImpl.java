@@ -59,7 +59,7 @@ public class PlaceServiceImpl implements PlaceService {
 		
 		placeToSave.setOwner(userOwner);
 		
-		if(placeToSave.getId() == null) {
+		if(placeToSave.getMainPhoto() == null) {
 			Image firstPhoto = placeToSave.getImages().get(0);
 			String miniature = imageConverter.createMiniature(firstPhoto);
 			
