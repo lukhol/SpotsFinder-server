@@ -42,7 +42,19 @@ function validateEmail(email) {
 }
 
 $(document).ready(function() {
-	$('#email-input').on('input', function() {
+//	//With jQuery:
+//	$('#email-input').on('input', function() {
+//		var input = $(this);
+//		var isEmail = validateEmail(input.val());
+//		if(isEmail){
+//			input.removeClass("invalid").addClass("valid");
+//		} else {
+//			input.removeClass("valid").addClass("invalid");
+//		}
+//	});
+	
+	var emailInput = document.getElementById('email-input');
+	emailInput.addEventListener('input', function() {
 		var input = $(this);
 		var isEmail = validateEmail(input.val());
 		if(isEmail){
@@ -51,4 +63,5 @@ $(document).ready(function() {
 			input.removeClass("valid").addClass("invalid");
 		}
 	});
+	
 });

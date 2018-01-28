@@ -10,6 +10,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -312,5 +314,28 @@ public class UserServiceImpl implements UserService {
 		Optional<User> updateUser = userRepository.save(userFromDb);
 		
 		return updateUser.get();
+	}
+	
+	@PostConstruct
+	public void userRoleInit() {
+		Role userRole = Role
+				.builder()
+				.description("Role for standard app users.")
+				.roleName("ROLE_USER")
+				.build();
+		
+		Role adminRole = Role
+				.builder()
+				.description("Role for admin users.")
+				.roleName("ROLE_ADMIN")
+				.build();
+		
+		if(!roleRepository.existByRoleName(userRole.getRoleName()))
+			roleRepository.save(userRole);
+		
+		if(!roleRepository.existByRoleName(adminRole.getRoleName()))
+			roleRepository.save(adminRole);
+		
+		log.info("Roles created!");
 	}
 }
