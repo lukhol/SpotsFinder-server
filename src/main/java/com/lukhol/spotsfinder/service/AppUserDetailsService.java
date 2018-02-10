@@ -30,14 +30,14 @@ public class AppUserDetailsService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		log.info("Checking userId: {} credential.", userId);
+	public UserDetails loadUserByUsername(String databaseUserId) throws UsernameNotFoundException {
+		log.info("Checking userId: {} credential.", databaseUserId);
 		
-		Long id = Long.valueOf(userId);
+		Long id = Long.valueOf(databaseUserId);
 		
 		User user = userRepository
 				.findOneById(id)
-				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s doesn't exist", userId)));
+				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s doesn't exist", databaseUserId)));
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		user.getRoles().forEach(role -> {

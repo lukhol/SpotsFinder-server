@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.lukhol.spotsfinder.dto.AddressDTO;
@@ -23,6 +24,7 @@ import com.lukhol.spotsfinder.model.Place;
 
 import lombok.NonNull;
 
+@Repository
 public class PlaceRepositoryImpl implements CustomPlaceRepository {
 
 	@PersistenceContext

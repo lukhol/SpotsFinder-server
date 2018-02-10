@@ -36,6 +36,7 @@ import lombok.ToString;
 @Entity
 @EntityListeners(value = PlaceEntityListener.class)
 @Table(name="PLACES")
+@org.hibernate.annotations.DynamicUpdate
 public class Place {
 
 	@Id
@@ -48,7 +49,7 @@ public class Place {
 	private List<Image> images;
 	
 	@Lob
-	@Column(name="MAIN_PHOTO", columnDefinition="mediumblob")
+	@Column(name="MAIN_PHOTO", columnDefinition="mediumblob", nullable = false)
 	private String mainPhoto;
 	
 	@Column(name="NAME", length=30)
@@ -111,10 +112,10 @@ public class Place {
 	@Column(name="VERSION")
 	private long version;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User owner;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="place", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="place", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<WrongPlaceReport> wrongPlaceReports;
 }

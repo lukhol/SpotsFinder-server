@@ -38,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+//@PropertySource("classpath:propertyfile.properites")
 public class UserServiceImpl implements UserService {
 
 	@Value("${user.avatar.path}")

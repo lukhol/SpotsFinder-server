@@ -12,9 +12,6 @@
 	
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/recoverAccount.css">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script type="text/javascript" src="/js/recoverAccount.js"></script>
 </head>
 <body>
 	<div id="header">
@@ -50,5 +47,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/recoverAccount.js"></script>
 </body>
 </html>

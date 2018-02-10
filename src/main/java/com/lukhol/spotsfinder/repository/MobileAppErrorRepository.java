@@ -8,5 +8,5 @@ import com.lukhol.spotsfinder.model.MobileAppError;
 
 @Transactional
 public interface MobileAppErrorRepository extends Repository<MobileAppError, Long> {
-	void save(MobileAppError mobileAppError);
+	MobileAppError save(MobileAppError mobileAppError);
 }

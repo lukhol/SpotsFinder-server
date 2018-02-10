@@ -49,7 +49,7 @@ public class FetchCityComponent {
 			double latitude = firstGeocodingResult.geometry.location.lat;
 			double longitude = firstGeocodingResult.geometry.location.lng;
 			
-			cretaeAndSaveNewGeocodingInformation(results, cityName);
+			createAndSaveNewGeocodingInformation(results, cityName);
 			
 			return new double[] { latitude, longitude };
 		} catch (ApiException | InterruptedException | IOException e) {
@@ -60,7 +60,7 @@ public class FetchCityComponent {
 		}
 	}
 	
-	private void cretaeAndSaveNewGeocodingInformation(GeocodingResult[] results, String searchingPhrase){
+	private void createAndSaveNewGeocodingInformation(GeocodingResult[] results, String searchingPhrase){
 		
 		try {
 			GeocodingResult result = results[0];
