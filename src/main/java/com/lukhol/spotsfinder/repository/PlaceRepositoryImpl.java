@@ -43,6 +43,11 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	}
 
 	@Override
+	public Place getReference(Long id) {
+		return entityManager.getReference(Place.class, id);
+	}
+	
+	@Override
 	public List<Place> search(PlaceSearchDTO searchCriteria) throws GeocodingCityException {
 		criteriaBuilder = entityManager.getCriteriaBuilder();
 		criteriaQuery = criteriaBuilder.createQuery(Place.class);
@@ -62,7 +67,7 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 		
 		return places != null ? places : Collections.emptyList();
 	}
-
+	
 	private Predicate[] addBooleanSelections(PlaceSearchDTO searchCriteria) {
 		
 		List<Predicate> conditions = new ArrayList<Predicate>();

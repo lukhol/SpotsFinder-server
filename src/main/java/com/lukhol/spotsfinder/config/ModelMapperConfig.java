@@ -74,11 +74,6 @@ public class ModelMapperConfig {
 				destination.setDeviceId(source.getDeviceId());
 				destination.setReasonComment(source.getReasonComment());
 				destination.setNotSkateboardPlace(source.isNotSkateboardPlace());
-				
-				if(source.getUser() == null || source.getUser().getId() == null || source.getUser().getId() <= 0)
-					destination.setUserId(0);
-				else
-					destination.setUserId(source.getUser().getId());
 					
 				return destination;
 			}

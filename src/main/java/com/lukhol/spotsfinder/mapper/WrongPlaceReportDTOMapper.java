@@ -24,7 +24,9 @@ public class WrongPlaceReportDTOMapper {
 		return modelMapper.map(wrongPlaceReportDto, WrongPlaceReport.class);
 	}
 	
-	public WrongPlaceReportDTO mapToWrongPlaceReportDTO(WrongPlaceReport wrongPlaceReport){
-		return modelMapper.map(wrongPlaceReport, WrongPlaceReportDTO.class);
+	public WrongPlaceReportDTO mapToWrongPlaceReportDTO(WrongPlaceReport wrongPlaceReport, Long userId){
+		WrongPlaceReportDTO wprDTO = modelMapper.map(wrongPlaceReport, WrongPlaceReportDTO.class);
+		wprDTO.setUserId(userId); //To avoid accessing wrongPlaceReport.getUser() to avoid select User from database and use only proxy object.
+		return wprDTO;
 	}
 }

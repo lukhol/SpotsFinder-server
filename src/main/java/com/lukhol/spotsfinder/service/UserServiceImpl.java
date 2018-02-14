@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 		user.setRoles(Arrays.asList(userRole));
 		user.setActive(true);
 		
-		user = userRepository.save(user).get();
+		user = userRepository.save(user);
 		
 		return user;
 	}
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 		userToUpdate.setLastname(userWithNewInformation.getLastname());
 		userToUpdate.setEmail(userWithNewInformation.getEmail());
 		userToUpdate.setAvatarUrl(userWithNewInformation.getAvatarUrl());
-		return userRepository.save(userToUpdate).get();
+		return userRepository.save(userToUpdate);
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
 		user.setRoles(Arrays.asList(userRole));
 		user.setActive(true);
 		
-		user = userRepository.save(user).get();
+		user = userRepository.save(user);
 		
 		user.setAvatarUrl(String.format("%s%s%d.jpg", BASE_URL, "/user/avatar/", user.getId())); //This will be save without call .save() because method is inside transaction.
 		
@@ -313,9 +313,7 @@ public class UserServiceImpl implements UserService {
 		userFromDb.setLastname(user.getLastname());
 		userFromDb.setEmail(user.getEmail());
 		
-		Optional<User> updateUser = userRepository.save(userFromDb);
-		
-		return updateUser.get();
+		return userRepository.save(userFromDb);
 	}
 	
 	@PostConstruct

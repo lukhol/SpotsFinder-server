@@ -17,6 +17,6 @@ public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRep
 	boolean exists(Long id);
 	List<Place> findAll();
 	Optional<Place> findOneById(Long id);
-	Place save(Place place);
 	List<Place> findByOwner(User owner);
+	Place save(Place place);
 }

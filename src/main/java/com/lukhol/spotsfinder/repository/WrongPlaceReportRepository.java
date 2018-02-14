@@ -7,7 +7,7 @@ import com.lukhol.spotsfinder.model.Place;
 import com.lukhol.spotsfinder.model.WrongPlaceReport;
 
 @Transactional
-public interface WrongPlaceReportRepository extends Repository<WrongPlaceReport, Long>{
+public interface WrongPlaceReportRepository extends Repository<WrongPlaceReport, Long>, CustomWrongPlaceReportRepository{
 	WrongPlaceReport save(WrongPlaceReport wrongPlaceRepository);
 	WrongPlaceReport findOneById(Long wrongPlaceReportId);
 	WrongPlaceReport findOneByDeviceIdAndPlace(String deviceId, Place place);

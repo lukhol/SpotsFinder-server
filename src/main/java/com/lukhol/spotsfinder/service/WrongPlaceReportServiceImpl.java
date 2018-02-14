@@ -13,6 +13,7 @@ import com.lukhol.spotsfinder.mapper.WrongPlaceReportDTOMapper;
 import com.lukhol.spotsfinder.model.Place;
 import com.lukhol.spotsfinder.model.WrongPlaceReport;
 import com.lukhol.spotsfinder.repository.PlaceRepository;
+import com.lukhol.spotsfinder.repository.UserRepository;
 import com.lukhol.spotsfinder.repository.WrongPlaceReportRepository;
 
 import lombok.NonNull;
@@ -24,24 +25,28 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 	private final PlaceRepository placeRepository;
 	private final WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper;
 	private final MessageSource messageSource;
+	private final UserRepository userRepository;
 	
 	@Autowired
 	public WrongPlaceReportServiceImpl(
 			@NonNull WrongPlaceReportRepository wrongPlaceReportRepository,
 			@NonNull PlaceRepository placeRepository,
 			@NonNull WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper,
-			@NonNull MessageSource messageSource) {
+			@NonNull MessageSource messageSource,
+			@NonNull UserRepository userRepository) {
 		super();
 		this.wrongPlaceReportRepository = wrongPlaceReportRepository;
 		this.placeRepository = placeRepository;
 		this.wrongPlaceReportDTOMapper = wrongPlaceReportDTOMapper;
 		this.messageSource = messageSource;
+		this.userRepository = userRepository;
 	}
 
 	@Override
 	@Transactional
 	public WrongPlaceReportDTO save(WrongPlaceReportDTO wrongPlaceReportDto, Locale locale) throws InvalidWrongPlaceReportException {
 		long placeIdFromDTO = wrongPlaceReportDto.getPlaceId();
+		long userIdFromDTo = wrongPlaceReportDto.getUserId();
 		long placeVersionFromDto = wrongPlaceReportDto.getPlaceVersion();
 		String deviceIdFromDto = wrongPlaceReportDto.getDeviceId();
 		String reasonCommentFromDto = wrongPlaceReportDto.getReasonComment();
@@ -60,7 +65,9 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 			throw new InvalidWrongPlaceReportException(messageSource.getMessage("error.reportNotFromApp", null, locale));
 		
 		wrongPlaceReport.setPlace(place);
-		wrongPlaceReport.setUser(null);
+		
+		if(userIdFromDTo > 0)
+			wrongPlaceReport.setUser(userRepository.getOne(userIdFromDTo));
 		
 		WrongPlaceReport existPlaceReportForThisDeviceAndPlace = wrongPlaceReportRepository.findOneByDeviceIdAndPlace(deviceIdFromDto, place);
 		
@@ -70,9 +77,9 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 			wrongPlaceReport = existPlaceReportForThisDeviceAndPlace;
 		}
 		
-		wrongPlaceReportRepository.save(wrongPlaceReport);
+		wrongPlaceReportRepository.persist(wrongPlaceReport);
 		
-		return wrongPlaceReportDTOMapper.mapToWrongPlaceReportDTO(wrongPlaceReport);
+		return wrongPlaceReportDTOMapper.mapToWrongPlaceReportDTO(wrongPlaceReport, userIdFromDTo);
 	}
 
 }

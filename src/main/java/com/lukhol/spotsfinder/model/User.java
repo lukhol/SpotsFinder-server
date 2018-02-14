@@ -54,7 +54,7 @@ public class User {
 	private String avatarUrl;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
-	@org.hibernate.annotations.Fetch(FetchMode.SUBSELECT)
+	@org.hibernate.annotations.Fetch(FetchMode.JOIN)
 	@JoinTable(
 		foreignKey = @ForeignKey(name = "user_in_role"), 
 		inverseForeignKey = @ForeignKey(name = "role_assigned_to_user")

@@ -183,7 +183,6 @@ public class ModelMapperConfigTest {
 		WrongPlaceReportDTO wrongPlaceReportDTO = mapper.map(wrongPlaceReport, WrongPlaceReportDTO.class);
 		
 		assert wrongPlaceReportDTO.getPlaceId() == wrongPlaceReport.getPlace().getId();
-		assert wrongPlaceReportDTO.getUserId() == wrongPlaceReport.getUser().getId();
 		assertSimpleFieldOnWrongPlace(wrongPlaceReportDTO, wrongPlaceReport);
 	}
 	

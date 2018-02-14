@@ -2,6 +2,7 @@ package com.lukhol.spotsfinder.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,11 +32,11 @@ public class WrongPlaceReport {
 	@Column(name="wrong_place_report_id")
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "reported_place")) //Name for db constraint
 	private Place place;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = true, foreignKey = @ForeignKey(name = "reporting_user"))
 	private User user;
 	
