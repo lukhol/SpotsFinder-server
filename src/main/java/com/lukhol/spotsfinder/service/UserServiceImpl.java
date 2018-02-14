@@ -205,7 +205,6 @@ public class UserServiceImpl implements UserService {
 			imageBytes = Files.readAllBytes(fileImage.toPath());
 		}
 		else{
-			//File anonymousUserFile = new File(String.format("%s/%s.jpg", AVATARS_PATH , "anonymous"));
 			File anonymousUserFile = new ClassPathResource("/static/images/anonymous.jpg").getFile();
 			imageBytes = Files.readAllBytes(anonymousUserFile.toPath());
 		}

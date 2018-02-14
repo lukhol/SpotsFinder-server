@@ -1,7 +1,7 @@
 spring.datasource:
     username: pbluser
     password: Pblpassword1;
-    url: jdbc:mysql://localhost:3306/spots_finder1?useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/spots_finder1?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC
 spring:
   jpa:
     show-sql: true
