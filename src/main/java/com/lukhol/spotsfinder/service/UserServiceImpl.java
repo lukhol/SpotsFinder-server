@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -204,7 +205,8 @@ public class UserServiceImpl implements UserService {
 			imageBytes = Files.readAllBytes(fileImage.toPath());
 		}
 		else{
-			File anonymousUserFile = new File(String.format("%s/%s.jpg", AVATARS_PATH , "anonymous"));
+			//File anonymousUserFile = new File(String.format("%s/%s.jpg", AVATARS_PATH , "anonymous"));
+			File anonymousUserFile = new ClassPathResource("/static/images/anonymous.jpg").getFile();
 			imageBytes = Files.readAllBytes(anonymousUserFile.toPath());
 		}
 		
