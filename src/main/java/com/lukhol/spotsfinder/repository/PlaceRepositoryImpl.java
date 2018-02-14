@@ -30,8 +30,8 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	@PersistenceContext
     private EntityManager entityManager;
 	
-	private CriteriaBuilder builder;
-	private CriteriaQuery<Place> criteria;
+	private CriteriaBuilder criteriaBuilder;
+	private CriteriaQuery<Place> criteriaQuery;
 	private Root<Place> root;
 	
 	private final FetchCityComponent fetchCity;
@@ -44,23 +44,21 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 
 	@Override
 	public List<Place> search(PlaceSearchDTO searchCriteria) throws GeocodingCityException {
-		builder = entityManager.getCriteriaBuilder();
-		criteria = builder.createQuery(Place.class);
-		root = criteria.from(Place.class);
-		criteria.select(root);
+		criteriaBuilder = entityManager.getCriteriaBuilder();
+		criteriaQuery = criteriaBuilder.createQuery(Place.class);
+		root = criteriaQuery.from(Place.class);
 		
-		Predicate booleanPredicates = builder.and(addBooleanSelections(searchCriteria));
-		
+		Predicate booleanPredicates = criteriaBuilder.and(addBooleanSelections(searchCriteria));
 		Predicate locationPredicates = addLocationSelections(searchCriteria.getLocation(), searchCriteria.getDistance());
 		Predicate typePredicates = addTypeSelections(searchCriteria.getType());
 		
-		criteria.where(builder.and(
-				booleanPredicates,
-				locationPredicates,
-				typePredicates
-				));
+		criteriaQuery
+			.select(root)
+			.where(booleanPredicates, locationPredicates, typePredicates);
 		
-		List<Place> places = entityManager.createQuery( criteria ).getResultList();
+		List<Place> places = entityManager
+				.createQuery(criteriaQuery)
+				.getResultList();
 		
 		return places != null ? places : Collections.emptyList();
 	}
@@ -69,27 +67,27 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 		
 		List<Predicate> conditions = new ArrayList<Predicate>();
 		
-		Optional.ofNullable(where("bowl", searchCriteria.isBowl())).ifPresent(conditions::add);
-		Optional.ofNullable(where("bank", searchCriteria.isBank())).ifPresent(conditions::add);
-		Optional.ofNullable(where("corners", searchCriteria.isCorners())).ifPresent(conditions::add);
-		Optional.ofNullable(where("curb", searchCriteria.isCurb())).ifPresent(conditions::add);
-		Optional.ofNullable(where("downhill", searchCriteria.isDownhill())).ifPresent(conditions::add);
-		Optional.ofNullable(where("gap", searchCriteria.isGap())).ifPresent(conditions::add);
-		Optional.ofNullable(where("handrail", searchCriteria.isHandrail())).ifPresent(conditions::add);
-		Optional.ofNullable(where("ledge", searchCriteria.isLedge())).ifPresent(conditions::add);
-		Optional.ofNullable(where("manualpad", searchCriteria.isManualpad())).ifPresent(conditions::add);
-		Optional.ofNullable(where("openYourMind", searchCriteria.isOpenYourMind())).ifPresent(conditions::add);
-		Optional.ofNullable(where("pyramid", searchCriteria.isPyramid())).ifPresent(conditions::add);
-		Optional.ofNullable(where("rail", searchCriteria.isRail())).ifPresent(conditions::add);
-		Optional.ofNullable(where("stairs", searchCriteria.isStairs())).ifPresent(conditions::add);
-		Optional.ofNullable(where("wallride", searchCriteria.isWallride())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("bowl", searchCriteria.isBowl())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("bank", searchCriteria.isBank())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("corners", searchCriteria.isCorners())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("curb", searchCriteria.isCurb())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("downhill", searchCriteria.isDownhill())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("gap", searchCriteria.isGap())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("handrail", searchCriteria.isHandrail())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("ledge", searchCriteria.isLedge())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("manualpad", searchCriteria.isManualpad())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("openYourMind", searchCriteria.isOpenYourMind())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("pyramid", searchCriteria.isPyramid())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("rail", searchCriteria.isRail())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("stairs", searchCriteria.isStairs())).ifPresent(conditions::add);
+		Optional.ofNullable(whereBooleanField("wallride", searchCriteria.isWallride())).ifPresent(conditions::add);
 		
 		return conditions.toArray(new Predicate[conditions.size()]);
 	}
 	
-	private Predicate where(String fieldName, boolean value) {
+	private Predicate whereBooleanField(String fieldName, boolean value) {
 		if(value) {
-			return builder.equal( root.get( fieldName ), value);
+			return criteriaBuilder.equal( root.get( fieldName ), value);
 		}
 		return null;
 	}
@@ -109,19 +107,19 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 		double latitudeDelta = getLatitudeDelta(distance);
 		double longitudeDelta = getLongitudeDelta(distance);
 		
-		Predicate latitudePredicate = builder.between( root.get("latitude"), coordinates[0] - latitudeDelta, coordinates[0] + latitudeDelta );
-		Predicate longitudePredicate = builder.between( root.get("longitude"), coordinates[1] - longitudeDelta, coordinates[1] + longitudeDelta );
+		Predicate latitudePredicate = criteriaBuilder.between( root.get("latitude"), coordinates[0] - latitudeDelta, coordinates[0] + latitudeDelta );
+		Predicate longitudePredicate = criteriaBuilder.between( root.get("longitude"), coordinates[1] - longitudeDelta, coordinates[1] + longitudeDelta );
 		
-		return builder.and(latitudePredicate, longitudePredicate);
+		return criteriaBuilder.and(latitudePredicate, longitudePredicate);
 	}
 
 	private Predicate addTypeSelections(int[] types) {
 		List<Predicate> conditions = new ArrayList<Predicate>();
 		for(int type : types) {
-			conditions.add( builder.equal( root.get("type"), type) );
+			conditions.add( criteriaBuilder.equal( root.get("type"), type) );
 		}
 		if(conditions.size() > 1) {
-			return builder.or(conditions.toArray(new Predicate[conditions.size()]));
+			return criteriaBuilder.or(conditions.toArray(new Predicate[conditions.size()]));
 		}
 		return conditions.get(0);
 	}

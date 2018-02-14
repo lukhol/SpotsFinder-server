@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void saveAvatar(byte[] avatarBytes, long userId) throws IOException {
-		FileOutputStream fos = new FileOutputStream(String.format("%s\\%d.jpg", AVATARS_PATH , userId)); 
+		FileOutputStream fos = new FileOutputStream(String.format("%s/%d.jpg", AVATARS_PATH , userId)); 
 		
 		try {
 		    fos.write(avatarBytes);
@@ -197,14 +197,14 @@ public class UserServiceImpl implements UserService {
 		if(!userRepository.exists(userId))
 			throw new NotFoundUserException("Not found user: " + userId);
 		
-		File fileImage = new File(String.format("%s\\%d.jpg", AVATARS_PATH , userId));
+		File fileImage = new File(String.format("%s/%d.jpg", AVATARS_PATH , userId));
 		byte[] imageBytes;
 		
 		if(fileImage.exists()){
 			imageBytes = Files.readAllBytes(fileImage.toPath());
 		}
 		else{
-			File anonymousUserFile = new File(String.format("%s\\%s.jpg", AVATARS_PATH , "anonymous"));
+			File anonymousUserFile = new File(String.format("%s/%s.jpg", AVATARS_PATH , "anonymous"));
 			imageBytes = Files.readAllBytes(anonymousUserFile.toPath());
 		}
 		
