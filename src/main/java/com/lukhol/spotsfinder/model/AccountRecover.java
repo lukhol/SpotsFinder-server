@@ -27,7 +27,7 @@ import lombok.Setter;
 public class AccountRecover {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long id;
 	
 	@Column(name = "email")

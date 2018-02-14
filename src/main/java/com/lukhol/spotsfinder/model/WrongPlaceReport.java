@@ -2,6 +2,7 @@ package com.lukhol.spotsfinder.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,16 +27,16 @@ import lombok.ToString;
 public class WrongPlaceReport {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	@Column(name="wrong_place_report_id")
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "reported_place")) //Name for db constraint
 	private Place place;
 	
 	@ManyToOne
-	@JoinColumn(nullable = true)
+	@JoinColumn(nullable = true, foreignKey = @ForeignKey(name = "reporting_user"))
 	private User user;
 	
 	private String reasonComment;

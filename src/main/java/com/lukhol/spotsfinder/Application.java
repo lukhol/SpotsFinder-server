@@ -6,9 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
+@SpringBootApplication 
 public class Application {
-
+	
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -22,4 +22,12 @@ public class Application {
 		properties.put("mail.smtp.port", "587");
 		return properties;
 	}
+	
+//	@Bean
+//	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+//		LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
+//		emfb.setDataSource(dataSource);
+//		emfb.setJpaVendorAdapter(jpaVendorAdapter);
+//		return emfb;
+//	}
 }

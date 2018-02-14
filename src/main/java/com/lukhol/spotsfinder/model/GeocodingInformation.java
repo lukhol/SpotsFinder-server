@@ -19,7 +19,7 @@ import lombok.Setter;
 public class GeocodingInformation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long geocodingId;
 
 	private String searchingPhrase;

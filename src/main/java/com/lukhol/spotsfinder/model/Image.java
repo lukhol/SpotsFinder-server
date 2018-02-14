@@ -27,7 +27,7 @@ public class Image {
 	
 	@Id
 	@Column(name="IMAGE_ID")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long id;
 	
 	@Lob

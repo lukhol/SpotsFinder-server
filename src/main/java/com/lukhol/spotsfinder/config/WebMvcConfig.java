@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Bean

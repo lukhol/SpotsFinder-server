@@ -24,7 +24,7 @@ import lombok.ToString;
 public class MobileAppError {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long errorId;
 	
 	@Embedded

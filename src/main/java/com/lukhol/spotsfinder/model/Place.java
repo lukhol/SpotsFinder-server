@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,11 +42,11 @@ public class Place {
 
 	@Id
 	@Column(name="PLACE_ID")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long id;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="FK_PLACE_ID")
+	@JoinColumn(name="FK_PLACE_ID", foreignKey = @ForeignKey(name = "place_image"))
 	private List<Image> images;
 	
 	@Lob
@@ -113,6 +114,7 @@ public class Place {
 	private long version;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "place_owner"))
 	private User owner;
 	
 	@JsonIgnore

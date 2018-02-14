@@ -133,6 +133,4 @@ public class UsersRestEndpoint {
 		
 		return new ResponseEntity<Boolean>(!exist, HttpStatus.OK);
 	}
-	
-	
 }

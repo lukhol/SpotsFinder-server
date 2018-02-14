@@ -23,7 +23,7 @@ import lombok.ToString;
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long id;
 	
 	@Column(unique = true)

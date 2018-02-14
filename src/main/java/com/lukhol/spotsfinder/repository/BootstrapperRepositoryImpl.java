@@ -16,11 +16,11 @@ public class BootstrapperRepositoryImpl implements BootstrapperRepository{
 	
 	@Override
 	public void createOAuthTables() {
-		Query queryAccessTokenTable = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS spots_finder1.oauth_access_token ( token_id VARCHAR(255), token LONG VARBINARY, authentication_id VARCHAR(255) PRIMARY KEY, user_name VARCHAR(255), client_id VARCHAR(255), authentication LONG VARBINARY, refresh_token VARCHAR(255) );");
-		Query queryRefreshTokenTable = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS spots_finder1.oauth_refresh_token ( token_id VARCHAR(255), token LONG VARBINARY, authentication LONG VARBINARY );");
+		//Query queryAccessTokenTable = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS spots_finder1.oauth_access_token ( token_id VARCHAR(255), token LONG VARBINARY, authentication_id VARCHAR(255) PRIMARY KEY, user_name VARCHAR(255), client_id VARCHAR(255), authentication LONG VARBINARY, refresh_token VARCHAR(255) );");
+		//Query queryRefreshTokenTable = entityManager.createNativeQuery("CREATE TABLE IF NOT EXISTS spots_finder1.oauth_refresh_token ( token_id VARCHAR(255), token LONG VARBINARY, authentication LONG VARBINARY );");
 	
-		queryAccessTokenTable.executeUpdate();
-		queryRefreshTokenTable.executeUpdate();
+		//queryAccessTokenTable.executeUpdate();
+		//queryRefreshTokenTable.executeUpdate();
 	}
 
 }
