@@ -22,6 +22,8 @@ import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.exception.ResetPasswordException;
 import com.lukhol.spotsfinder.exception.UpdateUserException;
 import com.lukhol.spotsfinder.model.User;
+import com.lukhol.spotsfinder.service.UserPasswordService;
+import com.lukhol.spotsfinder.service.UserRegisterService;
 import com.lukhol.spotsfinder.service.UserService;
 import com.lukhol.spotsfinder.validator.ExternalUserValidator;
 import com.lukhol.spotsfinder.validator.RegisterUserValidator;
@@ -36,13 +38,17 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersRestEndpoint {
 
 	private final UserService userService;
+	private final UserRegisterService userRegisterService;
+	private final UserPasswordService userPasswordService;
 	private final RegisterUserValidator registerUserValidator;
 	private final ExternalUserValidator externalUserValidator;
 	
 	@Autowired
-	public UsersRestEndpoint(@NonNull UserService userService, @NonNull RegisterUserValidator registerUserValidator,
-			@NonNull ExternalUserValidator externalUserValidator){
+	public UsersRestEndpoint(@NonNull UserService userService, @NonNull UserRegisterService userRegisterService, @NonNull UserPasswordService userPasswordService,
+			@NonNull RegisterUserValidator registerUserValidator,@NonNull ExternalUserValidator externalUserValidator){
 		this.userService = userService;
+		this.userRegisterService = userRegisterService;
+		this.userPasswordService = userPasswordService;
 		this.registerUserValidator = registerUserValidator;
 		this.externalUserValidator = externalUserValidator;
 	}
@@ -75,7 +81,7 @@ public class UsersRestEndpoint {
 			
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (NotFoundUserException e) {
-			user = userService.registerExternalUser(externalUser, externalAccessToken);
+			user = userRegisterService.registerExternalUser(externalUser, externalAccessToken);
 		}
 		
 		log.info("User with id: {}{} created and logged in.", user.getFacebookId(), user.getGoogleId());
@@ -91,7 +97,7 @@ public class UsersRestEndpoint {
 		
 		user.setPassword(psw);
 		registerUserValidator.validate(user);		
-		user = userService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
+		user = userRegisterService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
 		
 		log.info("Registering user with email: {} has been completed succesfully.", user.getEmail());
 		
@@ -102,7 +108,7 @@ public class UsersRestEndpoint {
 	public ResponseEntity<?> recoverAccount(@RequestParam @Email String emailAddress) throws NotFoundUserException {
 		log.info("GET /user/recover?emailAddress={}", emailAddress);
 		
-		userService.recoverAccount(emailAddress);
+		userPasswordService.recoverAccount(emailAddress);
 			
 		return new ResponseEntity<String>("Success", HttpStatus.OK);
 	}
@@ -111,7 +117,7 @@ public class UsersRestEndpoint {
 	public ResponseEntity<?> resetPassword(@RequestParam String code, @RequestParam @Email String email, @RequestParam @Length(min = 5) String newPassword) throws ResetPasswordException, NotFoundUserException {
 		log.info("GET /user/resetPassword code={}, email={}, newPassword={}", code, email, newPassword);
 		
-		userService.resetPassword(code, email, newPassword);
+		userPasswordService.resetPassword(code, email, newPassword);
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

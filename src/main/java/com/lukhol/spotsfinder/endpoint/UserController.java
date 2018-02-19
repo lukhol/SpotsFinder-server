@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lukhol.spotsfinder.model.AccountRecover;
-import com.lukhol.spotsfinder.service.UserService;
+import com.lukhol.spotsfinder.service.UserPasswordService;
 
 import lombok.NonNull;
 
@@ -19,11 +19,11 @@ public class UserController {
 	@Value("${server.baseurl}")
 	private String BASE_URL;
 	
-	private final UserService userService;
+	private final UserPasswordService userPasswordService;
 	
 	@Autowired
-	public UserController(@NonNull UserService userService) {
-		this.userService = userService;
+	public UserController(@NonNull UserPasswordService userPasswordService) {
+		this.userPasswordService = userPasswordService;
 	}
 	
 	@RequestMapping(value = "/views/user/recover", method = RequestMethod.GET)
@@ -35,7 +35,7 @@ public class UserController {
 	@RequestMapping(value = "/views/user/recover/{code}")
 	public String resetPassword(@PathVariable String code, Model model) throws Exception {
 		
-		AccountRecover ar = userService
+		AccountRecover ar = userPasswordService
 				.findOneByGuid(code)
 				.orElseThrow(() -> new Exception("This link expired."));
 		

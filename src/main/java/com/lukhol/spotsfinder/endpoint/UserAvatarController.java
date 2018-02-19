@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.model.User;
+import com.lukhol.spotsfinder.service.UserAvatarService;
 import com.lukhol.spotsfinder.service.UserService;
 
 import lombok.NonNull;
@@ -33,10 +34,12 @@ public class UserAvatarController {
 	@Value("${user.avatar.path}")
 	private String AVATARS_PATH;
 	
+	private final UserAvatarService userAvatarService;
 	private final UserService userService;
 	
 	@Autowired
-	public UserAvatarController(@NonNull UserService userService){
+	public UserAvatarController(@NonNull UserAvatarService userAvatarService, @NonNull UserService userService){
+		this.userAvatarService = userAvatarService;
 		this.userService = userService;
 	}
 	
@@ -44,7 +47,7 @@ public class UserAvatarController {
 	public void getUserAvatar(HttpServletResponse response, @PathVariable long userId) throws IOException, NotFoundUserException{
 		log.debug("GET /user/avatar/{}", userId);
 		
-		byte[] imageBytes = userService.getUserAvatar(userId);
+		byte[] imageBytes = userAvatarService.getUserAvatar(userId);
 		
 		response.setHeader("Cache-Control", "no-store");
 	    response.setHeader("Pragma", "no-cache");
@@ -65,8 +68,8 @@ public class UserAvatarController {
 				.findUserById(userId)
 				.orElseThrow(() -> new NotFoundUserException("User with this id does not exist."));
 		
-		userService.saveAvatar(inputMultipartFile.getBytes(), userId);
-		String avatarUrl = userService.setInternalAvatarUrl(user);
+		userAvatarService.saveAvatar(inputMultipartFile.getBytes(), userId);
+		String avatarUrl = userAvatarService.setInternalAvatarUrl(user);
 		
 		return new ResponseEntity<String>(avatarUrl, HttpStatus.OK);
 	}
