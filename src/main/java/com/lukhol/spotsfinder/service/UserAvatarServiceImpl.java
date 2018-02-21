@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 
 import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.model.User;
@@ -64,8 +65,8 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 			imageBytes = Files.readAllBytes(fileImage.toPath());
 		}
 		else{
-			File anonymousUserFile = new ClassPathResource("/static/images/anonymous.jpg").getFile();
-			imageBytes = Files.readAllBytes(anonymousUserFile.toPath());
+			ClassPathResource anonymousUserImgRes = new ClassPathResource("/static/images/anonymous.jpg");
+			imageBytes = FileCopyUtils.copyToByteArray(anonymousUserImgRes.getInputStream());
 		}
 		
 		return imageBytes;

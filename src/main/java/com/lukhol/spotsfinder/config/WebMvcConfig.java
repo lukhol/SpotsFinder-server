@@ -81,12 +81,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(
                 "/webjars/**",
-                "/img/**",
+                "/images/**",
                 "/css/**",
                 "/js/**")
                 .addResourceLocations(
                         "classpath:/META-INF/resources/webjars/",
-                        "classpath:/static/img/",
+                        "classpath:/WEB-INF/views/",
+                        "classpath:/static/images/",
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
