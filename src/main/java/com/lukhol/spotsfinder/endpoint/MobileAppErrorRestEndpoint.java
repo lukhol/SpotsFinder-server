@@ -20,13 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/errors")
-public class ErrorRestEndpoint {
+public class MobileAppErrorRestEndpoint {
 	
 	private final MobileAppErrorService errorService;
 	private final EmailSender emailSender;
 	
 	@Autowired
-	public ErrorRestEndpoint(@NonNull MobileAppErrorService errorService, @NonNull EmailSender emailSender){
+	public MobileAppErrorRestEndpoint(@NonNull MobileAppErrorService errorService, @NonNull EmailSender emailSender){
 		this.errorService = errorService;
 		this.emailSender = emailSender;
 	}

@@ -26,16 +26,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lukhol.spotsfinder.dto.WrongPlaceReportDTO;
-import com.lukhol.spotsfinder.endpoint.ReportPlaceRestEndpoint;
+import com.lukhol.spotsfinder.endpoint.PlaceReportRestEndpoint;
 import com.lukhol.spotsfinder.service.WrongPlaceReportService;
 import com.lukhol.spotsfinder.validator.WrongPlaceReportValidator;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest({ReportPlaceRestEndpoint.class, WrongPlaceReportValidator.class })
+@WebMvcTest({PlaceReportRestEndpoint.class, WrongPlaceReportValidator.class })
 public class ReportPlaceRestEndpointTests {
 
 	@Autowired
-	private ReportPlaceRestEndpoint reportPlaceRestEndpoint;
+	private PlaceReportRestEndpoint reportPlaceRestEndpoint;
 	
 	@MockBean
 	private WrongPlaceReportService wrongPlaceReportService;

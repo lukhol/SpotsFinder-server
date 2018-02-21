@@ -22,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class ReportPlaceRestEndpoint {
+public class PlaceReportRestEndpoint {
 
 	private final WrongPlaceReportValidator wrongPlaceReportValidator;
 	private final WrongPlaceReportService wrongPlaceReportService;
 	
 	@Autowired
-	public ReportPlaceRestEndpoint(@NonNull WrongPlaceReportValidator wrongPlaceReportValidator,
+	public PlaceReportRestEndpoint(@NonNull WrongPlaceReportValidator wrongPlaceReportValidator,
 			@NonNull WrongPlaceReportService wrongPlaceReportService) {
 		super();
 		this.wrongPlaceReportValidator = wrongPlaceReportValidator;

@@ -18,7 +18,17 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
-//@EnableWebMvc
+/*
+ * @EnableWebMvc //Don’t use @EnableWebMvc in Spring Boot, just include spring-web as a maven/gradle dependency and it will be autoconfigured. 
+ * source: https://dzone.com/articles/spring-boot-enablewebmvc-and-common-use-cases
+ * 
+ * Normally you would add @EnableWebMvc for a Spring MVC app, but Spring Boot adds it automatically when it sees spring-webmvc on the classpath.
+ * This flags the application as a web application and activates key behaviors such as setting up a DispatcherServlet.
+ * source: https://spring.io/guides/gs/spring-boot/
+ * 
+ * Conclusion: In spring boot i cannot add @EnableWebMvc. I have to add class which is extending WebMvcConfigurerAdapter
+ * and annotate it with @Configuration or @Component.
+*/
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Bean

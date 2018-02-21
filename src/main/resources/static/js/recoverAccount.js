@@ -16,7 +16,7 @@ function resetPasswordEmail(){
 	
 	var baseUrl = $("#base-url").val();
 	var queryUrl = baseUrl + '/user/recover?emailAddress=' + email;
-	
+		
 	$.ajax({
 		url: queryUrl,
 		type: "GET",

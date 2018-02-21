@@ -24,17 +24,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.lukhol.spotsfinder.email.EmailSender;
-import com.lukhol.spotsfinder.endpoint.ErrorRestEndpoint;
+import com.lukhol.spotsfinder.endpoint.MobileAppErrorRestEndpoint;
 import com.lukhol.spotsfinder.model.MobileAppError;
 import com.lukhol.spotsfinder.service.MobileAppErrorService;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-@WebMvcTest({ ErrorRestEndpoint.class })
+@WebMvcTest({ MobileAppErrorRestEndpoint.class })
 public class ErrorRestEndpointTests {
 	
 	@Autowired
-	private ErrorRestEndpoint errorRestEndpoint;
+	private MobileAppErrorRestEndpoint errorRestEndpoint;
 	
 	@Autowired
     private WebApplicationContext wac;
@@ -69,7 +69,7 @@ public class ErrorRestEndpointTests {
 	
 	@Test(expected = NullPointerException.class)
 	public void cannotCreateErrorRestEndpoint(){
-		errorRestEndpoint = new ErrorRestEndpoint(null,  null);
+		errorRestEndpoint = new MobileAppErrorRestEndpoint(null,  null);
 	}
 	
 	//@Test
