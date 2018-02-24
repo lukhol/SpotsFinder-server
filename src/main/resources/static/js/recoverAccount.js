@@ -41,6 +41,14 @@ function validateEmail(email) {
     return re.test(email.toLowerCase());
 }
 
+function showMenu() {
+	document.getElementById("myMenuNav").style.width = "100%";
+}
+
+function hideMenu() {
+	document.getElementById("myMenuNav").style.width = "0%";
+}
+
 $(document).ready(function() {
 //	//With jQuery:
 //	$('#email-input').on('input', function() {

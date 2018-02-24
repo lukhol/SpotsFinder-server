@@ -15,6 +15,7 @@ public interface PlaceService {
 	
 	void delete(Long placeId);
 	boolean exists(Long placeId);
+	boolean existAndBelongToUser(Long placeId, Long userId);
 	
 	List<LightPlaceDTO> getAll();
 	HeavyPlaceDTO getById(Long placeId);

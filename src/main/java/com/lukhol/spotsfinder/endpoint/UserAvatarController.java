@@ -66,7 +66,7 @@ public class UserAvatarController {
 		
 		User user = userService
 				.findUserById(userId)
-				.orElseThrow(() -> new NotFoundUserException("User with this id does not exist."));
+				.orElseThrow(() -> new NotFoundUserException(userId));
 		
 		userAvatarService.saveAvatar(inputMultipartFile.getBytes(), userId);
 		String avatarUrl = userAvatarService.setInternalAvatarUrl(user);

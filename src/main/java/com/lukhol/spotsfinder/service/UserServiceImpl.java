@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmailAndPassword(String email, String password) throws NotFoundUserException {
 		User user = userRepository
 				.findOneByEmail(email)
-				.orElseThrow(() -> new NotFoundUserException("Not found user by email."));
+				.orElseThrow(() -> new NotFoundUserException(String.format("Not found user with provided email: %s.", email)));
 		
 		if(passwordEncoder.matches(password, user.getPassword())){
 			return user;
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
 					.orElse(null);
 		
 		if(user == null)
-			throw new NotFoundUserException("Could not find external user.");
+			throw new NotFoundUserException(externalUser);
 				
 		return user;
 	}

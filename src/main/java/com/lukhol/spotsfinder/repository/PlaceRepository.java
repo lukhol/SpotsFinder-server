@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
 import com.lukhol.spotsfinder.model.Place;
 import com.lukhol.spotsfinder.model.User;
@@ -19,4 +21,7 @@ public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRep
 	Optional<Place> findOneById(Long id);
 	List<Place> findByOwner(User owner);
 	Place save(Place place);
+	
+	@Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Place p WHERE p.id=:placeId AND p.owner.id=:userId")
+	boolean existByIdAndUserId(@Param("placeId") Long placeId, @Param("userId") Long userId);
 }

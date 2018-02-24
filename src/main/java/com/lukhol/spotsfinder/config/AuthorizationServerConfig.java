@@ -22,7 +22,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	private final String clientId = "spotfinder";
 	private final String clientSecret = "spotfinderSecret";
-	private final String grantType = "password";
 	private final String scopeRead = "read";
 	private final String scopeWrite = "write";
 	private final String resourceIds = "resourcesId";
@@ -41,7 +40,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		configurer
 			.inMemory()
 			.withClient(clientId).secret(clientSecret)
-			.authorizedGrantTypes(grantType, "refresh_token", "client_credential")
+			.authorizedGrantTypes("password", "refresh_token", "client_credential")
+			.authorities("ROLE_CLIENT")
 			.scopes(scopeRead, scopeWrite)
 			.resourceIds(resourceIds)
 			.accessTokenValiditySeconds(60*60*24*30)
@@ -55,6 +55,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.userDetailsService(userDetailsService)
 			.authenticationManager(authenticationManager)
 			.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
+			//.pathMapping(defaultPath, customPath) // There I can set custom path mapping 
 	}
 	
 	@Override

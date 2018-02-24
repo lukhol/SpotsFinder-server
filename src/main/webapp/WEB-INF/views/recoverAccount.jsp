@@ -12,10 +12,12 @@
 	
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/recoverAccount.css">
+	<link rel="stylesheet" type="text/css" href="/css/overlapMenu.css">
 </head>
 <body>
 	<div id="header">
 		<h2>
+			<span style="font-size:30px;cursor:pointer; float:left;" onclick="showMenu()">&#9776;</span>
 			<spring:message code="label.header.recoverAccount"/>
 		</h2>
 	</div>
@@ -47,6 +49,16 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Menu: -->
+	<div id="myMenuNav" class="overlay" >
+		<a href="javascript:void(0)" class="closebtn" onclick="hideMenu()">&times;</a>
+		<div class="overlay-content">
+			<a href="/home">About</a>
+		    <a href="#">Help</a>
+		</div>
+	</div>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/recoverAccount.js"></script>
 </body>

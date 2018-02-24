@@ -56,7 +56,7 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 	public byte[] getUserAvatar(long userId) throws NotFoundUserException, IOException {
 		
 		if(!userRepository.exists(userId))
-			throw new NotFoundUserException("Not found user: " + userId);
+			throw new NotFoundUserException(userId);
 		
 		File fileImage = new File(String.format("%s/%d.jpg", AVATARS_PATH , userId));
 		byte[] imageBytes;

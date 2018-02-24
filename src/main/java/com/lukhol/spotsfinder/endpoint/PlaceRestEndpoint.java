@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,10 +73,19 @@ public class PlaceRestEndpoint {
 	
 	@PutMapping(value="/{placeId}")
 	//@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<Long> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId) throws InvalidPlaceException, IOException, NotFoundUserException {
+	public ResponseEntity<Long> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId, Authentication authentication) throws InvalidPlaceException, IOException, NotFoundUserException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
 		placeValidator.validate(placeDto);
+		
+		String userIdString = authentication.getName();
+		long userId = Long.parseLong(userIdString);
+		boolean exists = placeService.existAndBelongToUser(placeId, userId);
+		
+		if(!exists) {
+			new ResponseEntity<Long>(0l, HttpStatus.BAD_REQUEST); 
+		}
+		
 		HeavyPlaceDTO place = placeService.save(placeDto);
 		
 		return new ResponseEntity<Long>(place.getVersion(), HttpStatus.CREATED);
@@ -83,13 +93,16 @@ public class PlaceRestEndpoint {
 	
 	@DeleteMapping(value="/{placeId}")
 	//@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<String> delete(@PathVariable Long placeId) {
+	public ResponseEntity<String> delete(@PathVariable Long placeId, Authentication authentication) {
 		log.debug("DELETE /places/{}", placeId);
-		//TO DO: Only owner of place or admin should have opportunity to delete place.
-		boolean exists = placeService.exists(placeId);
+		
+		String userIdString = authentication.getName();
+		long userId = Long.parseLong(userIdString);
+		
+		boolean exists = placeService.existAndBelongToUser(placeId, userId);
 		if(!exists) {
-			log.warn("No place with id = {}", placeId);
-			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+			log.warn("No place with id = {} belongs to user with id = {}", placeId, userId);
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		placeService.delete(placeId);
 		

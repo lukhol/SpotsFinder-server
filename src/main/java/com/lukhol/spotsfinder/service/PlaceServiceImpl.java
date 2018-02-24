@@ -55,7 +55,7 @@ public class PlaceServiceImpl implements PlaceService {
 		
 		User userOwner = userRepository
 				.findOneById(placeDto.getUserId())
-				.orElseThrow(() -> new NotFoundUserException("Not found user with provided id."));
+				.orElseThrow(() -> new NotFoundUserException(placeDto.getUserId()));
 		
 		placeToSave.setOwner(userOwner);
 		
@@ -75,6 +75,11 @@ public class PlaceServiceImpl implements PlaceService {
 		return placeRepository.exists(placeId);
 	}
 
+	@Override
+	public boolean existAndBelongToUser(Long placeId, Long userId) {
+		return placeRepository.existByIdAndUserId(placeId, userId);
+	}
+	
 	@Override
 	public HeavyPlaceDTO getById(Long placeId) {
 		Place place = placeRepository.findOneById(placeId).get();
@@ -99,7 +104,7 @@ public class PlaceServiceImpl implements PlaceService {
 	public List<LightPlaceDTO> searchByUserId(long userId) throws NotFoundUserException {
 		User user = userRepository
 				.findOneById(userId)
-				.orElseThrow(() -> new NotFoundUserException("Not found user with id: " + userId));
+				.orElseThrow(() -> new NotFoundUserException(userId));
 				
 		
 		return placeRepository

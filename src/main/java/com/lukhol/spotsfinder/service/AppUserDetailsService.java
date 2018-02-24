@@ -31,7 +31,7 @@ public class AppUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String databaseUserId) throws UsernameNotFoundException {
-		log.info("Checking userId: {} credential.", databaseUserId);
+		log.info("======> Checking userId: {} credential.", databaseUserId);
 		
 		Long id = Long.valueOf(databaseUserId);
 		
