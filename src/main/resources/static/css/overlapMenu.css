@@ -13,7 +13,7 @@
 .overlay-content {
 	position: relative;
 	top: 25%;
-	margin-top:30px;
+	margin-top: 30px;
 	width: 100%;
 	text-align: center;
 	color: white;
@@ -51,11 +51,23 @@
 	cursor: pointer;
 }
 
-@media screen and (max-height: 450px) {
-  .overlay a {font-size: 20px}
+@media (max-width: 600px) {
+  .overlay a { 
+  	font-size: 18px;
+  	transition: 0.5s;
+  }
   .overlay .closebtn {
-    font-size: 40px;
-    top: 20px;
-    right: 35px;
+    font-size: 20px;
+    top: 10px;
+    right: 17px;
+  }
+  .hamburger {
+  	top: 12px;
+	left: 15px;
+	font-size: 18px;
+	transition: 0.5s;
+  }
+  .overlay-content {
+  	font-size: 18px;
   }
 }

@@ -2,3 +2,10 @@
     max-width: 100%;
     height: auto;
 }
+
+@media (max-width: 600px) {
+  .header {
+  	font-size: 8px!important;
+  	transition: 0.5s;
+  }
+}
