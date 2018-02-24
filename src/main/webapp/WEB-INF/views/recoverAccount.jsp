@@ -16,8 +16,18 @@
 </head>
 <body>
 	<div id="header">
+	
+		<!-- Menu: -->
+		<div id="myMenuNav" class="overlay" >
+			<a href="javascript:void(0)" class="closebtn" onclick="hideMenu()">&times;</a>
+			<div class="overlay-content">
+				<a href="/home">About</a>
+			    <a href="#">Help</a>
+			</div>
+		</div>
+	
 		<h2>
-			<span style="font-size:30px;cursor:pointer; float:left;" onclick="showMenu()">&#9776;</span>
+			<span style="font-size:30px;cursor:pointer; float:left; margin: 10px;" onclick="showMenu()">&#9776;</span>
 			<spring:message code="label.header.recoverAccount"/>
 		</h2>
 	</div>
@@ -50,16 +60,8 @@
 		</div>
 	</div>
 	
-	<!-- Menu: -->
-	<div id="myMenuNav" class="overlay" >
-		<a href="javascript:void(0)" class="closebtn" onclick="hideMenu()">&times;</a>
-		<div class="overlay-content">
-			<a href="/home">About</a>
-		    <a href="#">Help</a>
-		</div>
-	</div>
-	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/recoverAccount.js"></script>
+	<script type="text/javascript" src="/js/menu.js"></script>
 </body>
 </html>
