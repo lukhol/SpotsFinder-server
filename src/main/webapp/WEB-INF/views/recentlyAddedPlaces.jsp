@@ -18,17 +18,17 @@
 	<ul>
 		<c:forEach items="${recentlyAddedPlaces}" var="place">
 			<li>
-				<div class="sf-border-white sf-card sf-responsive">
-					<a href="/views/places/${place.id}">
-						<div>
-							<img class="sf-image-resizeable" src="data:image/png;base64, ${place.mainPhoto }"/>
-							<div class="sf-center">
-								<h1> ${place.name} </h1>
-								<h2> ${place.description} </h2>
-							</div>
+				<div class="sf-border-white sf-card sf-responsive" style="cursor:pointer;">
+					<div onclick="openPlaceOverlayContainer(${place.id})">
+						<img class="sf-image-resizeable sf-image-circle" src="data:image/png;base64, ${place.mainPhoto }"/>
+						<div class="sf-center">
+							<h1> ${place.name} </h1>
+							<h2> ${place.description} </h2>
 						</div>
+					</div>
+					<a href="/views/places/${place.id}">
+						<button>Show</button>
 					</a>
-					<button onclick="showPlace(${place.id})">Show</button>
 				</div>
 			</li>
 		</c:forEach>

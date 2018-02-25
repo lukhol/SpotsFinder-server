@@ -4,7 +4,6 @@
 
 html, body {
 	width: 100%;
-	margin: 0;
 	padding: 0;
 	border: 0px solid white;
 	background-color: #282828;
@@ -12,12 +11,15 @@ html, body {
 }
 
 html {
-	height:100%;
+	height: 100%;
+	-ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
 	min-height: 100%;
 	position: relative;
+	margin: 0;
 }
 
 body::after {
@@ -53,7 +55,7 @@ h2 {
 	max-width: 1200px;
 	text-align: center;
 	padding: 15px;
-	min-height:100%;
+	min-height: 100%;
 }
 
 .container {
@@ -64,6 +66,7 @@ h2 {
 	text-align: center;
 	padding: 15px;
 	min-height:100%;
+	width: 100%;
 }
 
 #success-message {
@@ -205,11 +208,18 @@ input.placeholder {
     height: auto;
 }
 
+.sf-image-circle {
+	border-radius: 50%;
+	padding: 15px;
+}
+
 .sf-card {
-	background-color: black;
+	background-color: #232323;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 	box-shadow: 0 4px 8px 0 rgba(255,255,255,0.2);
     transition: 0.3s;
-    margin: 6px;
+   	margin: 8px;
 }
 
 .sf-card:hover {
@@ -230,25 +240,30 @@ input.placeholder {
 
 .sf-responsive {
     float: left;
-    width: 22.99999%;
+    width: 23%;
 }
 
 @media only screen and (max-width: 700px){
     .sf-responsive {
-        width: 45.99999%;
+        width: 48.5%;
     }
 }
 
 @media only screen and (max-width: 500px){
     .sf-responsive {
         width: 100%;
+        margin: 8px auto!important; /* */
     } 
+    
+    .sf-card:hover {
+		transform: scale(1.00);
+	}
 }
 
 /**/
 .sf-responsive-two {
     float: left;
-    width: 45.99999%;
+    width: 48%;
 }
 
 @media only screen and (max-width: 500px){
@@ -281,15 +296,14 @@ input.placeholder {
 	z-index: 8;
 	top: 10%;
 	left: 10%;
-	background-color: rgba(0,0,0, 0.8);
+	background-color: rgba(0,0,0, 0.95);
 	transition: 0.5s;
 	overflow-x: hidden;
 }
 
 .overlay-container .closebtn {
 	position: absolute;
-	top: 15px;
-	right: 45px;
+	right: 35px;
 	font-size: 60px;
 }
 
@@ -310,7 +324,7 @@ input.placeholder {
     .overlay-container .closebtn {
 		position: absolute;
 		right: 5px;
-		font-size: 20px;
+		font-size: 25px;
 	}
 	
 	.overlay-container {
@@ -323,6 +337,23 @@ input.placeholder {
 /*  */
 ul {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
+  
+}
+
+ul.obstacles {
+	list-style-type: disc;
+	margin-left: 15px;
+}
+
+ul:first-letter.obstacles {
+	text-transform: uppercase;
+}
+
+
+ul:first-letter {
+	text-transform: uppercase;
 }
 
 .loader-container {
@@ -330,4 +361,21 @@ ul {
 	display: inline-block;
 	padding: 10px;
 	display: none;
+}
+
+.col-container {
+	display: table;
+	width: 100%;
+}
+
+.col {
+	display: table-cell;
+	padding: 25px;
+}
+
+@media only screen and (max-width: 700px) {
+    .col {
+        display: block;
+        width: 100%;
+    }
 }
