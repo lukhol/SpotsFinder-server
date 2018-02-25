@@ -17,9 +17,14 @@
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
 	
-	<definition name="placePage" extends="mainLayout">
-		<put-attribute name="title" value="SpotsFinder - place"/>
-		<put-attribute name="body" value="/WEB-INF/views/place.jsp" />
+	<definition name="placeRecentlyAddedPage" extends="mainLayout">
+		<put-attribute name="title" value="SpotsFinder - recently added places"/>
+		<put-attribute name="body" value="/WEB-INF/views/recentlyAddedPlaces.jsp" />
+	</definition>
+	
+	<definition name="placeDetailsPage" extends="mainLayout">
+		<put-attribute name="title" value="SpotsFinder - place details"/>
+		<put-attribute name="body" value="/WEB-INF/views/placeDetails.jsp" />
 	</definition>
  
 </tiles-definitions>

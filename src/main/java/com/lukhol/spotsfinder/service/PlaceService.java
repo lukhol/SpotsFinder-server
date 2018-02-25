@@ -20,6 +20,7 @@ public interface PlaceService {
 	List<LightPlaceDTO> getAll();
 	HeavyPlaceDTO getById(Long placeId);
 	
+	List<LightPlaceDTO> getRecentlyAdded(int start, int count);
 	List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException;
 	List<LightPlaceDTO> searchByUserId(long userId) throws NotFoundUserException;
 }

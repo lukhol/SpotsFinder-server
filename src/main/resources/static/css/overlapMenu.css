@@ -7,7 +7,7 @@
 	left: 0;
 	background-color: rgba(0,0,0, 0.8);
 	transition: 0.5s;
-	overflow-x: hidden; /*idk*/
+	overflow-x: hidden;
 }
 
 .overlay-content {

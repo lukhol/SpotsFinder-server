@@ -70,12 +70,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
+				.csrf().disable()
 				.httpBasic().realmName(realmName)
 			.and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/places/**", "/welcome").authenticated()
-			.and()
-				.csrf().disable();
+				.antMatchers(HttpMethod.GET, "/places/**", "/welcome").authenticated();
 	}
 	
 	//@Order(1)

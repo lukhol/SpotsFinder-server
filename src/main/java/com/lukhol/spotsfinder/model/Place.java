@@ -1,5 +1,6 @@
 package com.lukhol.spotsfinder.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -112,6 +113,10 @@ public class Place {
 	
 	@Column(name="VERSION")
 	private long version;
+	
+	@Column(columnDefinition="DATETIME(3)")
+	@org.hibernate.annotations.CreationTimestamp
+	private Date creationTime;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, foreignKey = @ForeignKey(name = "place_owner"))

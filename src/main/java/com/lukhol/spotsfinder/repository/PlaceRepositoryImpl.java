@@ -68,6 +68,26 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 		return places != null ? places : Collections.emptyList();
 	}
 	
+	@Override
+	public List<Place> getRecentlyAdded(int index, int count) {
+		criteriaBuilder = entityManager.getCriteriaBuilder();
+		criteriaQuery = criteriaBuilder.createQuery(Place.class);
+		root = criteriaQuery.from(Place.class);
+		
+		criteriaQuery.orderBy(criteriaBuilder.desc(root.get("creationTime")));
+		
+		criteriaQuery
+			.select(root);
+		
+		List<Place> fetchedPlaces = entityManager
+				.createQuery(criteriaQuery)
+				.setFirstResult(index)
+				.setMaxResults(count)
+				.getResultList();
+		
+		return fetchedPlaces;
+	}
+	
 	private Predicate[] addBooleanSelections(PlaceSearchDTO searchCriteria) {
 		
 		List<Predicate> conditions = new ArrayList<Predicate>();

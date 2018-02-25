@@ -115,6 +115,21 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
+	public List<LightPlaceDTO> getRecentlyAdded(int start, int count) {
+		if(start < 0)
+			throw new IllegalArgumentException("Start index cannot be less than 0");
+		
+		if(count == 0)
+			throw new IllegalAccessError("Count cannot be less or equal 0");
+		
+		return placeRepository
+				.getRecentlyAdded(start,  count)
+				.stream()
+				.map(place -> placeMapper.mapToLightDTO(place))
+				.collect(Collectors.toList());
+	}
+	
+	@Override
 	public HeavyPlaceDTO update(HeavyPlaceDTO placeDTO) throws IOException, NotFoundUserException {
 		// TODO Auto-generated method stub
 		return null;

@@ -1,5 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
 <div class="header">
 	<div class="display-container">
 		<div class="hamburger" onclick="showMenu()">&#9776;</div>
@@ -17,8 +15,10 @@
 		<a href="javascript:void(0)" class="closebtn" onclick="hideMenu()">&times;</a>
 		<div class="overlay-content">
 			<a href="/home">Home page</a>
+			<hr/>
 		    <a href="/views/user/recover">Reset password</a>
-		    <a href="/views/places/random">Show random place</a>
+		    <hr/>
+		    <a href="/views/places/recentlyAdded?start=0&count=5">Recently added places</a>
 		</div>
 	</nav>
 </div>
