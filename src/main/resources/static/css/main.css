@@ -247,18 +247,22 @@ input.placeholder {
     .sf-responsive {
         width: 48.5%;
     }
+    .sf-card:hover {
+		transform: scale(1.00);
+	}
 }
 
 @media only screen and (max-width: 500px){
     .sf-responsive {
         width: 100%;
-        margin: 8px auto!important; /* */
+        margin: 8px auto!important; 
     } 
     
     .sf-card:hover {
 		transform: scale(1.00);
 	}
 }
+
 
 /**/
 .sf-responsive-two {

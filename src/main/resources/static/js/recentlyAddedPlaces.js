@@ -70,7 +70,7 @@ function displayPlace() {
 	placeContainer.innerHTML += '</div>'
 	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
 	for(let i = 0 ; i < currentPlace.images.length ; i++){
-		placeContainer.innerHTML += '<div class="sf-card-white sf-responsive-two"> <img class="sf-image-resizeable" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
+		placeContainer.innerHTML += '<div class="sf-card-white sf-responsive-two"> <img class="sf-image-resizeable" style="padding-right: 15px;" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
 	}
 	//placeContainer.innerHTML += '</div>';
 }
