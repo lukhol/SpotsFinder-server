@@ -45,4 +45,9 @@ public class PlaceController {
 		model.addAttribute("place", place);
 		return "placeDetailsPage";
 	}
+	
+	@RequestMapping(value = "/map")
+	public String map() {
+		return "placeMap";
+	}
 }

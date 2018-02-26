@@ -18,6 +18,8 @@
 			<hr/>
 		    <a href="/views/user/recover">Reset password</a>
 		    <hr/>
+		    <a href="/views/places/map">Map</a>
+		    <hr/>
 		    <a href="/views/places/recentlyAdded?start=0&count=5">Recently added places</a>
 		</div>
 	</nav>

@@ -17,6 +17,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
 	
+	<definition name="recoverAccountPage" extends="mainLayout">
+		<put-attribute name="title" value="SpotsFinder - recover account"/>
+		<put-attribute name="body" value="/WEB-INF/views/recoverAccount.jsp"/>
+	</definition>
+	
 	<definition name="placeRecentlyAddedPage" extends="mainLayout">
 		<put-attribute name="title" value="SpotsFinder - recently added places"/>
 		<put-attribute name="body" value="/WEB-INF/views/recentlyAddedPlaces.jsp" />
@@ -25,6 +30,11 @@
 	<definition name="placeDetailsPage" extends="mainLayout">
 		<put-attribute name="title" value="SpotsFinder - place details"/>
 		<put-attribute name="body" value="/WEB-INF/views/placeDetails.jsp" />
+	</definition>
+	
+	<definition name="placeMap" extends="mainLayout">
+		<put-attribute name="title" value="SpotsFinder - map of places" />
+		<put-attribute name="body" value="/WEB-INF/views/placeMap.jsp" />
 	</definition>
  
 </tiles-definitions>

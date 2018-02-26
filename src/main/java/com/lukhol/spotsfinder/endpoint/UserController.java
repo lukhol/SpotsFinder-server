@@ -33,7 +33,7 @@ public class UserController {
 	@RequestMapping(value = "/views/user/recover", method = RequestMethod.GET)
 	public String index(Model model) {
 		model.addAttribute("BASE_URL", BASE_URL);
-		return "recoverAccount";
+		return "recoverAccountPage";
 	}
 	
 	@RequestMapping(value = "/views/user/recover/{code}", method = RequestMethod.GET)
