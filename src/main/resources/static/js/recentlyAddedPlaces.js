@@ -9,7 +9,7 @@ function openPlaceOverlayContainer(placeId) {
 	var placeOverlayContainer = document.getElementById("placeOverlayContainer");
 	
 	if(viewPortWidth > 700) {
-		placeOverlayContainer.style.width = "80%";
+		placeOverlayContainer.style.width = "100%";
 	} else {
 		placeOverlayContainer.style.width = "100%";
 	}
@@ -18,6 +18,12 @@ function openPlaceOverlayContainer(placeId) {
 function closePlaceOverlayContainer() {
 	document.getElementById("placeOverlayContainer").style.width = "0%";
 }
+
+$(document).keyup(function(e) {
+    if (e.keyCode == 27) {
+    	closePlaceOverlayContainer();
+    }
+});
 
 function fetchPlace(placeId) {
 	let baseUrl = $("#base-url").val();
@@ -70,9 +76,23 @@ function displayPlace() {
 	placeContainer.innerHTML += '</div>'
 	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
 	for(let i = 0 ; i < currentPlace.images.length ; i++){
-		placeContainer.innerHTML += '<div class="sf-card-white sf-responsive-two"> <img class="sf-image-resizeable" style="padding-right: 15px;" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
+		placeContainer.innerHTML += '<div class="sf-responsive-two" style="padding: 10px;"> <img class="sf-image-resizeable" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
 	}
+	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
+	placeContainer.innerHTML += '<div style="width: 100%; height: 400px; padding: 10px; padding-top: 0px;"><div id="googleMap" style="width:100%; height: 100%;"></div></div>';
+	myGoogleMapsCallbackFun();
 	//placeContainer.innerHTML += '</div>';
+}
+
+function myGoogleMapsCallbackFun() {
+	let placePosition =  new google.maps.LatLng(currentPlace.location.latitude, currentPlace.location.longitude);
+	let mapProp = {
+		center: placePosition,
+		zoom: 15,
+	}
+	let marker = new google.maps.Marker({position: placePosition});
+	let map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+	marker.setMap(map);
 }
 
 function generateBooleanSection() {

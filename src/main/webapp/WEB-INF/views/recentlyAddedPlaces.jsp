@@ -26,9 +26,11 @@
 							<h2> ${place.description} </h2>
 						</div>
 					</div>
+					<!-- 
 					<a href="/views/places/${place.id}">
 						<button>Show</button>
 					</a>
+					 -->
 				</div>
 			</li>
 		</c:forEach>
@@ -37,3 +39,4 @@
 </div>
 
 <script type="text/javascript" src="/js/recentlyAddedPlaces.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSBIeH17u88T7qlXU34l7dRZgnB47VuM4&callback=myGoogleMapsCallbackFun"></script>

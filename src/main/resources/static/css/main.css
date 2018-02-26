@@ -267,7 +267,7 @@ input.placeholder {
 /**/
 .sf-responsive-two {
     float: left;
-    width: 48%;
+    width: 49.99999%;
 }
 
 @media only screen and (max-width: 500px){
@@ -294,15 +294,16 @@ input.placeholder {
 
 /* ========== OVERLAY CONTAINER ========== */
 .overlay-container {
-	height: 80%;
-	width: 80%;
+	height: 100%;
+	width: 100%;
 	position: fixed;
 	z-index: 8;
-	top: 10%;
-	left: 10%;
+	top: 0;
+	left: 0;
 	background-color: rgba(0,0,0, 0.95);
 	transition: 0.5s;
 	overflow-x: hidden;
+	margin-bottom: 25%!important;
 }
 
 .overlay-container .closebtn {
