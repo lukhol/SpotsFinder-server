@@ -213,6 +213,20 @@ input.placeholder {
 	padding: 15px;
 }
 
+.sf-big-on-hover {
+	
+}
+
+.sf-big-on-hover:hover {
+	transform: scale(1.02);
+}
+
+@media only screen and (max-width: 700px) {
+	.sf-big-on-hover:hover {
+		transform: scale(1.0);
+	}
+}
+
 .sf-card {
 	background-color: #232323;
 	border: 1px solid #ccc;
@@ -264,7 +278,7 @@ input.placeholder {
 }
 
 
-/**/
+/* ==== Responsive - TWO ==== */
 .sf-responsive-two {
     float: left;
     width: 49.99999%;
@@ -272,6 +286,18 @@ input.placeholder {
 
 @media only screen and (max-width: 500px){
     .sf-responsive-two {
+        width: 100%;
+    } 
+}
+
+/* ==== Responsive - FIVE ==== */
+.sf-responsive-five {
+    float: left;
+    width: 19.9999%;
+}
+
+@media only screen and (max-width: 500px){
+    .sf-responsive-five {
         width: 100%;
     } 
 }

@@ -68,20 +68,30 @@ function fetchPlace(placeId) {
 }
 
 function displayPlace() {
-	//placeContainer.innerHTML = '<div class="container">';
 	placeContainer.innerHTML = '<h1 class="sf-center">' + currentPlace.name + '</h1> <hr/>';
 	placeContainer.innerHTML += '<div class="col-container" style="background-color: yelow;">';
 	placeContainer.innerHTML += '<div class="col"> Description: <br>' + currentPlace.description + '</div>';
 	placeContainer.innerHTML += '<div class="col" style="background-color: yelow;"> Obstacles: <ul class="obstacles">' + generateBooleanSection() + '</ul> </div>';
 	placeContainer.innerHTML += '</div>'
 	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
+	
 	for(let i = 0 ; i < currentPlace.images.length ; i++){
-		placeContainer.innerHTML += '<div class="sf-responsive-two" style="padding: 10px;"> <img class="sf-image-resizeable" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
+		placeContainer.innerHTML += '<div class="sf-responsive-five sf-big-on-hover" style="padding: 10px; padding-top: 0px;"> <img class="sf-image-resizeable" onclick="selectImage(this);" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
 	}
+	
 	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
+	
+	let viewPortWidth = document.documentElement.clientWidth;
+	if(viewPortWidth > 700) {
+		placeContainer.innerHTML += '<div style="width: 100%; text-align: center; "><img id="selectedImage" class="sf-image-resizeable" src="data:image/png;base64, ' + currentPlace.images[0].image + '"/> </div>';
+	}
 	placeContainer.innerHTML += '<div style="width: 100%; height: 400px; padding: 10px; padding-top: 0px;"><div id="googleMap" style="width:100%; height: 100%;"></div></div>';
 	myGoogleMapsCallbackFun();
-	//placeContainer.innerHTML += '</div>';
+}
+
+function selectImage(imageToDisplay) {
+	let bigImage = document.getElementById("selectedImage");
+	bigImage.src = imageToDisplay.src;
 }
 
 function myGoogleMapsCallbackFun() {
