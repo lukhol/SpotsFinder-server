@@ -85,6 +85,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations(
                         "classpath:/META-INF/resources/webjars/",
                         "classpath:/WEB-INF/views/",
+                        "classpath:/WEB-INF/",
                         "classpath:/static/images/",
                         "classpath:/static/css/",
                         "classpath:/static/js/");
