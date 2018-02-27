@@ -1,5 +1,8 @@
 <div id="container">
-	<h1>Spring Boot - MVC & REST SpotsFinder</h1>
+
+	<div class="sf-sticky sf-center" style="background-color: #2d90a1; margin: 0px;">
+		<h1>Spring Boot - MVC & REST SpotsFinder</h1>
+	</div>
 	
 	<div style="text-align: justify;">
 		<p>
@@ -8,6 +11,7 @@
 	
 		<p>
 			Vestibulum et dui sed dolor porttitor vehicula vitae eget diam. Maecenas sit amet nibh mattis, maximus odio vitae, porttitor massa. Morbi at massa at tortor facilisis tincidunt eu non quam. Nullam convallis neque in lacus suscipit interdum. Maecenas id nisi semper enim consectetur commodo. Mauris vitae congue lorem. Nam eleifend molestie neque sit amet fringilla. Mauris in erat sapien. Vestibulum libero purus, gravida in sodales a, posuere sit amet orci.
+		</p>
 		
 		<p>
 			Nullam eu egestas turpis. Nullam sodales et felis eu sollicitudin. Nullam sit amet ex luctus, molestie orci vel, rhoncus metus. Suspendisse potenti. Fusce id libero libero. Integer commodo sit amet urna quis eleifend. Sed fringilla diam id pellentesque consectetur. Nam a eleifend metus. Curabitur rhoncus libero tempus dolor congue commodo. Duis quis posuere quam. Integer sit amet scelerisque tortor. Aliquam vestibulum, libero ut ultrices suscipit, mauris augue feugiat sapien, nec lacinia quam leo feugiat mi. Sed tempus augue at felis euismod condimentum. Praesent sed imperdiet est, sed tristique elit. Morbi vitae pellentesque eros.
@@ -20,7 +24,7 @@
 		<p>
 			Donec sollicitudin eros id tincidunt molestie. In blandit dolor id auctor volutpat. Cras commodo posuere lorem a cursus. Suspendisse commodo, nibh id aliquam egestas, lectus enim mattis libero, vitae sagittis est urna ac orci. Maecenas nec orci id tellus tempor venenatis nec eget mi. Praesent porta eu ex vitae hendrerit. Curabitur id rhoncus eros. Aenean vel scelerisque libero. Pellentesque auctor, lacus quis vehicula congue, nulla mauris lacinia est, eu feugiat nibh felis vel mi.
 		</p>
-	
+
 		<p>
 			Mauris eu placerat lorem. Integer lobortis, mi quis varius feugiat, odio metus scelerisque odio, et aliquet mi est vel tellus. Donec augue lorem, gravida et consectetur at, ullamcorper ac augue. Vivamus lobortis, sapien vitae malesuada maximus, ante nibh dignissim purus, nec hendrerit ligula arcu in sem. Pellentesque laoreet nulla vehicula mauris pellentesque elementum. Phasellus pulvinar mauris a facilisis rutrum. Phasellus dignissim purus sit amet lorem fringilla, at ornare nulla finibus. Sed dapibus metus gravida nulla tincidunt tristique.
 		</p>

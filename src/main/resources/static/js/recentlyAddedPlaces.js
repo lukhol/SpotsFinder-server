@@ -40,7 +40,7 @@ function fetchPlace(placeId) {
 	}
 	
 	if(doesArrayContainsPlace) {
-		displayPlace();
+		displayPlace(currentPlace);
 		return;
 	} else {
 		loaderContainer.style.display = "block";
@@ -58,8 +58,7 @@ function fetchPlace(placeId) {
 			loaderContainer.style.display = "none";
 			currentPlace = data;
 			downloadedPlaces.push(currentPlace);
-			
-			displayPlace();
+			displayPlace(currentPlace);
 		}, 
 		error: function(error) {
 			console.log(error);
@@ -67,25 +66,29 @@ function fetchPlace(placeId) {
 	});
 }
 
-function displayPlace() {
-	placeContainer.innerHTML = '<h1 class="sf-center">' + currentPlace.name + '</h1> <hr/>';
-	placeContainer.innerHTML += '<div class="col-container" style="background-color: yelow;">';
-	placeContainer.innerHTML += '<div class="col"> Description: <br>' + currentPlace.description + '</div>';
-	placeContainer.innerHTML += '<div class="col" style="background-color: yelow;"> Obstacles: <ul class="obstacles">' + generateBooleanSection() + '</ul> </div>';
-	placeContainer.innerHTML += '</div>'
-	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
+function displayPlace(placeToShow) {
+	let placeContainerInnerHTML = '';
+	placeContainerInnerHTML = '<h1 class="sf-center">' + placeToShow.name + '</h1> <hr/>';
+	placeContainerInnerHTML += '<div class="col-container" style="background-color: yelow;">';
+	placeContainerInnerHTML += '<div class="col"> Description: <br>' + placeToShow.description + '</div>';
+	placeContainerInnerHTML+= '<div class="col" style="background-color: yelow;"> Obstacles: <ul class="obstacles">' + generateBooleanSection(placeToShow) + '</ul> </div>';
+	placeContainerInnerHTML += '</div>';
+	//placeContainerInnerHTML += '<div class="sf-clearfix"></div>';
 	
-	for(let i = 0 ; i < currentPlace.images.length ; i++){
-		placeContainer.innerHTML += '<div class="sf-responsive-five sf-big-on-hover" style="padding: 10px; padding-top: 0px;"> <img class="sf-image-resizeable" onclick="selectImage(this);" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
+	placeContainerInnerHTML += '<div class="sf-wrapper" style="text-align: center overflow: auto;">';
+	for(let i = 0 ; i < placeToShow.images.length ; i++){
+		placeContainerInnerHTML += '<div class="sf-responsive-five sf-big-on-hover" style="padding: 10px; padding-top: 0px; display: inline-block;"> <img class="sf-image-resizeable" onclick="selectImage(this);" src="data:image/png;base64, ' + currentPlace.images[i].image + '"/> </div>';
 	}
-	
-	placeContainer.innerHTML += '<div class="sf-clearfix"></div>';
+	placeContainerInnerHTML += '<div class="sf-clearfix"></div>';
+	placeContainerInnerHTML += '</div>';
+	//placeContainerInnerHTML += '<div class="sf-clearfix"></div>';
 	
 	let viewPortWidth = document.documentElement.clientWidth;
 	if(viewPortWidth > 700) {
-		placeContainer.innerHTML += '<div style="width: 100%; text-align: center; "><img id="selectedImage" class="sf-image-resizeable" src="data:image/png;base64, ' + currentPlace.images[0].image + '"/> </div>';
+		placeContainerInnerHTML += '<div style="width: 100%; text-align: center;"><img id="selectedImage" class="sf-image-resizeable" src="data:image/png;base64, ' + placeToShow.images[0].image + '"/> </div>';
 	}
-	placeContainer.innerHTML += '<div style="width: 100%; height: 400px; padding: 10px; padding-top: 0px;"><div id="googleMap" style="width:100%; height: 100%;"></div></div>';
+	placeContainerInnerHTML += '<div style="width: 100%; height: 400px; padding: 10px; padding-top: 0px;"><div id="googleMap" style="width:100%; height: 100%;"></div></div>';
+	placeContainer.innerHTML = placeContainerInnerHTML;
 	myGoogleMapsCallbackFun();
 }
 
@@ -105,22 +108,22 @@ function myGoogleMapsCallbackFun() {
 	marker.setMap(map);
 }
 
-function generateBooleanSection() {
+function generateBooleanSection(placeToShow) {
 	let htmlCode = "";
-	htmlCode += generateBooleanListItemHtml(currentPlace.gap, "gap");
-	htmlCode += generateBooleanListItemHtml(currentPlace.stairs, "stairs");
-	htmlCode += generateBooleanListItemHtml(currentPlace.rail, "rail");
-	htmlCode += generateBooleanListItemHtml(currentPlace.ledge, "ledge");
-	htmlCode += generateBooleanListItemHtml(currentPlace.handrail, "handrail");
-	htmlCode += generateBooleanListItemHtml(currentPlace.corners, "corners");
-	htmlCode += generateBooleanListItemHtml(currentPlace.manualpad, "manualpad");
-	htmlCode += generateBooleanListItemHtml(currentPlace.wallride, "wallride");
-	htmlCode += generateBooleanListItemHtml(currentPlace.downhill, "downhill");
-	htmlCode += generateBooleanListItemHtml(currentPlace.openYourMind, "open your mind");
-	htmlCode += generateBooleanListItemHtml(currentPlace.pyramid, "pyramid");
-	htmlCode += generateBooleanListItemHtml(currentPlace.curb, "curb");
-	htmlCode += generateBooleanListItemHtml(currentPlace.bowl, "bowl");
-	htmlCode += generateBooleanListItemHtml(currentPlace.bank, "bank");
+	htmlCode += generateBooleanListItemHtml(placeToShow.gap, "gap");
+	htmlCode += generateBooleanListItemHtml(placeToShow.stairs, "stairs");
+	htmlCode += generateBooleanListItemHtml(placeToShow.rail, "rail");
+	htmlCode += generateBooleanListItemHtml(placeToShow.ledge, "ledge");
+	htmlCode += generateBooleanListItemHtml(placeToShow.handrail, "handrail");
+	htmlCode += generateBooleanListItemHtml(placeToShow.corners, "corners");
+	htmlCode += generateBooleanListItemHtml(placeToShow.manualpad, "manualpad");
+	htmlCode += generateBooleanListItemHtml(placeToShow.wallride, "wallride");
+	htmlCode += generateBooleanListItemHtml(placeToShow.downhill, "downhill");
+	htmlCode += generateBooleanListItemHtml(placeToShow.openYourMind, "open your mind");
+	htmlCode += generateBooleanListItemHtml(placeToShow.pyramid, "pyramid");
+	htmlCode += generateBooleanListItemHtml(placeToShow.curb, "curb");
+	htmlCode += generateBooleanListItemHtml(placeToShow.bowl, "bowl");
+	htmlCode += generateBooleanListItemHtml(placeToShow.bank, "bank");
 	return htmlCode;
 		
 }

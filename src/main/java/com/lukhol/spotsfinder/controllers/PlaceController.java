@@ -47,7 +47,8 @@ public class PlaceController {
 	}
 	
 	@RequestMapping(value = "/map")
-	public String map() {
+	public String map(Model model) {
+		model.addAttribute("BASE_URL", BASE_URL);
 		return "placeMap";
 	}
 }
