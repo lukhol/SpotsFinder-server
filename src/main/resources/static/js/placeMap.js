@@ -18,11 +18,11 @@ function geolocation() {
 function showPosition(position) {
 	latitude = position.coords.latitude;
 	longitude = position.coords.longitude;
-	myGoogleMapsCallbackFun();
+	myGoogleMapsCallbackFunTwo();
 	getSpotsFromServer();
 }
 
-function myGoogleMapsCallbackFun() {
+function myGoogleMapsCallbackFunTwo() {
 	let mapOptions = {
 		center: new google.maps.LatLng(latitude, longitude),
 		zoom: 15
@@ -97,7 +97,7 @@ function locatePlacesOnMap(placesArray) {
 		placeMarker.setMap(map);
 		
 		let placeHtmlContent = '<p style="color: black;">' + placesArray[i].name + '</p>' + '<img src="data:image/png;base64,' + placesArray[i].mainPhoto + '" style="width: 200px; height: 200px;"/>';
-		placeHtmlContent += '<a href="#" style="display: block;">More details</a>'
+		placeHtmlContent += '<a href="#" onClick="openPlaceOverlayContainer(' + placesArray[i].id + ');" style="display: block;">More details</a>'
 		
 		google.maps.event.addListener(placeMarker, 'click', function() {
 			var infoWindow = new google.maps.InfoWindow({

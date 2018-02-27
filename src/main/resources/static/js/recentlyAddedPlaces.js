@@ -40,7 +40,7 @@ function fetchPlace(placeId) {
 	}
 	
 	if(doesArrayContainsPlace) {
-		displayPlace(currentPlace);
+		displayPlace(currentPlace, placeContainer);
 		return;
 	} else {
 		loaderContainer.style.display = "block";
@@ -58,7 +58,7 @@ function fetchPlace(placeId) {
 			loaderContainer.style.display = "none";
 			currentPlace = data;
 			downloadedPlaces.push(currentPlace);
-			displayPlace(currentPlace);
+			displayPlace(currentPlace, placeContainer);
 		}, 
 		error: function(error) {
 			console.log(error);
@@ -66,7 +66,7 @@ function fetchPlace(placeId) {
 	});
 }
 
-function displayPlace(placeToShow) {
+function displayPlace(placeToShow, containerForPlace) {
 	let placeContainerInnerHTML = '';
 	placeContainerInnerHTML = '<h1 class="sf-center">' + placeToShow.name + '</h1> <hr/>';
 	placeContainerInnerHTML += '<div class="col-container" style="background-color: yelow;">';
@@ -88,8 +88,8 @@ function displayPlace(placeToShow) {
 		placeContainerInnerHTML += '<div style="width: 100%; text-align: center;"><img id="selectedImage" class="sf-image-resizeable" src="data:image/png;base64, ' + placeToShow.images[0].image + '"/> </div>';
 	}
 	placeContainerInnerHTML += '<div style="width: 100%; height: 400px; padding: 10px; padding-top: 0px;"><div id="googleMap" style="width:100%; height: 100%;"></div></div>';
-	placeContainer.innerHTML = placeContainerInnerHTML;
-	myGoogleMapsCallbackFun();
+	containerForPlace.innerHTML = placeContainerInnerHTML;
+	myGoogleMapsCallbackFun(placeToShow);
 }
 
 function selectImage(imageToDisplay) {
@@ -97,8 +97,8 @@ function selectImage(imageToDisplay) {
 	bigImage.src = imageToDisplay.src;
 }
 
-function myGoogleMapsCallbackFun() {
-	let placePosition =  new google.maps.LatLng(currentPlace.location.latitude, currentPlace.location.longitude);
+function myGoogleMapsCallbackFun(placeToShow) {
+	let placePosition =  new google.maps.LatLng(placeToShow.location.latitude, placeToShow.location.longitude);
 	let mapProp = {
 		center: placePosition,
 		zoom: 15,
@@ -124,8 +124,7 @@ function generateBooleanSection(placeToShow) {
 	htmlCode += generateBooleanListItemHtml(placeToShow.curb, "curb");
 	htmlCode += generateBooleanListItemHtml(placeToShow.bowl, "bowl");
 	htmlCode += generateBooleanListItemHtml(placeToShow.bank, "bank");
-	return htmlCode;
-		
+	return htmlCode;	
 }
 
 function generateBooleanListItemHtml(fieldValue, fieldName) {
