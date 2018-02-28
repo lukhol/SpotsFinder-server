@@ -19,6 +19,11 @@ function searchPlaces() {
 	let latitudeInput = document.getElementById("latitudeInput");
 	let longitudeInput = document.getElementById("longitudeInput");
 	
+	if(latitudeInput.value == "" || longitudeInput.value == "") {
+		showBottomMessage("Longitude or langitude is not a number. Correct this.");
+		return;
+	}
+	
 	//alert(latitudeInput.value + longitudeInput.value + distanceRange.value);
 	getSpotsFromServer(latitudeInput.value, longitudeInput.value, distanceRange.value);
 }
@@ -96,9 +101,9 @@ function getSpotsFromServer(lat, long, distance) {
 		},
 		error: function(error) {
 			if(error.status == "404") {
-				alert("Not found places with provided search criteria!");
+				showBottomMessage("Not found places with provided search criteria!");
 			} else {
-				alert("error");
+				showBottomMessage("Ups...Something went wrong :(")
 			}
 		}
 	});

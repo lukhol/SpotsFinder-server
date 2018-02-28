@@ -29,12 +29,13 @@
 	position: absolute;
 	top: 50%;
 	background-color: #454545;
-	right: -48px;
+	right: -55px;
 	z-index: 101;
 	text-align: center;
 	border-radius: 25%;
 	font-size: 20px;
 	padding: 10px;
+	z-index: -1;
 	
 	transform: rotate(90deg);
 	transform-origin: left top 0;
@@ -44,6 +45,15 @@
 	.sf-submenu-left-close {
 		right: -55px;
 	}
+}
+
+.sf-noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
 /*

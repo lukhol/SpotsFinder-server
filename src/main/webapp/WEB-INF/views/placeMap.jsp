@@ -15,10 +15,10 @@
 <!-- Popup with filters: -->
 <div class="sf-submenu-left">
 	<!-- Open/close button -->
-	<div class="sf-submenu-left-close">
+	<div class="sf-submenu-left-close sf-noselect">
 		Filter
 	</div>
-	<div class="sf-submenu-left-content">
+	<div class="sf-submenu-left-content" style="padding-right: 20px">
 		<div class="sf-wrapper">
 				<fieldset>
 					<legend>Search criteria</legend>

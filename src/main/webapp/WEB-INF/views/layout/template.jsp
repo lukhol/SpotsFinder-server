@@ -24,4 +24,12 @@
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
+	
+	<!-- Scroll to top button: -->
+	<div class="sf-scroll-to-top" style="display: none;">
+		^
+	</div>
+	
+	<!-- Universal message bottom popup -->
+	<div class="sf-bottom-message"></div>
 </body>
