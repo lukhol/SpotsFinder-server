@@ -8,6 +8,7 @@
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin: 5px;
 }
 
 .sf-slider:hover {
@@ -18,14 +19,14 @@
     -webkit-appearance: none;
     appearance: none;
     width: 10px;
-    height: 25px;
+    height: 15px;
     background: #4CAF50;
     cursor: pointer;
 }
 
 .sf-slider::-moz-range-thumb {
     width: 10px;
-    height: 25px;
+    height: 15px;
     background: #4CAF50;
     cursor: pointer;
 }

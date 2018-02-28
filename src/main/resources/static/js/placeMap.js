@@ -1,17 +1,33 @@
 var latitude = 0;
 var longitude = 0;
 
+$(document).ready(function() {
+	sliderFunction();
+	geolocation();
+});
+
 function sliderFunction() {
-	var slider = document.getElementById("distance-slider");
+	var slider = document.getElementById("distanceRange");
 	slider.oninput = function() {
 		let sliderValueDiv = document.getElementById("slider-value");
-		sliderValueDiv.innerHTML = this.value;
+		sliderValueDiv.innerHTML = "Distance: " + this.value + "km";
 	};
+}
+
+function searchPlaces() {
+	let distanceRange = document.getElementById("distanceRange");
+	let latitudeInput = document.getElementById("latitudeInput");
+	let longitudeInput = document.getElementById("longitudeInput");
+	
+	//alert(latitudeInput.value + longitudeInput.value + distanceRange.value);
+	getSpotsFromServer(latitudeInput.value, longitudeInput.value, distanceRange.value);
 }
 
 function geolocation() {
 	if(navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+		
 	}
 }
 
@@ -19,7 +35,7 @@ function showPosition(position) {
 	latitude = position.coords.latitude;
 	longitude = position.coords.longitude;
 	myGoogleMapsCallbackFunTwo();
-	getSpotsFromServer();
+	getSpotsFromServer(latitude, longitude, 10);
 }
 
 function myGoogleMapsCallbackFunTwo() {
@@ -31,8 +47,8 @@ function myGoogleMapsCallbackFunTwo() {
 	let map = new google.maps.Map(document.getElementById("mapWithPlaces"), mapOptions);
 }
 
-function getSpotsFromServer() {	
-	if(latitude == 0 && longitude == 0) {
+function getSpotsFromServer(lat, long, distance) {	
+	if(lat == 0 && long == 0) {
 		alert("Location problem.");
 		return;
 	}
@@ -45,15 +61,15 @@ function getSpotsFromServer() {
 		"bowl": false,
 		"corners": false,
 		"curb": false,
-		"distance": 10,
+		"distance": Number(distance),
 		"downhill": false,
 		"gap": false,
 		"handrail": false,
 		"ledge": false,
 		"location": {
 			"city": null,
-			"latitude": latitude,
-			"longitude": longitude
+			"latitude": Number(lat),
+			"longitude": Number(long)
 		},
 		"manualpad": false,
 		"openYourMind": false,
@@ -65,7 +81,7 @@ function getSpotsFromServer() {
 		],
 		"wallride": false
 	};
-		
+			
 	$.ajax({
 		url: queryUrl,
 		type: 'POST',
@@ -76,17 +92,21 @@ function getSpotsFromServer() {
 		    'Authorization': 'Basic c3BvdGZpbmRlcjpzcG90ZmluZGVyU2VjcmV0'
 		}, 
 		success: function(data) {
-			locatePlacesOnMap(data);
+			locatePlacesOnMap(data, lat, long);
 		},
 		error: function(error) {
-			alert("error");
+			if(error.status == "404") {
+				alert("Not found places with provided search criteria!");
+			} else {
+				alert("error");
+			}
 		}
 	});
 }
 
-function locatePlacesOnMap(placesArray) {
+function locatePlacesOnMap(placesArray, lat, long) {
 	let mapOptions = {
-		center: new google.maps.LatLng(latitude, longitude),
+		center: new google.maps.LatLng(lat, long),
 		zoom: 15
 	};
 	let map = new google.maps.Map(document.getElementById("mapWithPlaces"), mapOptions);
@@ -107,8 +127,3 @@ function locatePlacesOnMap(placesArray) {
 		});
 	}
 }
-
-$(document).ready(function() {
-	sliderFunction();
-	geolocation();
-});

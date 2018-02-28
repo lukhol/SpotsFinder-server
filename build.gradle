@@ -38,8 +38,9 @@ dependencies {
 	testCompile("org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE")
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.6.8'
 	
-	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.8'
-	compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.2.3-1'
+	//Necessary in Java 9
+	//compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.8'
+	//compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.2.3-1'
 	
 	compile("mysql:mysql-connector-java:6.0.6")
 	compile("org.modelmapper:modelmapper:1.1.0")

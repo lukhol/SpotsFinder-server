@@ -1,0 +1,54 @@
+.sf-submenu-left {
+	position: fixed;
+	width: 350px;
+	z-index: 100;
+	top: 25%;
+	left: -300px;
+	background-color: transparent;
+	transition: 0.3s;
+}
+
+.sf-submenu-left:hover {
+	left: 0px;
+	transition: 0.3s;
+}
+
+.sf-submenu-left-content {
+	background-color: #ffffff;
+	color: black;
+	height: 100%;
+	margin-right: 50px !important;
+	padding: 10px;
+	border: 1px solid white;
+	
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
+}
+
+.sf-submenu-left-close {
+	position: absolute;
+	top: 50%;
+	background-color: #454545;
+	right: -48px;
+	z-index: 101;
+	text-align: center;
+	border-radius: 25%;
+	font-size: 20px;
+	padding: 10px;
+	
+	transform: rotate(90deg);
+	transform-origin: left top 0;
+}
+
+@media only screen and (max-width: 700px) {
+	.sf-submenu-left-close {
+		right: -55px;
+	}
+}
+
+/*
+.sf-submenu-left-close:hover {
+	transform: scale(1.1);
+	cursor: pointer;
+}
+*/
