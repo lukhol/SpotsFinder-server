@@ -5,12 +5,21 @@
   	<groupId>com.lukhol</groupId>
   	<artifactId>spotsfinder-server</artifactId>
   	<version>1.0-SNAPSHOT</version>
-  	<packaging>jar</packaging>
+  	<packaging>war</packaging>
  
   	<name>SpotsFinder RestAPI and Webpage</name>
   	<url>.211.223.50:8088/home</url>
  
+ 	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+		<relativePath/>
+	</parent>
+ 
  	<properties>
+ 	    <maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -47,6 +56,14 @@
 		    <version>1.5.4.RELEASE</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <version>1.5.4.RELEASE</version>
+		</dependency>
+				
 		
 		<!-- Security with OAuth2 and JsonWebToken -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
@@ -182,12 +199,11 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.0.0.RELEASE</version>
-			</plugin>
-  	
-  	   		<!-- Compile plugin -->
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-maven-plugin</artifactId>
+		        <version>1.4.2.RELEASE</version>
+		    </plugin>
+			<!--  	
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -199,7 +215,6 @@
 				</configuration>
 			</plugin>
       
-      		<!-- Maven plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -209,7 +224,6 @@
 				</configuration>
 			</plugin>
 			
-			<!-- War plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-war-plugin</artifactId>
@@ -218,6 +232,7 @@
 			        <failOnMissingWebXml>false</failOnMissingWebXml>
 			    </configuration>
 			</plugin>
+			-->
 		</plugins>
 	</build>
 </project>
