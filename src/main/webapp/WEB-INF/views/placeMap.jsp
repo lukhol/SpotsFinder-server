@@ -39,11 +39,9 @@
 </div>
 
 <!-- Main page contante: -->
-<div id="container">
 	<div id="mapWithPlaces" class="sf-wrapper sf-center" style="width: 100%; height: 500px; display: inline-block; color: blac;">
 	</div>
 	<div class=".sf-clearfi"></div>
-</div>
 
 <!-- Page scripts: -->
 <script type="text/javascript" src="/js/placeMap.js"></script>
