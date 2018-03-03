@@ -15,7 +15,7 @@
 	top: 25%;
 	margin-top: 30px;
 	width: 100%;
-	text-align: center;
+	text-align: left;
 	color: white;
 }
 
@@ -26,6 +26,8 @@
 	color: #c0c0c0;
 	display: block;
 	transition: 0.4s;
+	font-size: 18px;
+	padding-left: 20px;
 }
 
 .overlay a:hover, .overlay a:focus {
@@ -36,7 +38,7 @@
 	position: absolute;
 	top: 15px;
 	right: 45px;
-	font-size: 60px;
+	font-size: 30px;
 }
 
 .overlay a:hover, .overlay a:focus {

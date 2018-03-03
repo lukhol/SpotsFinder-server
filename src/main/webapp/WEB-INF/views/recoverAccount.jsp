@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <link rel="stylesheet" type="text/css" href="/css/recoverAccount.css">
 
-<div id="container">
+<div class="sf-container">
 	<h2>
 		<spring:message code="label.header.recoverAccount"/>
 	</h2>

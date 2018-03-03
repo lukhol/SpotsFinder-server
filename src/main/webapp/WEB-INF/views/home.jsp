@@ -1,4 +1,4 @@
-<div id="container">
+<div class="sf-container">
 
 	<div class="sf-sticky sf-center" style="background-color: #2d90a1; margin: 0px;">
 		<h1>Spring Boot - MVC & REST SpotsFinder</h1>

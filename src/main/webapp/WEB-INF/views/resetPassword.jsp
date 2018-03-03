@@ -23,7 +23,7 @@
 		</h2>
 	</div>
 	
-	<div id="container">
+	<div class="container">
 		<div>
 			<input type="hidden" id="email" value="${email}"/>
 			<input type="hidden" id="code" value="${code}" />

@@ -5,7 +5,7 @@ $(document).keyup(function(e) {
 });
 
 function showMenu() {
-	document.getElementById("myMenuNav").style.width = "100%";
+	document.getElementById("myMenuNav").style.width = "20%";
 }
 
 function hideMenu() {

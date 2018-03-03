@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div id="placeOverlayContainer" class="overlay-container" style="width: 0%;">
 	<a href="javascript:void(0)" class="closebtn" onclick="closePlaceOverlayContainer()">&times;</a>
@@ -12,29 +13,27 @@
 	<div class="sf-clearfix"></div>
 </div>
 
-<div id="container">
+<div class="sf-container">
 	<input type="hidden" id="base-url" value="${BASE_URL}" />
 	
-	<ul>
-		<c:forEach items="${recentlyAddedPlaces}" var="place">
-			<li>
-				<div class="sf-border-white sf-card sf-responsive" style="cursor:pointer;">
-					<div onclick="openPlaceOverlayContainer(${place.id})">
+		<c:forEach items="${recentlyAddedPlaces}" var="place" varStatus="loop">
+			<c:if test="${loop.index == 0 || (loop.index%3) == 0}">
+			<div class="row row-eq-height">
+			</c:if>
+				<div class="card col-md-4 col-sm-4" style="cursor:pointer;">
+					<div onclick="openPlaceOverlayContainer(${place.id})" class="card-body sf-border-white sf-big-on-hover" style="margin-top: 30px; height: 100%;">
 						<img class="sf-image-resizeable sf-image-circle" src="data:image/png;base64, ${place.mainPhoto }"/>
 						<div class="sf-center">
 							<h1> ${place.name} </h1>
-							<h2> ${place.description} </h2>
+							<h3> ${place.description} </h3>
 						</div>
 					</div>
-					<!-- 
-					<a href="/views/places/${place.id}">
-						<button>Show</button>
-					</a>
-					 -->
 				</div>
-			</li>
+			<c:if test="${ ((loop.index%2) == 0 && loop.index != 0) || loop.last}">
+			</div><br><br>
+			</c:if>
 		</c:forEach>
-	</ul>
+	
 	<div class="sf-clearfix"></div>
 </div>
 
