@@ -30,7 +30,7 @@
 	
 	<!-- Handlebars: -->
 	<script type="text/javascript" src="/js/lib/handlebars.js"></script>
-	
+	<script type="text/javascript" src="/js/lib/handlebarsHelper.js"></script>
 	
 </head>
 <body>

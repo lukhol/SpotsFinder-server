@@ -1,7 +1,46 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <div class="sf-container">
 
 	<div class="sf-sticky sf-center" style="background-color: #2d90a1; margin: 0px;">
 		<h1>Spring Boot - MVC & REST SpotsFinder</h1>
+				
+		<!-- HANDLEBARS -->
+		<div id="containerForHandlebars" class="container">
+			<!-- Tutaj trafi kod z template poniżej.  -->
+		</div>
+		
+		<script id="placeDetailsTemplateScript" type="text/x-handlebars-template">
+			{{firstname}} {{lastname}}
+		</script>
+		<!--  -->
+		<script>
+			$(document).ready(function() {
+				let data = {
+					firstname: "Łukasz",
+					lastname: "Hołdrowicz",
+					age: 24, 
+					skills: [
+						{
+							name: "Java",
+							level: 8
+						},
+						{
+							name: "HTML",
+							level: 6
+						},
+						{
+							name: "CSS",
+							level: 4
+						}
+					]
+				};
+				
+				//executeHandlebarsTemplate("placeDetailsTemplateScript", "containerForHandlebars", data);
+				loadHandlebarsFromFile("person.hbs", "containerForHandlebars", data);
+				
+			});
+		</script>
 	</div>
 	
 	<div style="text-align: justify;">

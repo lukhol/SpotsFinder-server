@@ -1,0 +1,11 @@
+{{firstname}} {{lastname}}
+
+<ul>
+	{{#each skills}}
+		{{#ifCond level '>' 5}}
+			<li>{{name}} : {{level}}</li>
+		{{else}}
+			<li> {{name}}: Not enough skills. </li>
+		{{/ifCond}}
+	{{/each}}
+</ul>

@@ -8,7 +8,6 @@
 		<div class="sf-loader-big"></div>
 	</div>
 	<div id="place-container">
-		
 	</div>
 	<div class="sf-clearfix"></div>
 </div>
