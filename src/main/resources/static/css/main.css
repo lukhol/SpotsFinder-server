@@ -32,7 +32,7 @@ body {
 body::after {
   content: '';
   display: block;
-  height: 50px; /* Set same as footer's height */
+  height: 150px; /* Set same as footer's height */
 }
 
  article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{
@@ -294,7 +294,7 @@ input.placeholder {
     width: 23%;
 }
 
-@media only screen and (max-width: 700px){
+@media only screen and (max-width: 768px){
     .sf-responsive {
         width: 48.5%;
     }
@@ -487,4 +487,25 @@ ul:first-letter {
 	.row-eq-height {
 		display: block;
 	}
+}
+
+/*  Bootstrap changes */
+
+.modalContent {
+	background-color: white;
+	color: black;
+}
+
+.sf-top-margin {
+	margin-top: 10px;
+}
+
+footer a {
+	text-decoration: none;
+	color: white;
+}
+
+footer a:hover {
+	text-decoration: none;
+	cursor: pointer;
 }

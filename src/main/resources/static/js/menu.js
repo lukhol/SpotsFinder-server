@@ -5,7 +5,12 @@ $(document).keyup(function(e) {
 });
 
 function showMenu() {
-	document.getElementById("myMenuNav").style.width = "20%";
+	let viewPortWidth = document.documentElement.clientWidth;
+
+	if(viewPortWidth > 768)
+		document.getElementById("myMenuNav").style.width = "20%";
+	else 
+		document.getElementById("myMenuNav").style.width = "100%";
 }
 
 function hideMenu() {

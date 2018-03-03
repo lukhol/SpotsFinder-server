@@ -4,7 +4,10 @@
 		<img class="sf-image-resizeable" src="/images/skateboarding-background.jpg" alt="Skateboarding Background Image">
 		<div class="display-middle">
 			<h1>
+				<!--
 				<span class="opacity-min sf-black sf-padding sf-border-white"><b>SF</b></span>
+				-->
+				<kbd class="sf-padding sf-border-white">SF</kbd>
 				Spots Finder
 			</h1>
 		</div>

@@ -32,7 +32,7 @@
 					<label>Longitude: </label> <br>
 					<input type="number" id="longitudeInput" name="longitude" min="-180" max="180" step="0.00000001" value="19.45598330">
 					<br>
-					<button class="sf-button" onClick="searchPlaces()" style="margin-top: 10px;">Search</button>
+					<button class="btn-block btn-primary btn-lg" onClick="searchPlaces()" style="margin-top: 10px;">Search</button>
 				</fieldset>
 		</div>
 	</div>

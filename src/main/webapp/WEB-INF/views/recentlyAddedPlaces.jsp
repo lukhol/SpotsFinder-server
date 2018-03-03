@@ -21,8 +21,8 @@
 			<div class="row row-eq-height">
 			</c:if>
 				<div class="card col-md-4 col-sm-4" style="cursor:pointer;">
-					<div onclick="openPlaceOverlayContainer(${place.id})" class="card-body sf-border-white sf-big-on-hover" style="margin-top: 30px; height: 100%;">
-						<img class="sf-image-resizeable sf-image-circle" src="data:image/png;base64, ${place.mainPhoto }"/>
+					<div onclick="openPlaceOverlayContainer(${place.id})" class="card-body sf-border-white sf-big-on-hover" style="margin-top: 30px; height: 100%; padding: 10px;">
+						<img class="sf-image-resizeable img-rounded" src="data:image/png;base64, ${place.mainPhoto }"/>
 						<div class="sf-center">
 							<h1> ${place.name} </h1>
 							<h3> ${place.description} </h3>

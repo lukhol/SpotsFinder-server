@@ -28,6 +28,8 @@
 	transition: 0.4s;
 	font-size: 18px;
 	padding-left: 20px;
+	margin-right:0;
+	padding-right:0;
 }
 
 .overlay a:hover, .overlay a:focus {
