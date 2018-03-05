@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <div class="sf-container">
-
-	<div class="sf-sticky sf-center" style="background-color: #2d90a1; margin: 0px;">
-		<h1>Spring Boot - MVC & REST SpotsFinder</h1>
+	<!-- #2d90a1 -->
+	<div class="sf-center panel panel-primary" style="margin: 0px;">
+		<div class="panel-heading">
+			<h2><span class="label label-success">SpotsFinder</span><small style="color: white;"> Spring Boot MVC & RestAPI</small></h2>
+			<a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a>
+		</div>
 				
 		<!-- HANDLEBARS -->
-		<div id="containerForHandlebars" class="container">
+		<div id="containerForHandlebars" class="panel-body" style="background-color: #CDCDCD;">
 			<!-- Tutaj trafi kod z template poniżej.  -->
 		</div>
 		
@@ -38,10 +41,33 @@
 				
 				//executeHandlebarsTemplate("placeDetailsTemplateScript", "containerForHandlebars", data);
 				loadHandlebarsFromFile("person.hbs", "containerForHandlebars", data);
-				
 			});
 		</script>
 	</div>
+	
+	<br>
+	
+	<div class="container">
+		<div id="placeDetailsDiv">
+			<div class="loader">
+			</div>
+		</div>
+		<br>
+	</div>
+	
+	<script>
+		$(document).ready(function() {
+			fetchPlaceHandlebars(5, "placeDetailsDiv");
+			
+			$('#placeDetailsDiv').bind("DOMSubtreeModified",function(){
+				$('.small-place-img').mouseenter(function() {
+					let bigImage = document.getElementById("bigImagePlaceDetails");
+					bigImage.src = $(this).attr('src');
+				});
+			});
+		});
+	</script>
+	<script type="text/javascript" src="/js/placeDetails.js"></script>
 	
 	<div style="text-align: justify;">
 		<p>

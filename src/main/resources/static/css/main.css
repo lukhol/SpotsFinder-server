@@ -254,6 +254,11 @@ input.placeholder {
 	
 }
 
+.sf-image-test {
+	
+}
+
+
 .sf-big-on-hover:hover {
 	transform: scale(1.02);
 }
@@ -469,7 +474,7 @@ ul:first-letter {
 	border-radius: 4px;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 768px) {
 	.sf-sticky {
 		width: 100%;
 		margin 0px;
@@ -508,4 +513,13 @@ footer a {
 footer a:hover {
 	text-decoration: none;
 	cursor: pointer;
+}
+
+.list-group-item:hover {
+	transform: translateX(2px);
+	cursor: pointer;
+}
+
+.small-place-img {
+	
 }

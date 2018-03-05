@@ -1,11 +1,34 @@
-{{firstname}} {{lastname}}
-
-<ul>
-	{{#each skills}}
-		{{#ifCond level '>' 5}}
-			<li>{{name}} : {{level}}</li>
-		{{else}}
-			<li> {{name}}: Not enough skills. </li>
-		{{/ifCond}}
-	{{/each}}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#skills" data-toggle="tab">Umiejetnosci</a></li>
+	<li><a href="#profile" data-toggle="tab">Profile</a></li>
+	<li><a href="#messages" data-toggle="tab">Wiadomosci</a></li>
+	<li><a href="#settings" data-toggle="tab">Ustawienia</a></li>
 </ul>
+
+<div class="tab-content">
+	<div class="tab-pane active" id="skills">
+		<h3>{{firstname}} {{lastname}} </h3>
+		
+		<ul class="list-group" style="color:black;">
+			{{#each skills}}
+				{{#ifCond level '>' 5}}
+					<li class="list-group-item list-group-item-success">{{name}} <span class="badge badge-success">{{level}}</span></li>
+				{{else}}
+					<li class="list-group-item list-group-item-danger"> {{name}}: Not enough skills. <span class="badge badge-success">{{level}}</span> </li>
+				{{/ifCond}}
+			{{/each}}
+		</ul>
+	</div>
+	
+	<div class="tab-pane" id="profile">
+		<h3>Profile</h3>
+	</div>
+	
+	<div class="tab-pane" id="messages">
+		<h3>Messages</h3>
+	</div>
+	
+	<div class="tab-pane" id="settings">
+		<h3>Settings</h3>
+	</div>
+</div>

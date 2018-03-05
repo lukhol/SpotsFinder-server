@@ -1,9 +1,11 @@
+<!-- startpointer -->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <link rel="stylesheet" type="text/css" href="/css/recoverAccount.css">
 
-<div class="sf-container">
+<div class="sf-container">	
 	<h2>
 		<spring:message code="label.header.recoverAccount"/>
 	</h2>
@@ -36,3 +38,4 @@
 </div>
 
 <script type="text/javascript" src="/js/recoverAccount.js"></script>
+<!-- endpointer -->

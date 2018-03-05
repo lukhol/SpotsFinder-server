@@ -5,11 +5,12 @@ function executeHandlebarsTemplate(templateScriptId, htmlContainerId, data) {
 	document.getElementById(htmlContainerId).innerHTML = html;
 }
 
-function loadHandlebarsFromFile(templateScriptName, htmlContainerId, data){
+function loadHandlebarsFromFile(templateScriptName, htmlContainerId, data, callback){
 	 $.get('/template/' + templateScriptName, function(source){
 		 var template = Handlebars.compile(source);
 		 var html = template(data);
 		 $('#' + htmlContainerId).html(html);
+		 callback();
 	 });
 }
 

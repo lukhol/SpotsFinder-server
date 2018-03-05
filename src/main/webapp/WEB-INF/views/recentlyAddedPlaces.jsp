@@ -15,12 +15,15 @@
 <div class="sf-container">
 	<input type="hidden" id="base-url" value="${BASE_URL}" />
 	
+		<c:set var="count" value="0" scope="page" />
 		<c:forEach items="${recentlyAddedPlaces}" var="place" varStatus="loop">
+			<c:set var="count" value="${count + 1}" scope="page"/>
+			
 			<c:if test="${loop.index == 0 || (loop.index%3) == 0}">
 			<div class="row row-eq-height">
 			</c:if>
-				<div class="card col-md-4 col-sm-4" style="cursor:pointer;">
-					<div onclick="openPlaceOverlayContainer(${place.id})" class="card-body sf-border-white sf-big-on-hover" style="margin-top: 30px; height: 100%; padding: 10px;">
+				<div class="col-lg-4 col-sm-6" style="cursor:pointer;">
+					<div onclick="openPlaceOverlayContainer(${place.id})" class="well sf-border-white sf-big-on-hover" style="margin-top: 30px; height: 100%; padding: 10px; background-color: #454545">
 						<img class="sf-image-resizeable img-rounded" src="data:image/png;base64, ${place.mainPhoto }"/>
 						<div class="sf-center">
 							<h1> ${place.name} </h1>
@@ -28,8 +31,9 @@
 						</div>
 					</div>
 				</div>
-			<c:if test="${ ((loop.index%2) == 0 && loop.index != 0) || loop.last}">
+			<c:if test="${ count == 3 || loop.last}">
 			</div><br><br>
+			<c:set var="count" value="${0}" scope="page"/>
 			</c:if>
 		</c:forEach>
 	

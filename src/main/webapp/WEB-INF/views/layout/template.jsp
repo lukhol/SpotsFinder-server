@@ -31,24 +31,31 @@
 	<!-- Handlebars: -->
 	<script type="text/javascript" src="/js/lib/handlebars.js"></script>
 	<script type="text/javascript" src="/js/lib/handlebarsHelper.js"></script>
-	
 </head>
 <body>
-	<div class="container">
-		<div id="testReact"></div>
-	</div>
+	<input type="hidden" id="base-url" value="${BASE_URL}" />
+
 	<tiles:insertAttribute name="header" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
 	
+	<!-- Recover account on each pages under menu (modal) -->
+	<div id="changePasswordContainer" style="color: black"></div>
+	<script type="text/javascript" src="/js/modalTest.js"></script>
+	<script type="text/javascript" src="/js/recoverAccount.js"></script>
+	
+	
 	<!-- Place details modal on each page: -->
+	<!-- 
 	<div id="placeDetailsModalContainer"></div>
 	<script type="text/babel" src="/js/placeDetails.js"></script>
-	
+	 -->
+	 
 	<!-- Scroll to top button: -->
 	<div class="sf-scroll-to-top" style="display: none;">
 		^
 	</div>
+	
 	<!-- Universal message bottom popup -->
 	<div class="sf-bottom-message"></div>
 </body>
