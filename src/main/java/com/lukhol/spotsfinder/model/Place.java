@@ -1,5 +1,6 @@
 package com.lukhol.spotsfinder.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import lombok.ToString;
 @EntityListeners(value = PlaceEntityListener.class)
 @Table(name="PLACES")
 @org.hibernate.annotations.DynamicUpdate
-public class Place {
+public class Place implements Serializable {
 
 	@Id
 	@Column(name="PLACE_ID")

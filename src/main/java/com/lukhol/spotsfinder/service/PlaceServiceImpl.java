@@ -73,6 +73,9 @@ public class PlaceServiceImpl implements PlaceService {
 			placeToSave.setMainPhoto(miniature);
 		}
 		
+		for(Image img : placeToSave.getImages())
+			img.setPlace(placeToSave);
+		
 		saveAsJson(placeDto);
 		
 		Place place = placeRepository.save(placeToSave);

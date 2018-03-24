@@ -11,6 +11,7 @@ import com.lukhol.spotsfinder.dto.CoordinatesDTO;
 import com.lukhol.spotsfinder.dto.HeavyPlaceDTO;
 import com.lukhol.spotsfinder.dto.LightPlaceDTO;
 import com.lukhol.spotsfinder.dto.WrongPlaceReportDTO;
+import com.lukhol.spotsfinder.model.Image;
 import com.lukhol.spotsfinder.model.Place;
 import com.lukhol.spotsfinder.model.WrongPlaceReport;
 

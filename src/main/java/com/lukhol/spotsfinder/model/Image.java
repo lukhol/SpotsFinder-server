@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +28,7 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(name="IMAGES")
-public class Image {
+public class Image{
 	
 	@Id
 	@Column(name="IMAGE_ID")
@@ -37,6 +39,7 @@ public class Image {
 	@Column(name="IMAGE", columnDefinition="mediumblob")
 	private String image;
 	
+	@JsonIgnore
 	@JoinColumn(name="FK_PLACE_ID")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Place place;
