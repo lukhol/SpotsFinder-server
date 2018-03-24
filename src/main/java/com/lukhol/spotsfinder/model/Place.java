@@ -114,13 +114,7 @@ public class Place {
 	@Column(name="VERSION")
 	private long version;
 	
-	@org.hibernate.annotations.Formula("DATEDIFF(NOW(), creation_time)")
-	private int daysOld;
-	
-	@org.hibernate.annotations.Formula("CASE WHEN DATEDIFF(NOW(), creation_time) > 60 THEN true ELSE false END")
-	private boolean showInArticle;
-	
-	@Column(columnDefinition="DATETIME(3)")
+	@Column(columnDefinition="DATETIME(3)", updatable = false)
 	@org.hibernate.annotations.CreationTimestamp
 	private Date creationTime;
 	
