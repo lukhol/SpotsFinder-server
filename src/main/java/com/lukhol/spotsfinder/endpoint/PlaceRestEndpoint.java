@@ -90,7 +90,7 @@ public class PlaceRestEndpoint {
 			new ResponseEntity<Long>(0l, HttpStatus.BAD_REQUEST); 
 		}
 		
-		HeavyPlaceDTO place = placeService.save(placeDto);
+		HeavyPlaceDTO place = placeService.update(placeDto);
 		placeService.clearImagesWithoutPlace();
 		
 		return new ResponseEntity<Long>(place.getVersion(), HttpStatus.CREATED);
