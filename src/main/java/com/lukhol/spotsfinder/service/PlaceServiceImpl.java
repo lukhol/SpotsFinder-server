@@ -157,4 +157,9 @@ public class PlaceServiceImpl implements PlaceService {
 			log.debug("Error during saving place json.");
 		}
 	}
+
+	@Override
+	public void clearImagesWithoutPlace() {
+		placeRepository.clearImagesWithoutPlace();
+	}
 }

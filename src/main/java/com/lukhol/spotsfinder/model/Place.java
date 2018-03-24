@@ -46,8 +46,8 @@ public class Place {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "myNative")
 	private Long id;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="FK_PLACE_ID", foreignKey = @ForeignKey(name = "place_image"))
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "place")
+	//@JoinColumn(name="FK_PLACE_ID", foreignKey = @ForeignKey(name = "place_image"))
 	private List<Image> images;
 	
 	@Lob

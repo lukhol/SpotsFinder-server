@@ -91,6 +91,7 @@ public class PlaceRestEndpoint {
 		}
 		
 		HeavyPlaceDTO place = placeService.save(placeDto);
+		placeService.clearImagesWithoutPlace();
 		
 		return new ResponseEntity<Long>(place.getVersion(), HttpStatus.CREATED);
 	}

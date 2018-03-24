@@ -23,4 +23,6 @@ public interface PlaceService {
 	List<LightPlaceDTO> getRecentlyAdded(int start, int count);
 	List<LightPlaceDTO> search(PlaceSearchDTO placeDto) throws GeocodingCityException;
 	List<LightPlaceDTO> searchByUserId(long userId) throws NotFoundUserException;
+	
+	void clearImagesWithoutPlace();
 }

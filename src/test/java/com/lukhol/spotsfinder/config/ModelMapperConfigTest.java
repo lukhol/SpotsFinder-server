@@ -109,7 +109,7 @@ public class ModelMapperConfigTest {
 				.type(1)
 				.latitude(50.1234)
 				.longitude(45.9876)
-				.images(Arrays.asList(new Image(123l, "photo1"), new Image(6678l, "image2")))
+				.images(Arrays.asList(new Image(123l, "photo1", null), new Image(6678l, "image2", null)))
 				.mainPhoto("Main photo base64string")
 				.build();
 		
