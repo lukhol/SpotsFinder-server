@@ -18,6 +18,7 @@ import com.lukhol.spotsfinder.dto.LightPlaceDTO;
 import com.lukhol.spotsfinder.imageconverter.ImageConverter;
 import com.lukhol.spotsfinder.mapper.PlaceDTOMapper;
 import com.lukhol.spotsfinder.model.Place;
+import com.lukhol.spotsfinder.repository.PlaceJsonRepository;
 import com.lukhol.spotsfinder.repository.PlaceRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 import com.lukhol.spotsfinder.service.PlaceService;
@@ -30,6 +31,7 @@ public class PlaceServiceTest {
 	@Mock private PlaceRepository placeRepository;
 	@Mock private ImageConverter imageConverter;
 	@Mock private UserRepository userRepository;
+	@Mock private PlaceJsonRepository placeJsonRepository; 
 	@Autowired private PlaceDTOMapper placeDTOMapper;
 	
 	@Autowired
@@ -38,7 +40,7 @@ public class PlaceServiceTest {
 	@Before
 	public void setUp(){
 		MockitoAnnotations.initMocks(this);
-		placeService = new PlaceServiceImpl(placeRepository, userRepository, placeDTOMapper, imageConverter);
+		placeService = new PlaceServiceImpl(placeRepository, userRepository, placeDTOMapper, imageConverter, placeJsonRepository);
 	}
 	
 	@Test

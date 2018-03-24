@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lukhol.spotsfinder.dto.HeavyPlaceDTO;
 import com.lukhol.spotsfinder.dto.LightPlaceDTO;
 import com.lukhol.spotsfinder.dto.PlaceSearchDTO;
@@ -16,12 +17,16 @@ import com.lukhol.spotsfinder.imageconverter.ImageConverter;
 import com.lukhol.spotsfinder.mapper.PlaceDTOMapper;
 import com.lukhol.spotsfinder.model.Image;
 import com.lukhol.spotsfinder.model.Place;
+import com.lukhol.spotsfinder.model.PlaceJson;
 import com.lukhol.spotsfinder.model.User;
+import com.lukhol.spotsfinder.repository.PlaceJsonRepository;
 import com.lukhol.spotsfinder.repository.PlaceRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class PlaceServiceImpl implements PlaceService {
 
@@ -29,15 +34,17 @@ public class PlaceServiceImpl implements PlaceService {
 	private final UserRepository userRepository;
 	private final PlaceDTOMapper placeMapper;
 	private final ImageConverter imageConverter;
+	private final PlaceJsonRepository placeJsonRepository;
 	
 	@Autowired
 	public PlaceServiceImpl(@NonNull PlaceRepository placeRepository, @NonNull UserRepository userRepository, @NonNull PlaceDTOMapper placeMapper, 
-			@NonNull ImageConverter imageConverter) {
+			@NonNull ImageConverter imageConverter, @NonNull PlaceJsonRepository placeJsonRepository) {
 		super();
 		this.placeRepository = placeRepository;
 		this.placeMapper = placeMapper;
 		this.imageConverter = imageConverter;
 		this.userRepository = userRepository;
+		this.placeJsonRepository = placeJsonRepository;
 	}
 
 	@Override
@@ -65,6 +72,8 @@ public class PlaceServiceImpl implements PlaceService {
 			
 			placeToSave.setMainPhoto(miniature);
 		}
+		
+		saveAsJson(placeDto);
 		
 		Place place = placeRepository.save(placeToSave);
 		return placeMapper.mapToHeavyDTO(place);
@@ -133,5 +142,19 @@ public class PlaceServiceImpl implements PlaceService {
 	public HeavyPlaceDTO update(HeavyPlaceDTO placeDTO) throws IOException, NotFoundUserException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private void saveAsJson(HeavyPlaceDTO placeDto) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String placeJsonString = objectMapper.writeValueAsString(placeDto);
+			
+			PlaceJson placeJson = new PlaceJson();
+			placeJson.setPlaceJson(placeJsonString);
+			
+			placeJsonRepository.save(placeJson);
+		} catch (Exception e) {
+			log.debug("Error during saving place json.");
+		}
 	}
 }
