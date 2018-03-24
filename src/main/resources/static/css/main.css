@@ -32,7 +32,7 @@ body {
 body::after {
   content: '';
   display: block;
-  height: 150px; /* Set same as footer's height */
+  height: 50px; /* Set same as footer's height */
 }
 
  article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{
