@@ -31,6 +31,6 @@ public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRep
 	void clearImagesWithoutPlace();
 	
 	@Modifying
-	@Query("DELETE FROM Image i WHERE i.place = :placeId")
+	@Query("DELETE FROM Image i WHERE i.place.id = :placeId")
 	void removeAllImagesForPlace(@Param("placeId") long placeId);
 }
