@@ -83,6 +83,27 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
+	public HeavyPlaceDTO update(HeavyPlaceDTO placeDTO) throws IOException, NotFoundUserException {
+		Place placeToEdit = placeMapper.mapHeavyToModel(placeDTO);
+		boolean userExists = userRepository.exists(placeDTO.getUserId());
+		
+		if(!userExists)
+			throw new NotFoundUserException("Not foud user with id: " + placeDTO.getUserId());
+		
+		placeRepository.removeAllImagesForPlace(placeToEdit.getId());
+		
+		Image firstPhoto = placeToEdit.getImages().get(0);
+		String miniature = imageConverter.createMiniature(firstPhoto);
+		placeToEdit.setMainPhoto(miniature);
+		
+		for(Image img : placeToEdit.getImages())
+			img.setPlace(placeToEdit);
+		
+		Place place = placeRepository.save(placeToEdit);
+		return placeMapper.mapToHeavyDTO(place);
+	}
+	
+	@Override
 	public boolean exists(Long placeId) {		
 		return placeRepository.exists(placeId);
 	}
@@ -139,12 +160,6 @@ public class PlaceServiceImpl implements PlaceService {
 				.stream()
 				.map(place -> placeMapper.mapToLightDTO(place))
 				.collect(Collectors.toList());
-	}
-	
-	@Override
-	public HeavyPlaceDTO update(HeavyPlaceDTO placeDTO) throws IOException, NotFoundUserException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	private void saveAsJson(HeavyPlaceDTO placeDto) {
