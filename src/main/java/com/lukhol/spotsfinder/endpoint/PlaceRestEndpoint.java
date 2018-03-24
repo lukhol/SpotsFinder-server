@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lukhol.spotsfinder.dto.HeavyPlaceDTO;
@@ -108,5 +112,11 @@ public class PlaceRestEndpoint {
 		
 		log.debug("Place with id = {} deleted succesfully.", placeId);
 		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:7777")
+	@RequestMapping(value = "/recentlyAdded", method = RequestMethod.GET)
+	public List<LightPlaceDTO> randomPlace(@RequestParam("start") int start, @RequestParam("count") int count) {
+		return placeService.getRecentlyAdded(start, count);
 	}
 }

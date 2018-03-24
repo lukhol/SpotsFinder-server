@@ -2,21 +2,22 @@
 
 <div class="sf-container">
 	<!-- #2d90a1 -->
+	<!--
 	<div class="sf-center panel panel-primary" style="margin: 0px;">
 		<div class="panel-heading">
 			<h2><span class="label label-success">SpotsFinder</span><small style="color: white;"> Spring Boot MVC & RestAPI</small></h2>
 			<a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a>
 		</div>
 				
-		<!-- HANDLEBARS -->
+		<!-- HANDLEBARS --
 		<div id="containerForHandlebars" class="panel-body" style="background-color: #CDCDCD;">
-			<!-- Tutaj trafi kod z template poniżej.  -->
+			<!-- Tutaj trafi kod z template poniżej.  --
 		</div>
 		
 		<script id="placeDetailsTemplateScript" type="text/x-handlebars-template">
 			{{firstname}} {{lastname}}
 		</script>
-		<!--  -->
+		
 		<script>
 			$(document).ready(function() {
 				let data = {
@@ -69,6 +70,7 @@
 	</script>
 	<script type="text/javascript" src="/js/placeDetails.js"></script>
 	
+	-->
 	<div style="text-align: justify;">
 		<p>
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed iaculis ac arcu at hendrerit. Nulla dapibus aliquet est in lobortis. Sed a lacus iaculis, rutrum magna vitae, accumsan leo. Suspendisse sit amet semper nisl, eget aliquet justo. Cras nisl enim, sollicitudin non erat vitae, venenatis tempus orci. Vestibulum viverra mollis augue eu sodales. Morbi mi lacus, fringilla vel blandit et, consectetur consequat ligula. Nulla rutrum pulvinar justo quis imperdiet.
