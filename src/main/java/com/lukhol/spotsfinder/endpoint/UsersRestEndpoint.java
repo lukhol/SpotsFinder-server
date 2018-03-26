@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @RestController
 @RequestMapping("/user")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsersRestEndpoint {
 
 	private final UserService userService;
@@ -54,6 +57,7 @@ public class UsersRestEndpoint {
 	}
 	
 	@GetMapping("/login")
+	@CrossOrigin(origins = "http://localhost:7777")
 	public ResponseEntity<User> loginAppUser(@RequestParam String email, @RequestParam String password) throws NotFoundUserException {
 		
 		log.info("User with email: {} is trying to log in.", email);
@@ -138,5 +142,15 @@ public class UsersRestEndpoint {
 		boolean exist = userService.existsByEmail(emailAddress);
 		
 		return new ResponseEntity<Boolean>(!exist, HttpStatus.OK);
+	}
+	
+	@GetMapping("/info/{userId}")
+	public ResponseEntity<User> fetchUser(@PathVariable(name = "userId") String userId) {
+		log.debug("GET /userinfo/" + userId);
+		
+		User user = userService.findUserById(Long.valueOf(userId)).get();
+		user.setPassword("You ain't gona get it ;)");
+		
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

@@ -39,6 +39,12 @@ public class EmailSenderImpl implements EmailSender {
 			mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAdress));
 			mimeMessage.setSubject(subject);
 			mimeMessage.setText(message);
+			mimeMessage.saveChanges();
+			
+			Transport tr = session.getTransport("smtp");
+			tr.connect(session.getProperty("mail.smtp.host"),  session.getProperty("mail.smtp.user"), session.getProperty("mail.smtp.password"));
+			tr.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+			tr.close();
 			
 			Transport.send(mimeMessage);
 			return true;

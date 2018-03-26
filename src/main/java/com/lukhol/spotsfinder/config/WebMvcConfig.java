@@ -7,7 +7,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.Ordered;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -94,7 +98,23 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+        registry
+        	.addMapping("/**")
+        	.allowedOrigins("http://localhost:7777", "http://http://80.211.223.50:8080")
+            .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
+	
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowCredentials(true);
+	    config.addAllowedOrigin("*");
+	    config.addAllowedHeader("*");
+	    config.addAllowedMethod("*");
+	    source.registerCorsConfiguration("/**", config);
+	    FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+	    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	    return bean;
+	}
 }
