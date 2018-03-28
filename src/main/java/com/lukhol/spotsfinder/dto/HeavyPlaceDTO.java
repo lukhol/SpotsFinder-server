@@ -39,7 +39,7 @@ public class HeavyPlaceDTO implements Serializable {
 	private String description;
 	@Builder.Default @Valid
 	private CoordinatesDTO location = new CoordinatesDTO();
-	@Range(min=0, max = 1)
+	@Range(min=0, max = 2)
 	private int type;
 	private boolean gap;
 	private boolean stairs;
