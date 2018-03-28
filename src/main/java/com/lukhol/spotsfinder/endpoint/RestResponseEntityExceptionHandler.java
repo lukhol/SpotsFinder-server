@@ -1,7 +1,9 @@
 package com.lukhol.spotsfinder.endpoint;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
@@ -10,6 +12,8 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,7 +49,7 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 	}
 	
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
-	public ResponseEntity<RestResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException error, WebRequest request)  {
+	public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException error, WebRequest request)  {
 	   return parseErrors(error.getBindingResult());
 	}
 	
@@ -72,7 +76,15 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	private ResponseEntity<RestResponse<Void>> parseErrors(BindingResult bindingResult){
-		return new ResponseEntity<RestResponse<Void>>(HttpStatus.BAD_REQUEST);
+	private ResponseEntity<Map<String, String>> parseErrors(BindingResult bindingResult){
+		//ErrorRestResponse errors = new ErrorRestResponse();
+		Map<String, String> errors = new HashMap<>();
+		for(ObjectError objectError : bindingResult.getAllErrors()) {
+			FieldError fieldError = (FieldError)objectError;
+			
+			errors.put(fieldError.getField(), objectError.getDefaultMessage());
+		}
+		
+		return new ResponseEntity<Map<String, String>>(errors, HttpStatus.BAD_REQUEST);
 	}
 }

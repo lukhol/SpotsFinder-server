@@ -3,6 +3,12 @@ package com.lukhol.spotsfinder.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+
 import com.lukhol.spotsfinder.model.Image;
 
 import lombok.AllArgsConstructor;
@@ -25,10 +31,15 @@ public class HeavyPlaceDTO implements Serializable {
 	private Long id;
 	private long version;
 	private List<Image> images;
+	@NotEmpty
+	@Length(min=5, max=80)
 	private String name;
+	@NotEmpty
+	@Length(min=5, max=255)
 	private String description;
-	@Builder.Default
+	@Builder.Default @Valid
 	private CoordinatesDTO location = new CoordinatesDTO();
+	@Range(min=1, max = 3)
 	private int type;
 	private boolean gap;
 	private boolean stairs;
@@ -45,5 +56,6 @@ public class HeavyPlaceDTO implements Serializable {
 	private boolean bank;
 	private boolean bowl;
 	
+	@Range(min=1)
 	private long userId;
 }

@@ -54,7 +54,7 @@ public class Place {
 	@Column(name="MAIN_PHOTO", columnDefinition="mediumblob", nullable = false)
 	private String mainPhoto;
 	
-	@Column(name="NAME", length=30)
+	@Column(name="NAME", length=80)
 	private String name;
 	
 	@Column(name="DESCRIPTION", length=255)
