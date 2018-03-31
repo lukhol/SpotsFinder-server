@@ -100,7 +100,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addCorsMappings(CorsRegistry registry) {
         registry
         	.addMapping("/**")
-        	.allowedOrigins("http://localhost:7777", "http://80.211.223.50:8080", "http://80.211.223.50:7777", "http://localhost:8080")
+        	.allowedOrigins("/**")
             .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
 	
