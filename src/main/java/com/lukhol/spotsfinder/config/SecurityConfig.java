@@ -19,8 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(2) 
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private String realmName = "SpotsFinder API";
@@ -35,14 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	MyAuthenticationProvider myAuthenticationProvider;
-
-	@Bean
-	@Override
-	protected AuthenticationManager authenticationManager() throws Exception {
-		System.out.println(userHome);
-		return super.authenticationManager();
-	}
+	private MyAuthenticationProvider myAuthenticationProvider;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -66,71 +58,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+//		http
+//			.sessionManagement()
+//			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//			.and()
+//				.csrf().disable()
+//				.httpBasic().realmName(realmName)
+//			.and()
+//				.authorizeRequests()
+//				.antMatchers(HttpMethod.GET, "/home").permitAll()
+//			.and()
+//				.authorizeRequests()
+//				.anyRequest()
+//				.authenticated();
 		http
+			.authenticationProvider(myAuthenticationProvider)
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-				.csrf().disable()
-				.httpBasic().realmName(realmName)
-			.and()
-				.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/places/**", "/welcome").authenticated();
+				.and()
+			.csrf().disable()
+			.httpBasic()
+				.and()
+			.authorizeRequests()
+			.antMatchers("/home").permitAll()
+			.antMatchers(HttpMethod.GET, "/places")
+			.authenticated();
 	}
 	
-	//@Order(1)
-	//@Configuration
-	public static class SecondConfig extends WebSecurityConfigurerAdapter {
-		
-		 @Override
-	        protected void configure(HttpSecurity http) throws Exception {
-	            http
-	              	.antMatcher("/user/**")
-	              		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	              		.and()
-		              	.httpBasic()
-		              	.and()
-		              	.authorizeRequests()
-		              		.antMatchers("/user").authenticated()
-		              		.antMatchers("/user/login").authenticated()
-		              		.antMatchers("/user/login/external").authenticated()
-		              	.and()
-		              	.csrf().disable();
-	        }
-	}
-	
-	//@Order(2)
-	//@Configuration
-	public static class FourthConfig extends WebSecurityConfigurerAdapter {
-		
-		 @Override
-	        protected void configure(HttpSecurity http) throws Exception {
-	            http
-	              	.antMatcher("/places/**")
-		              	.httpBasic()
-		              	.and()
-		              	.authorizeRequests()
-		              		.antMatchers("/places/report").authenticated()
-		              		.antMatchers("/places/searches").authenticated()
-		              	.and()
-		              	.csrf().disable();
-	        }
-	}
-	
-	//@Order(4)
-	//@Configuration
-	public static class ThirdConfig extends WebSecurityConfigurerAdapter {
-		
-		 @Override
-	        protected void configure(HttpSecurity http) throws Exception {
-	            http
-	              	.antMatcher("/errors")
-	              		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	              		.and()
-		              	.httpBasic()
-		              	.and()
-		              	.authorizeRequests().anyRequest().authenticated()
-		              	.and()
-		              	.csrf().disable();
-	        }
-	}
+    @Bean()
+    @Override
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 }

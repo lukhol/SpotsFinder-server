@@ -20,7 +20,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		log.info("======> MyAuthenticationProvider executed authentication for user {}", authentication.getName());
+		log.info("======> MyAuthenticationProvider executed authentication for user {}", authentication.getName() + " <======");
 		
 		String name = authentication.getName();
         String password = authentication.getCredentials().toString();
