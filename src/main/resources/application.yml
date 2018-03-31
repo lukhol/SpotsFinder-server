@@ -19,3 +19,7 @@ spring:
 server:
   tomcat:
     uri-encoding: UTF-8
+security:
+  oauth2:
+    resource:
+      filter-order: 3

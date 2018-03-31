@@ -1,21 +1,21 @@
 package com.lukhol.spotsfinder.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -58,31 +58,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http
-//			.sessionManagement()
-//			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//			.and()
-//				.csrf().disable()
-//				.httpBasic().realmName(realmName)
-//			.and()
-//				.authorizeRequests()
-//				.antMatchers(HttpMethod.GET, "/home").permitAll()
-//			.and()
-//				.authorizeRequests()
-//				.anyRequest()
-//				.authenticated();
 		http
-			.authenticationProvider(myAuthenticationProvider)
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-			.csrf().disable()
+			.csrf()
+			.disable()
 			.httpBasic()
-				.and()
+		.and()
 			.authorizeRequests()
-			.antMatchers("/home").permitAll()
-			.antMatchers(HttpMethod.GET, "/places")
-			.authenticated();
+				.antMatchers(HttpMethod.GET, "/places").authenticated()
+				.antMatchers("/places/searches").authenticated()
+		.and()
+			.authorizeRequests()
+				.anyRequest()
+				.permitAll();
+	}
+	
+	private static class BasicRequestMather implements RequestMatcher {
+		@Override
+		public boolean matches(HttpServletRequest request) {
+			String auth = request.getHeader("Authorization");
+			return (auth != null && auth.startsWith("Basic") || auth == null); // jezeli nie ma autha lub basic to tutaj
+		}
 	}
 	
     @Bean()
