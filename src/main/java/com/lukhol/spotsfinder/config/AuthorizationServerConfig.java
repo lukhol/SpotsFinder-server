@@ -53,7 +53,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints
 			.tokenStore(tokenStore())
 			.userDetailsService(userDetailsService)
-			.authenticationManager(authenticationManager)
+			.authenticationManager(authenticationManager) // bez tego nie dziala oauth password
 			.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 			//.pathMapping(defaultPath, customPath) // There I can set custom path mapping 
 	}
@@ -61,7 +61,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 		oauthServer
-			.checkTokenAccess("permitAll()"); //Pozwala na konfiguracjê endpointu, oauth/token, oauth/check_token
+			.checkTokenAccess("permitAll()")
+			.checkTokenAccess("isAuthenticated()"); //Pozwala na konfiguracjê endpointu, oauth/token, oauth/check_token
 	}
 	
 	@Bean

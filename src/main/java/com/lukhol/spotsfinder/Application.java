@@ -3,9 +3,13 @@ package com.lukhol.spotsfinder;
 import java.util.Properties;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+@EnableAutoConfiguration(exclude = { 
+        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class 
+    })
 @SpringBootApplication 
 public class Application {
 	

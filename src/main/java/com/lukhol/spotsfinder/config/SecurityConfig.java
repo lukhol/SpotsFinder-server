@@ -1,26 +1,25 @@
 package com.lukhol.spotsfinder.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(2) 
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private String realmName = "SpotsFinder API";
@@ -35,14 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	MyAuthenticationProvider myAuthenticationProvider;
-
-	@Bean
-	@Override
-	protected AuthenticationManager authenticationManager() throws Exception {
-		System.out.println(userHome);
-		return super.authenticationManager();
-	}
+	private MyAuthenticationProvider myAuthenticationProvider;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -67,70 +59,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-				.csrf().disable()
-				.httpBasic().realmName(realmName)
-			.and()
-				.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/places/**", "/welcome").authenticated();
+			.csrf()
+			.disable()
+			.httpBasic()
+		.and()
+			.authorizeRequests()
+				.antMatchers(HttpMethod.GET, "/places").authenticated()
+				.antMatchers("/places/searches").authenticated()
+		.and()
+			.authorizeRequests()
+				.anyRequest()
+				.permitAll();
 	}
 	
-	//@Order(1)
-	//@Configuration
-	public static class SecondConfig extends WebSecurityConfigurerAdapter {
-		
-		 @Override
-	        protected void configure(HttpSecurity http) throws Exception {
-	            http
-	              	.antMatcher("/user/**")
-	              		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	              		.and()
-		              	.httpBasic()
-		              	.and()
-		              	.authorizeRequests()
-		              		.antMatchers("/user").authenticated()
-		              		.antMatchers("/user/login").authenticated()
-		              		.antMatchers("/user/login/external").authenticated()
-		              	.and()
-		              	.csrf().disable();
-	        }
+	private static class BasicRequestMather implements RequestMatcher {
+		@Override
+		public boolean matches(HttpServletRequest request) {
+			String auth = request.getHeader("Authorization");
+			return (auth != null && auth.startsWith("Basic") || auth == null); // jezeli nie ma autha lub basic to tutaj
+		}
 	}
 	
-	//@Order(2)
-	//@Configuration
-	public static class FourthConfig extends WebSecurityConfigurerAdapter {
-		
-		 @Override
-	        protected void configure(HttpSecurity http) throws Exception {
-	            http
-	              	.antMatcher("/places/**")
-		              	.httpBasic()
-		              	.and()
-		              	.authorizeRequests()
-		              		.antMatchers("/places/report").authenticated()
-		              		.antMatchers("/places/searches").authenticated()
-		              	.and()
-		              	.csrf().disable();
-	        }
-	}
-	
-	//@Order(4)
-	//@Configuration
-	public static class ThirdConfig extends WebSecurityConfigurerAdapter {
-		
-		 @Override
-	        protected void configure(HttpSecurity http) throws Exception {
-	            http
-	              	.antMatcher("/errors")
-	              		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	              		.and()
-		              	.httpBasic()
-		              	.and()
-		              	.authorizeRequests().anyRequest().authenticated()
-		              	.and()
-		              	.csrf().disable();
-	        }
-	}
+    @Bean()
+    @Override
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 }
