@@ -4,9 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mock;
 
 import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.model.User;
+import com.lukhol.spotsfinder.service.UserService;
 import com.lukhol.spotsfinder.validator.RegisterUserValidator;
 
 @RunWith(JUnit4.class)
@@ -14,9 +16,11 @@ public class RegisterUserValidatorTests {
 
 	private RegisterUserValidator registerUserValidator;
 	private User properUser;
+	@Mock private UserService userService;
+	
 	@Before
 	public void setUp() {
-		registerUserValidator = new RegisterUserValidator();
+		registerUserValidator = new RegisterUserValidator(userService);
 		
 		properUser = User
 				.builder()
