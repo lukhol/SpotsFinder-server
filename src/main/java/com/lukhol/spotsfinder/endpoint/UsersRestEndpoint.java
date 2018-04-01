@@ -2,6 +2,8 @@ package com.lukhol.spotsfinder.endpoint;
 
 import java.util.Locale;
 
+import javax.validation.Valid;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,12 +96,11 @@ public class UsersRestEndpoint {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<User> registerUser(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody User user, 
-			@RequestParam String psw) throws RegisterUserException {
+	public ResponseEntity<User> registerUser(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody @Valid User user)
+			throws RegisterUserException {
 		
 		log.info("Started registering user with email: {}.", user.getEmail());
 		
-		user.setPassword(psw);
 		registerUserValidator.validate(user);		
 		user = userRegisterService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
 		

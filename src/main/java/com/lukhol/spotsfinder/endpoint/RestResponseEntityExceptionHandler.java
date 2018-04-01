@@ -76,8 +76,7 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	private ResponseEntity<Map<String, String>> parseErrors(BindingResult bindingResult){
-		//ErrorRestResponse errors = new ErrorRestResponse();
+	private ResponseEntity<Map<String, String>> parseErrors(BindingResult bindingResult){		//ErrorRestResponse errors = new ErrorRestResponse();
 		Map<String, String> errors = new HashMap<>();
 		for(ObjectError objectError : bindingResult.getAllErrors()) {
 			FieldError fieldError = (FieldError)objectError;

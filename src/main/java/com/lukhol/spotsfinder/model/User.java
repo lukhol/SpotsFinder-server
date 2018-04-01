@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -46,8 +48,11 @@ public class User {
 	private String facebookId;
 	@Column(nullable = true)
 	private String googleId;
+	@Length(min=5, max = 50)
 	private String password;
+	@NotEmpty(message="Imie nie mo¿e byæ puste.")
 	private String firstname;
+	@NotEmpty(message="Nazwisko nie mo¿e byæ puste.")
 	private String lastname;
 	private boolean isActive;
 	private String avatarUrl;
