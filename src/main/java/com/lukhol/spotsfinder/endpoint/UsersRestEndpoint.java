@@ -9,7 +9,9 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +38,6 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/user")
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -96,12 +97,12 @@ public class UsersRestEndpoint {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<User> registerUser(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody @Valid User user)
-			throws RegisterUserException {
+	public ResponseEntity<User> registerUser(@RequestHeader(value="Accept-Language") String acceptLanguage, @RequestBody @Valid User user,
+			final BindingResult bindingResult) throws RegisterUserException, MethodArgumentNotValidException {
 		
 		log.info("Started registering user with email: {}.", user.getEmail());
 		
-		registerUserValidator.validate(user);		
+		registerUserValidator.validate(user, bindingResult);		
 		user = userRegisterService.registerUser(user, Locale.forLanguageTag(acceptLanguage));
 		
 		log.info("Registering user with email: {} has been completed succesfully.", user.getEmail());

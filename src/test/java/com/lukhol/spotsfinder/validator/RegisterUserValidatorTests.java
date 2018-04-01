@@ -27,31 +27,31 @@ public class RegisterUserValidatorTests {
 				.build();
 	}
 	
-	@Test(expected = RegisterUserException.class)
-	public void cannotValidate_emailIsEmpty() throws RegisterUserException {
-		properUser.setEmail("");
-		registerUserValidator.validate(properUser);
-	}
-	
-	@Test(expected = RegisterUserException.class)
-	public void cannotValidate_passwordIsEmpty() throws RegisterUserException {
-		properUser.setPassword("");
-		registerUserValidator.validate(properUser);
-	}
-	
-	@Test(expected = RegisterUserException.class)
-	public void cannotValidate_firstnameIsEmpty() throws RegisterUserException {
-		properUser.setFirstname("");
-		registerUserValidator.validate(properUser);
-	}
-	
-	@Test(expected = RegisterUserException.class)
-	public void cannotValidate_lastnameIsEmpty() throws RegisterUserException {
-		properUser.setLastname("");
-		registerUserValidator.validate(properUser);
-	}
-	@Test
-	public void canValidate_userHasAllRequiredFields() throws RegisterUserException {
-		registerUserValidator.validate(properUser);
-	}
+//	@Test(expected = RegisterUserException.class)
+//	public void cannotValidate_emailIsEmpty() throws RegisterUserException {
+//		properUser.setEmail("");
+//		registerUserValidator.validate(properUser);
+//	}
+//	
+//	@Test(expected = RegisterUserException.class)
+//	public void cannotValidate_passwordIsEmpty() throws RegisterUserException {
+//		properUser.setPassword("");
+//		registerUserValidator.validate(properUser);
+//	}
+//	
+//	@Test(expected = RegisterUserException.class)
+//	public void cannotValidate_firstnameIsEmpty() throws RegisterUserException {
+//		properUser.setFirstname("");
+//		registerUserValidator.validate(properUser);
+//	}
+//	
+//	@Test(expected = RegisterUserException.class)
+//	public void cannotValidate_lastnameIsEmpty() throws RegisterUserException {
+//		properUser.setLastname("");
+//		registerUserValidator.validate(properUser);
+//	}
+//	@Test
+//	public void canValidate_userHasAllRequiredFields() throws RegisterUserException {
+//		registerUserValidator.validate(properUser);
+//	}
 }

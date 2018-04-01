@@ -1,23 +1,27 @@
 package com.lukhol.spotsfinder.validator;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 
 import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.model.User;
 
 @Component
 public class RegisterUserValidator {
-	public void validate(User user) throws RegisterUserException {
-		checkCondition(StringUtils.isEmpty(user.getEmail()), "Email cannot be empty.");
-		checkCondition(StringUtils.isEmpty(user.getFirstname()), "Firstname cannot be empty.");
-		checkCondition(StringUtils.isEmpty(user.getLastname()), "Lastname cannot be empty.");
-		checkCondition(StringUtils.isEmpty(user.getPassword()), "Password cannot be null.");
-	}
-	
-	private void checkCondition(boolean condition, String message) throws RegisterUserException {
-		if(condition) {
-			throw new RegisterUserException(message);
+	public void validate(User user, BindingResult bindingResult) throws RegisterUserException {
+		if(user.getPassword() == null || user.getPassword().length() < 5) {
+			bindingResult.rejectValue("password", "error.user.password");
 		}
-	}
+		
+		if(user.getFirstname() == null || user.getFirstname().length() == 0) {
+			bindingResult.rejectValue("firstname", "error.user.firstname");
+		}
+		
+		if(user.getLastname() == null || user.getLastname().length() == 0) {
+			bindingResult.rejectValue("lastname", "error.user.lastname");
+		}
+		
+		if(bindingResult.hasErrors())
+			throw new RegisterUserException(bindingResult);
+	}	
 }
