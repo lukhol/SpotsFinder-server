@@ -103,6 +103,8 @@ public class PlaceServiceImpl implements PlaceService {
 		placeToEdit.setOwner(userRepository.findOne(placeDTO.getUserId()));
 		
 		Place place = placeRepository.save(placeToEdit);
+		clearImagesWithoutPlace();
+		
 		return placeMapper.mapToHeavyDTO(place);
 	}
 	

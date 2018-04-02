@@ -25,13 +25,14 @@ import com.lukhol.spotsfinder.exception.InvalidWrongPlaceReportException;
 import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.exception.ResetPasswordException;
+import com.lukhol.spotsfinder.exception.ServiceValidationException;
 import com.lukhol.spotsfinder.exception.UpdateUserException;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
-public class RestResponseEntityExceptionHandler {//extends ResponseEntityExceptionHandler {
+public class RestResponseEntityExceptionHandler {
 
 	private final MessageSource messageSource;
 
@@ -40,7 +41,7 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 		this.messageSource = messageSource;
 	}
 	
-	@ExceptionHandler(value= { InvalidPlaceException.class, GeocodingCityException.class, InvalidPlaceSearchException.class,
+	@ExceptionHandler(value= {  GeocodingCityException.class, InvalidPlaceSearchException.class,
 			IOException.class, ResetPasswordException.class, UpdateUserException.class })
 	
 	protected ResponseEntity<RestResponse<Void>> handlePlaceException(Exception ex, WebRequest request) {
@@ -48,7 +49,7 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(value = { InvalidWrongPlaceReportException.class, })
+	@ExceptionHandler(value = InvalidWrongPlaceReportException.class)
 	protected ResponseEntity<RestResponse<Void>> handleWrongReportPlaceException(InvalidWrongPlaceReportException ex, WebRequest request){
 		log.error(ex.getMessage(), ex);
 		return new ResponseEntity<RestResponse<Void>>(new RestResponse<Void>(Boolean.FALSE, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
@@ -65,8 +66,8 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 	   return parseErrorWithoutMessage(error.getBindingResult());
 	}
 	
-	@ExceptionHandler(value = RegisterUserException.class)
-	public ResponseEntity<?> handleRegisterUserException(RegisterUserException error, WebRequest request)  {
+	@ExceptionHandler(value = { RegisterUserException.class, InvalidPlaceException.class })
+	public ResponseEntity<?> handleRegisterUserException(ServiceValidationException error, WebRequest request)  {
 		String acceptLanguage = request.getHeader("Accept-Language");
 		
 		if(acceptLanguage == null || !acceptLanguage.contains("en") && !acceptLanguage.contains("pl"))
@@ -86,8 +87,15 @@ public class RestResponseEntityExceptionHandler {//extends ResponseEntityExcepti
 			if(acceptLanguage != null) {
 				try {
 					String message = null;
-					if(fieldError.getDefaultMessage() == null)
+					
+					try {
 						message = messageSource.getMessage(fieldError.getCode(), null, Locale.forLanguageTag(acceptLanguage));
+					} catch (NoSuchMessageException e) {
+						message = fieldError.getDefaultMessage();
+						
+						if(message == null)
+							message = "Validation error.";
+					}
 					
 					errors.put(fieldError.getField(), message);
 				} catch (NoSuchMessageException e) {

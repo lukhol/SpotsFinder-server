@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,10 +68,11 @@ public class PlaceRestEndpoint {
 	
 	@PostMapping
 	//@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<HeavyPlaceDTO> addPlace(@RequestBody @Valid HeavyPlaceDTO placeDto) throws InvalidPlaceException, IOException, NotFoundUserException {
+	public ResponseEntity<HeavyPlaceDTO> addPlace(@RequestBody @Valid HeavyPlaceDTO placeDto, final BindingResult bindingResult) 
+			throws InvalidPlaceException, IOException, NotFoundUserException {
 		log.debug("POST /places body: {}", placeDto);
 		
-		placeValidator.validate(placeDto);
+		placeValidator.validate(placeDto, bindingResult);
 		HeavyPlaceDTO place = placeService.save(placeDto);
 		
 		return new ResponseEntity<HeavyPlaceDTO>(place, HttpStatus.CREATED);
@@ -78,21 +80,21 @@ public class PlaceRestEndpoint {
 	
 	@PutMapping(value="/{placeId}")
 	//@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<Long> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId, Authentication authentication) throws InvalidPlaceException, IOException, NotFoundUserException {
+	public ResponseEntity<Long> replacePlace(@RequestBody HeavyPlaceDTO placeDto, @PathVariable Long placeId, Authentication authentication, final BindingResult bindingResult)
+			throws InvalidPlaceException, IOException, NotFoundUserException {
 		log.debug("PUT /places/{} body: {}", placeId, placeDto);
 		
-		placeValidator.validate(placeDto);
+		placeValidator.validate(placeDto, bindingResult);
 		
 		String userIdString = authentication.getName();
 		long userId = Long.parseLong(userIdString);
-		boolean exists = placeService.existAndBelongToUser(placeId, userId);
+		boolean existsAndBelogsToUser = placeService.existAndBelongToUser(placeId, userId);
 		
-		if(!exists) {
-			new ResponseEntity<Long>(0l, HttpStatus.BAD_REQUEST); 
+		if(!existsAndBelogsToUser) {
+			return new ResponseEntity<Long>(0l, HttpStatus.BAD_REQUEST); 
 		}
 		
 		HeavyPlaceDTO place = placeService.update(placeDto);
-		placeService.clearImagesWithoutPlace();
 		
 		return new ResponseEntity<Long>(place.getVersion(), HttpStatus.CREATED);
 	}

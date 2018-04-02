@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 
 import com.lukhol.spotsfinder.dto.HeavyPlaceDTO;
 import com.lukhol.spotsfinder.exception.InvalidPlaceException;
@@ -23,31 +24,38 @@ public class PlaceValidator {
 		this.imageConverter = imageConverter;
 	}
 	
-	public void validate(HeavyPlaceDTO place) throws InvalidPlaceException, IOException {
-		checkCondition(place.getType() < 0 || place.getType() > 2,"Type value should be 0, 1 or 2");
-		checkCondition(place.getLocation() == null, "Location should not be null!");
-		checkCondition(place.getImages() == null, "List of images should not be null!");
-		checkCondition(StringUtils.isEmpty(place.getName()), "Name should not be empty!");
-		checkCondition(StringUtils.isEmpty(place.getDescription()), "Description should not be empty!");
-		checkCondition(place.getImages().size() > 5, "Images count should be at most 5!");
-		checkCondition(place.getImages().size() < 1, "There should be at least 1 image!");	
+	public void validate(HeavyPlaceDTO place, BindingResult bindingResult) throws InvalidPlaceException, IOException {
+		checkCondition(place.getType() < 0 || place.getType() > 2, bindingResult, "type", "error.place.type");
+		checkCondition(place.getLocation() == null, bindingResult, "location", "error.place.location");
+		checkCondition(place.getImages() == null, bindingResult, "images", "error.place.images");
+		checkCondition(StringUtils.isEmpty(place.getName()), bindingResult, "name", "error.place.name");
+		checkCondition(StringUtils.isEmpty(place.getDescription()), bindingResult, "description", "error.place.description");
+		checkCondition(place.getImages().size() > 5, bindingResult, "images", "error.place.images");
+		checkCondition(place.getImages().size() < 1, bindingResult, "images", "error.place.images");	
 		
 		for(Image img : place.getImages()) {
 			try {
-				if(imageConverter.isValidImage(img.getImage()) == false)
-					throw new InvalidPlaceException("Images are not valid!");
+				if(imageConverter.isValidImage(img.getImage()) == false) {
+					bindingResult.rejectValue("images", "error.place.images");
+					break;
+				}
 			} catch (Exception e) {
 				if(e.getClass() == InvalidPlaceException.class)
 					throw e;
 				
-				throw new InvalidPlaceException("Images are not valid!");
+				bindingResult.rejectValue("images", "error.place.images");
+				break;
 			}
 		}
+		
+		if(bindingResult.hasErrors())
+			throw new InvalidPlaceException(bindingResult);
 	}
 	
-	private void checkCondition(boolean condition, String message) throws InvalidPlaceException {
-		if(condition) {
-			throw new InvalidPlaceException(message);
-		}
+	private void checkCondition(boolean condition, BindingResult bindingResult, String code, String message) throws InvalidPlaceException {
+		if(!condition)
+			return;
+		
+		bindingResult.rejectValue(code, message);
 	}
 }
