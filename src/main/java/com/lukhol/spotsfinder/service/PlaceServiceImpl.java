@@ -1,5 +1,6 @@
 package com.lukhol.spotsfinder.service;
 
+import java.awt.image.ImagingOpException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,10 +64,10 @@ public class PlaceServiceImpl implements PlaceService {
 			placeToSave.setMainPhoto(miniature);
 		}
 		
-		for(Image img : placeToSave.getImages())
+		for(Image img : placeToSave.getImages()) {
+			img.setImage(imageConverter.scaleToMaxOneMbFileSize(img.getImage()));
 			img.setPlace(placeToSave);
-		
-		saveAsJson(placeDto);
+		}
 		
 		Place place = placeRepository.save(placeToSave);
 		return placeMapper.mapToHeavyDTO(place);

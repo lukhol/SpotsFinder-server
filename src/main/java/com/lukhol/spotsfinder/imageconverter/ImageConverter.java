@@ -23,6 +23,7 @@ public class ImageConverter {
 
 	private final static int MINIATURE_WIDTH = 350;
 	private final static int MINIATURE_HEIGHT = 350;
+	private final static int MAX_BYTE_LENGTH = 1048576;
 
 	public String createMiniature(Image firstPhoto) throws IOException {
 		log.info("Creating miniature from first photo.");
@@ -30,7 +31,7 @@ public class ImageConverter {
 		byte[] fullSizeImage = base64StringToByteArray(firstPhoto.getImage());
 		InputStream inputStream = new ByteArrayInputStream(fullSizeImage);
 		BufferedImage original = ImageIO.read(inputStream);
-
+		
 		int w = original.getWidth();
 		int h = original.getHeight();
 
@@ -54,6 +55,54 @@ public class ImageConverter {
 		return byteArrayToBase64String(afterByteArray);
 	}
 
+	public String scaleToMaxOneMbFileSize(String base64Image) throws IOException {
+		byte[] imageBytes = base64StringToByteArray(base64Image);
+		
+		if(imageBytes.length <= MAX_BYTE_LENGTH)
+			return base64Image;
+		
+		int attemptsCount = 0;
+		
+		while(true) {
+			attemptsCount++;
+			imageBytes = scaleImageByteTenPercent(imageBytes);
+			
+			log.debug("Scale attempt, size: " + imageBytes.length);
+			
+			if(imageBytes.length <= MAX_BYTE_LENGTH || attemptsCount >= 10)
+				break;
+		}
+		
+		return byteArrayToBase64String(imageBytes);
+	}
+	
+	private byte[] scaleImageByteTenPercent(byte[] image) throws IOException {
+		InputStream inputStream = new ByteArrayInputStream(image);
+		BufferedImage original = ImageIO.read(inputStream);
+		
+		int newWidth = (int)(original.getWidth() * 0.9);
+		int newHeight = (int)(original.getHeight() * 0.9);
+		
+		double sx = ((double) newWidth) / original.getWidth();
+		double sy = ((double) newHeight) / original.getHeight();
+		
+		BufferedImage after = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_3BYTE_BGR);
+
+		AffineTransform at = new AffineTransform();
+		at.scale(sx, sy);
+		AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+		after = scaleOp.filter(original, after);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(after, "jpg", baos);
+		baos.flush();
+		
+		byte[] afterByteArray = baos.toByteArray();
+		baos.close();
+		
+		return afterByteArray;
+	}
+	
 	public boolean isValidImage(String base64String) throws IOException {
 		byte[] inputAsByte = base64StringToByteArray(base64String);
 		

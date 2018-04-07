@@ -38,8 +38,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceRestEndpoint {
 
-	private PlaceService placeService;
-	private PlaceValidator placeValidator;
+	private final PlaceService placeService;
+	private final PlaceValidator placeValidator;
 
 	@GetMapping
 	public List<LightPlaceDTO> getAll() {
