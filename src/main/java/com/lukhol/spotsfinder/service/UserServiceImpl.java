@@ -17,23 +17,17 @@ import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.RoleRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
 	
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
-	private final RoleRepository roleRepository;
-	
-	@Autowired
-	public UserServiceImpl(@NonNull UserRepository userRepository, @NonNull PasswordEncoder passwordEncoder, @NonNull RoleRepository roleRepository){
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.roleRepository = roleRepository;
-	}
+	private final RoleRepository roleRepository;	
 	
 	@Override
 	@Transactional

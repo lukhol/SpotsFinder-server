@@ -20,23 +20,17 @@ import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.service.PlaceService;
 import com.lukhol.spotsfinder.validator.PlaceSearchValidator;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/places/searches")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceSearchRestEndpoint {
 
 	private final PlaceService placeService;
 	private final PlaceSearchValidator searchValidator;
-	
-	@Autowired
-	public PlaceSearchRestEndpoint(@NonNull PlaceService placeService, @NonNull PlaceSearchValidator searchValidator) {
-		super();
-		this.placeService = placeService;
-		this.searchValidator = searchValidator;
-	}
 
 	@PostMapping
 	public ResponseEntity<?> searchPlaces(@RequestBody PlaceSearchDTO searchDto) throws InvalidPlaceSearchException, GeocodingCityException {

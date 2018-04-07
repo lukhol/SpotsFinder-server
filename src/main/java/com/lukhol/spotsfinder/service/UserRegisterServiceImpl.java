@@ -18,9 +18,10 @@ import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.RoleRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserRegisterServiceImpl implements UserRegisterService {
 	
 	@Value("${server.baseurl}")
@@ -30,16 +31,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 	private final MessageSource messageSource;
 	private final RoleRepository roleRepository;
 	private final PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	public UserRegisterServiceImpl(@NonNull UserRepository userRepository, @NonNull MessageSource messageSource,
-			@NonNull RoleRepository roleRepository, @NonNull PasswordEncoder passwordEncoder) {
-		super();
-		this.userRepository = userRepository;
-		this.messageSource = messageSource;
-		this.roleRepository = roleRepository;
-		this.passwordEncoder = passwordEncoder;
-	}
 
 	@Override
 	@Transactional

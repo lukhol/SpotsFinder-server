@@ -6,18 +6,13 @@ import org.springframework.stereotype.Service;
 import com.lukhol.spotsfinder.model.MobileAppError;
 import com.lukhol.spotsfinder.repository.MobileAppErrorRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MobileAppErrorServiceImpl implements MobileAppErrorService {
 
 	private final MobileAppErrorRepository mobileAppErrorRepository;
-
-	@Autowired
-	public MobileAppErrorServiceImpl(@NonNull MobileAppErrorRepository mobileAppErrorRepository) {
-		super();
-		this.mobileAppErrorRepository = mobileAppErrorRepository;
-	}
 
 	@Override
 	public void save(MobileAppError mobileAppError) {

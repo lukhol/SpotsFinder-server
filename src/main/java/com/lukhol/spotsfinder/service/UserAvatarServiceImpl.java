@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -15,20 +16,16 @@ import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.UserRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserAvatarServiceImpl implements UserAvatarService {
 	
 	@Value("${user.avatar.path}")
 	private String AVATARS_PATH;
 	
 	private final UserRepository userRepository;
-	
-	public UserAvatarServiceImpl(@NonNull UserRepository userRepository) {
-		super();
-		this.userRepository = userRepository;
-	}
 
 	@Override
 	@Transactional

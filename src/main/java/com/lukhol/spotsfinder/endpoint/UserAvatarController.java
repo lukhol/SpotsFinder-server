@@ -23,12 +23,13 @@ import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.service.UserAvatarService;
 import com.lukhol.spotsfinder.service.UserService;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("/user/avatar")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserAvatarController {
 	
 	@Value("${user.avatar.path}")
@@ -36,12 +37,6 @@ public class UserAvatarController {
 	
 	private final UserAvatarService userAvatarService;
 	private final UserService userService;
-	
-	@Autowired
-	public UserAvatarController(@NonNull UserAvatarService userAvatarService, @NonNull UserService userService){
-		this.userAvatarService = userAvatarService;
-		this.userService = userService;
-	}
 	
 	@GetMapping("/{userId}")
 	public void getUserAvatar(HttpServletResponse response, @PathVariable long userId) throws IOException, NotFoundUserException{

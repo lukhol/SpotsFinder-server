@@ -13,20 +13,16 @@ import com.lukhol.spotsfinder.aspects.LogExecutionTime;
 import com.lukhol.spotsfinder.model.AccountRecover;
 import com.lukhol.spotsfinder.service.UserPasswordService;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
 	@Value("${server.baseurl}")
 	private String BASE_URL;
 	
 	private final UserPasswordService userPasswordService;
-	
-	@Autowired
-	public UserController(@NonNull UserPasswordService userPasswordService) {
-		this.userPasswordService = userPasswordService;
-	}
 	
 	@Informed
 	@LogExecutionTime

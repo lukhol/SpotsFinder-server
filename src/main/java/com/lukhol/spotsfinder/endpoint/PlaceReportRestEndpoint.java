@@ -17,23 +17,16 @@ import com.lukhol.spotsfinder.exception.InvalidWrongPlaceReportException;
 import com.lukhol.spotsfinder.service.WrongPlaceReportService;
 import com.lukhol.spotsfinder.validator.WrongPlaceReportValidator;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceReportRestEndpoint {
 
 	private final WrongPlaceReportValidator wrongPlaceReportValidator;
 	private final WrongPlaceReportService wrongPlaceReportService;
-	
-	@Autowired
-	public PlaceReportRestEndpoint(@NonNull WrongPlaceReportValidator wrongPlaceReportValidator,
-			@NonNull WrongPlaceReportService wrongPlaceReportService) {
-		super();
-		this.wrongPlaceReportValidator = wrongPlaceReportValidator;
-		this.wrongPlaceReportService = wrongPlaceReportService;
-	}
 
 	@PostMapping("/places/report")
 	public ResponseEntity<WrongPlaceReportDTO> report(@RequestHeader(value="Accept-Language") String acceptLanguage, 

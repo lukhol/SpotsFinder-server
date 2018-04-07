@@ -29,23 +29,17 @@ import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.service.PlaceService;
 import com.lukhol.spotsfinder.validator.PlaceValidator;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/places")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceRestEndpoint {
 
 	private PlaceService placeService;
 	private PlaceValidator placeValidator;
-	
-	@Autowired
-	public PlaceRestEndpoint(@NonNull PlaceService placeService, @NonNull PlaceValidator placeValidator) {
-		super();
-		this.placeService = placeService;
-		this.placeValidator = placeValidator;
-	}
 
 	@GetMapping
 	public List<LightPlaceDTO> getAll() {

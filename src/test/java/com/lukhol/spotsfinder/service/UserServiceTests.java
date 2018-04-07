@@ -41,7 +41,7 @@ public class UserServiceTests {
 	
 	@Before
 	public void setUp(){
-		userService = new UserServiceImpl(userRepository, passwordEncoder, roleRepository);
+		userService = new UserServiceImpl(passwordEncoder, userRepository, roleRepository);
 		
 		sampleUser = User.builder()
 				.id(1l)

@@ -23,11 +23,12 @@ import com.lukhol.spotsfinder.repository.PlaceJsonRepository;
 import com.lukhol.spotsfinder.repository.PlaceRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceServiceImpl implements PlaceService {
 
 	private final PlaceRepository placeRepository;
@@ -35,17 +36,6 @@ public class PlaceServiceImpl implements PlaceService {
 	private final PlaceDTOMapper placeMapper;
 	private final ImageConverter imageConverter;
 	private final PlaceJsonRepository placeJsonRepository;
-	
-	@Autowired
-	public PlaceServiceImpl(@NonNull PlaceRepository placeRepository, @NonNull UserRepository userRepository, @NonNull PlaceDTOMapper placeMapper, 
-			@NonNull ImageConverter imageConverter, @NonNull PlaceJsonRepository placeJsonRepository) {
-		super();
-		this.placeRepository = placeRepository;
-		this.placeMapper = placeMapper;
-		this.imageConverter = imageConverter;
-		this.userRepository = userRepository;
-		this.placeJsonRepository = placeJsonRepository;
-	}
 
 	@Override
 	public List<LightPlaceDTO> getAll() {

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,10 @@ import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.AccountRecoverRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserPasswordServiceImpl implements UserPasswordService {
 
 	@Value("${server.baseurl}")
@@ -27,15 +31,6 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 	private final AccountRecoverRepository accountRecoverRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;	
-	
-	public UserPasswordServiceImpl(EmailSender emailSender, AccountRecoverRepository accountRecoverRepository,
-			PasswordEncoder passwordEncoder, UserRepository userRepository) {
-		super();
-		this.emailSender = emailSender;
-		this.accountRecoverRepository = accountRecoverRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.userRepository = userRepository;
-	}
 
 	@Override
 	@Transactional

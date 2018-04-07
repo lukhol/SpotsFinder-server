@@ -28,18 +28,15 @@ import com.lukhol.spotsfinder.exception.ResetPasswordException;
 import com.lukhol.spotsfinder.exception.ServiceValidationException;
 import com.lukhol.spotsfinder.exception.UpdateUserException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RestResponseEntityExceptionHandler {
 
 	private final MessageSource messageSource;
-
-	@Autowired
-	public RestResponseEntityExceptionHandler(MessageSource messageSource) {
-		this.messageSource = messageSource;
-	}
 	
 	@ExceptionHandler(value= {  GeocodingCityException.class, InvalidPlaceSearchException.class,
 			IOException.class, ResetPasswordException.class, UpdateUserException.class })

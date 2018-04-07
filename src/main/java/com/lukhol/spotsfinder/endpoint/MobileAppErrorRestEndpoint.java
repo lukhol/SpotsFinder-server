@@ -14,22 +14,17 @@ import com.lukhol.spotsfinder.email.EmailSender;
 import com.lukhol.spotsfinder.model.MobileAppError;
 import com.lukhol.spotsfinder.service.MobileAppErrorService;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/errors")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MobileAppErrorRestEndpoint {
 	
 	private final MobileAppErrorService errorService;
 	private final EmailSender emailSender;
-	
-	@Autowired
-	public MobileAppErrorRestEndpoint(@NonNull MobileAppErrorService errorService, @NonNull EmailSender emailSender){
-		this.errorService = errorService;
-		this.emailSender = emailSender;
-	}
 	
 	@PostMapping
 	public ResponseEntity<Void> logError(@RequestBody MobileAppError mobileAppError) throws JsonProcessingException{

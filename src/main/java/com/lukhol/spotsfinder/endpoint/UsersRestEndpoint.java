@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,12 +33,13 @@ import com.lukhol.spotsfinder.service.UserService;
 import com.lukhol.spotsfinder.validator.ExternalUserValidator;
 import com.lukhol.spotsfinder.validator.RegisterUserValidator;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsersRestEndpoint {
 
@@ -48,16 +48,6 @@ public class UsersRestEndpoint {
 	private final UserPasswordService userPasswordService;
 	private final RegisterUserValidator registerUserValidator;
 	private final ExternalUserValidator externalUserValidator;
-	
-	@Autowired
-	public UsersRestEndpoint(@NonNull UserService userService, @NonNull UserRegisterService userRegisterService, @NonNull UserPasswordService userPasswordService,
-			@NonNull RegisterUserValidator registerUserValidator,@NonNull ExternalUserValidator externalUserValidator){
-		this.userService = userService;
-		this.userRegisterService = userRegisterService;
-		this.userPasswordService = userPasswordService;
-		this.registerUserValidator = registerUserValidator;
-		this.externalUserValidator = externalUserValidator;
-	}
 	
 	@GetMapping("/login")
 	@CrossOrigin(origins = "http://localhost:7777")

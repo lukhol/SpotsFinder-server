@@ -20,11 +20,15 @@ import com.lukhol.spotsfinder.dto.AddressDTO;
 import com.lukhol.spotsfinder.dto.PlaceSearchDTO;
 import com.lukhol.spotsfinder.exception.GeocodingCityException;
 import com.lukhol.spotsfinder.geolocation.FetchCityComponent;
+import com.lukhol.spotsfinder.imageconverter.ImageConverter;
+import com.lukhol.spotsfinder.mapper.PlaceDTOMapper;
 import com.lukhol.spotsfinder.model.Place;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceRepositoryImpl implements CustomPlaceRepository {
 
 	@PersistenceContext
@@ -35,12 +39,6 @@ public class PlaceRepositoryImpl implements CustomPlaceRepository {
 	private Root<Place> root;
 	
 	private final FetchCityComponent fetchCity;
-
-	@Autowired
-	public PlaceRepositoryImpl(@NonNull FetchCityComponent fetchCity) {
-		super();
-		this.fetchCity = fetchCity;
-	}
 
 	@Override
 	public Place getReference(Long id) {

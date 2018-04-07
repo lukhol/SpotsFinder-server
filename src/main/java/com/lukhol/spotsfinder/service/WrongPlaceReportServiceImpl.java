@@ -16,9 +16,10 @@ import com.lukhol.spotsfinder.repository.PlaceRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
 import com.lukhol.spotsfinder.repository.WrongPlaceReportRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 
 	private final WrongPlaceReportRepository wrongPlaceReportRepository;
@@ -26,21 +27,6 @@ public class WrongPlaceReportServiceImpl implements WrongPlaceReportService {
 	private final WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper;
 	private final MessageSource messageSource;
 	private final UserRepository userRepository;
-	
-	@Autowired
-	public WrongPlaceReportServiceImpl(
-			@NonNull WrongPlaceReportRepository wrongPlaceReportRepository,
-			@NonNull PlaceRepository placeRepository,
-			@NonNull WrongPlaceReportDTOMapper wrongPlaceReportDTOMapper,
-			@NonNull MessageSource messageSource,
-			@NonNull UserRepository userRepository) {
-		super();
-		this.wrongPlaceReportRepository = wrongPlaceReportRepository;
-		this.placeRepository = placeRepository;
-		this.wrongPlaceReportDTOMapper = wrongPlaceReportDTOMapper;
-		this.messageSource = messageSource;
-		this.userRepository = userRepository;
-	}
 
 	@Override
 	@Transactional

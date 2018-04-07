@@ -8,20 +8,15 @@ import com.lukhol.spotsfinder.exception.NotFoundGeocodingInformationException;
 import com.lukhol.spotsfinder.model.GeocodingInformation;
 import com.lukhol.spotsfinder.repository.GeocodingRepository;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GeocodingServiceImpl implements GeocodingService{
 
 	private final GeocodingRepository geocodingRepository;
-	
-	@Autowired
-	public GeocodingServiceImpl(@NonNull GeocodingRepository geocodingRepository) {
-		super();
-		this.geocodingRepository = geocodingRepository;
-	}
 
 	@Override
 	@Transactional
