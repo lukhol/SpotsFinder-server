@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-@EnableAutoConfiguration(exclude = { 
-        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class 
-    })
+@EnableAutoConfiguration(exclude = {
+		org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class
+})
 @SpringBootApplication 
 public class Application {
 	
@@ -26,12 +26,4 @@ public class Application {
 		properties.put("mail.smtp.port", "587");
 		return properties;
 	}
-	
-//	@Bean
-//	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
-//		LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
-//		emfb.setDataSource(dataSource);
-//		emfb.setJpaVendorAdapter(jpaVendorAdapter);
-//		return emfb;
-//	}
 }

@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.endpoint;
+package com.lukhol.spotsfinder.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.lukhol.spotsfinder.aspects.Informed;
 import com.lukhol.spotsfinder.aspects.LogExecutionTime;
 import com.lukhol.spotsfinder.model.AccountRecover;
-import com.lukhol.spotsfinder.service.UserPasswordService;
+import com.lukhol.spotsfinder.service.user.UserPasswordService;
 
 import lombok.RequiredArgsConstructor;
 

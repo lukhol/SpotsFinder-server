@@ -21,6 +21,8 @@ import com.lukhol.spotsfinder.model.Role;
 import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.RoleRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
+import com.lukhol.spotsfinder.service.user.UserRegisterService;
+import com.lukhol.spotsfinder.service.user.UserRegisterServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

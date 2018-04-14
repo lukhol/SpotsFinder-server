@@ -2,7 +2,7 @@ package com.lukhol.spotsfinder.exception;
 
 import org.springframework.validation.BindingResult;
 
-public class RegisterUserException extends Exception implements ServiceValidationException {
+public class RegisterUserException extends Exception implements IServiceValidationException {
 
 	private static final long serialVersionUID = -8371920161486325810L;
 	private BindingResult bindingResult;

@@ -22,6 +22,8 @@ import com.lukhol.spotsfinder.model.AccountRecover;
 import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.AccountRecoverRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
+import com.lukhol.spotsfinder.service.user.UserPasswordService;
+import com.lukhol.spotsfinder.service.user.UserPasswordServiceImpl;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

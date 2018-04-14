@@ -1,6 +1,5 @@
-package com.lukhol.spotsfinder.service;
+package com.lukhol.spotsfinder.service.place;
 
-import java.awt.image.ImagingOpException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -158,6 +157,7 @@ public class PlaceServiceImpl implements PlaceService {
 				.collect(Collectors.toList());
 	}
 	
+	@SuppressWarnings("unused")
 	private void saveAsJson(HeavyPlaceDTO placeDto) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();

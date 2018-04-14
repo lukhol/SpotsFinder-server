@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 
 import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.model.User;
-import com.lukhol.spotsfinder.service.UserService;
+import com.lukhol.spotsfinder.service.user.UserService;
 
 @Component
 public class RegisterUserValidator {

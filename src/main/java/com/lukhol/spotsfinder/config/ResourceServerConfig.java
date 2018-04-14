@@ -32,10 +32,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     			.antMatchers(HttpMethod.POST,  "/places**")
     			.antMatchers(HttpMethod.PUT, "/places/**")
 	        	.antMatchers(HttpMethod.DELETE, "/places/**")
+	        	.antMatchers(HttpMethod.POST,  "/places/comment")
+    			.antMatchers(HttpMethod.PUT, "/places/comment")
+	        	.antMatchers(HttpMethod.DELETE, "/places/comment")
+				.antMatchers(HttpMethod.POST, "/places/rate")
     	.and()
         	.authorizeRequests()
 	        	.antMatchers(HttpMethod.POST, "/places").authenticated()//.access("hasRole('USER') or hasRole('ADMIN')")	        	
 	        	.antMatchers(HttpMethod.PUT, "/places/**").authenticated()//.access("hasRole('USER') or hasRole('ADMIN')")
-	        	.antMatchers(HttpMethod.DELETE, "/places/**").authenticated();
+	        	.antMatchers(HttpMethod.DELETE, "/places/**").authenticated()
+	        	.antMatchers(HttpMethod.POST, "/places/comment").authenticated()
+	        	.antMatchers(HttpMethod.PUT, "/places/comment").authenticated()
+	        	.antMatchers(HttpMethod.DELETE, "/places/comment").authenticated()
+				.antMatchers(HttpMethod.POST,"/places/rate").authenticated();
     }
 }

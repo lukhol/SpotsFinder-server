@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.endpoint;
+package com.lukhol.spotsfinder.endpoint.user;
 
 import java.util.Locale;
 
@@ -27,9 +27,9 @@ import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.exception.ResetPasswordException;
 import com.lukhol.spotsfinder.exception.UpdateUserException;
 import com.lukhol.spotsfinder.model.User;
-import com.lukhol.spotsfinder.service.UserPasswordService;
-import com.lukhol.spotsfinder.service.UserRegisterService;
-import com.lukhol.spotsfinder.service.UserService;
+import com.lukhol.spotsfinder.service.user.UserPasswordService;
+import com.lukhol.spotsfinder.service.user.UserRegisterService;
+import com.lukhol.spotsfinder.service.user.UserService;
 import com.lukhol.spotsfinder.validator.ExternalUserValidator;
 import com.lukhol.spotsfinder.validator.RegisterUserValidator;
 

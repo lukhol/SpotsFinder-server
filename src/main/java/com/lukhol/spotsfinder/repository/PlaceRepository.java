@@ -23,6 +23,9 @@ public interface PlaceRepository extends Repository<Place, Long>, CustomPlaceRep
 	List<Place> findByOwner(User owner);
 	Place save(Place place);
 	
+	@Query("select p from Place p join fetch p.comments c where p.id=:id")
+	Place getPlaceWithComments(@Param("id") Long id);
+	
 	@Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Place p WHERE p.id=:placeId AND p.owner.id=:userId")
 	boolean existByIdAndUserId(@Param("placeId") Long placeId, @Param("userId") Long userId);
 	

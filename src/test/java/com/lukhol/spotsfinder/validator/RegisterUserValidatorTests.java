@@ -8,7 +8,7 @@ import org.mockito.Mock;
 
 import com.lukhol.spotsfinder.exception.RegisterUserException;
 import com.lukhol.spotsfinder.model.User;
-import com.lukhol.spotsfinder.service.UserService;
+import com.lukhol.spotsfinder.service.user.UserService;
 import com.lukhol.spotsfinder.validator.RegisterUserValidator;
 
 @RunWith(JUnit4.class)

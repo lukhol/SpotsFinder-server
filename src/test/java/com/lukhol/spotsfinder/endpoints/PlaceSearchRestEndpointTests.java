@@ -25,8 +25,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.lukhol.spotsfinder.dto.CoordinatesDTO;
 import com.lukhol.spotsfinder.dto.LightPlaceDTO;
 import com.lukhol.spotsfinder.dto.PlaceSearchDTO;
-import com.lukhol.spotsfinder.endpoint.PlaceSearchRestEndpoint;
-import com.lukhol.spotsfinder.service.PlaceService;
+import com.lukhol.spotsfinder.endpoint.place.PlaceSearchRestEndpoint;
+import com.lukhol.spotsfinder.service.place.PlaceService;
 import com.lukhol.spotsfinder.validator.PlaceSearchValidator;
 
 @RunWith(SpringRunner.class)
@@ -107,7 +107,7 @@ public class PlaceSearchRestEndpointTests {
 			.search(Mockito.argThat(search -> {
 				PlaceSearchDTO placeSearch = (PlaceSearchDTO)search;
 				return Arrays.equals(placeSearch.getType(), new int[] {0, 1, 2}) &&
-						placeSearch.getLocation().getCity().equals("³ódŸ") &&
+						placeSearch.getLocation().getCity().equals("ï¿½ï¿½dï¿½") &&
 						placeSearch.getLocation().getLatitude() == null &&
 						placeSearch.getLocation().getLongitude() == null &&
 						placeSearch.getDistance() == 10 &&

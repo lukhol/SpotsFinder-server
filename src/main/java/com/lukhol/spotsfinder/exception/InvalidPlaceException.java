@@ -2,7 +2,7 @@ package com.lukhol.spotsfinder.exception;
 
 import org.springframework.validation.BindingResult;
 
-public class InvalidPlaceException extends Exception implements ServiceValidationException {
+public class InvalidPlaceException extends Exception implements IServiceValidationException {
 
 	private static final long serialVersionUID = 2164821908471678571L;
 

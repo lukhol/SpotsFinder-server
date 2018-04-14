@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lukhol.spotsfinder.dto.HeavyPlaceDTO;
 import com.lukhol.spotsfinder.dto.LightPlaceDTO;
-import com.lukhol.spotsfinder.service.PlaceService;
+import com.lukhol.spotsfinder.service.place.PlaceService;
 
 import lombok.NonNull;
 

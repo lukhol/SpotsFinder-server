@@ -21,8 +21,8 @@ import com.lukhol.spotsfinder.model.Place;
 import com.lukhol.spotsfinder.repository.PlaceJsonRepository;
 import com.lukhol.spotsfinder.repository.PlaceRepository;
 import com.lukhol.spotsfinder.repository.UserRepository;
-import com.lukhol.spotsfinder.service.PlaceService;
-import com.lukhol.spotsfinder.service.PlaceServiceImpl;
+import com.lukhol.spotsfinder.service.place.PlaceService;
+import com.lukhol.spotsfinder.service.place.PlaceServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

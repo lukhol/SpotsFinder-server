@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.endpoint;
+package com.lukhol.spotsfinder.endpoint.place;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.lukhol.spotsfinder.dto.HeavyPlaceDTO;
 import com.lukhol.spotsfinder.dto.LightPlaceDTO;
 import com.lukhol.spotsfinder.exception.InvalidPlaceException;
 import com.lukhol.spotsfinder.exception.NotFoundUserException;
-import com.lukhol.spotsfinder.service.PlaceService;
+import com.lukhol.spotsfinder.service.place.PlaceService;
 import com.lukhol.spotsfinder.validator.PlaceValidator;
 
 import lombok.RequiredArgsConstructor;

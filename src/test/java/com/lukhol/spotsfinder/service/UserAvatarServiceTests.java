@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.UserRepository;
+import com.lukhol.spotsfinder.service.user.UserAvatarService;
+import com.lukhol.spotsfinder.service.user.UserAvatarServiceImpl;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

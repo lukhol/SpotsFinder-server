@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.service;
+package com.lukhol.spotsfinder.service.user;
 
 import java.util.Date;
 import java.util.Optional;

@@ -1,7 +1,9 @@
 package com.lukhol.spotsfinder.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +49,7 @@ public class Place {
 	private Long id;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "place")
-	//@JoinColumn(name="FK_PLACE_ID", foreignKey = @ForeignKey(name = "place_image"))
+	//@JoinColumn(name="FK_PLACE_ID", foreignKey = @ForeignKey(name = "place_image")) //insteadof
 	private List<Image> images;
 	
 	@Lob
@@ -125,4 +127,7 @@ public class Place {
 	@JsonIgnore
 	@OneToMany(mappedBy="place", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<WrongPlaceReport> wrongPlaceReports;
+	
+	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Comment> comments = new HashSet<>();
 }

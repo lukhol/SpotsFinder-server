@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.endpoint;
+package com.lukhol.spotsfinder.endpoint.user;
 
 import java.io.IOException;
 
@@ -20,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lukhol.spotsfinder.exception.NotFoundUserException;
 import com.lukhol.spotsfinder.model.User;
-import com.lukhol.spotsfinder.service.UserAvatarService;
-import com.lukhol.spotsfinder.service.UserService;
+import com.lukhol.spotsfinder.service.user.UserAvatarService;
+import com.lukhol.spotsfinder.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.service;
+package com.lukhol.spotsfinder.service.place;
 
 import java.util.Locale;
 

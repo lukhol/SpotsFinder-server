@@ -1,4 +1,4 @@
-package com.lukhol.spotsfinder.endpoint;
+package com.lukhol.spotsfinder.endpoint.place;
 
 import java.util.Locale;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lukhol.spotsfinder.dto.WrongPlaceReportDTO;
 import com.lukhol.spotsfinder.exception.InvalidWrongPlaceReportException;
-import com.lukhol.spotsfinder.service.WrongPlaceReportService;
+import com.lukhol.spotsfinder.service.place.WrongPlaceReportService;
 import com.lukhol.spotsfinder.validator.WrongPlaceReportValidator;
 
 import lombok.RequiredArgsConstructor;

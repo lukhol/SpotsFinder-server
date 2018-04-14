@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InformedAspect {
 
-	@Pointcut("execution(* com.lukhol.spotsfinder.service.UserPasswordService.recoverAccount(String)) && args(email)")
+	@Pointcut("execution(* com.lukhol.spotsfinder.service.user.UserPasswordService.recoverAccount(String)) && args(email)")
 	public void recoverAccount(String email) {
 		
 	}

@@ -26,8 +26,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lukhol.spotsfinder.dto.WrongPlaceReportDTO;
-import com.lukhol.spotsfinder.endpoint.PlaceReportRestEndpoint;
-import com.lukhol.spotsfinder.service.WrongPlaceReportService;
+import com.lukhol.spotsfinder.endpoint.place.PlaceReportRestEndpoint;
+import com.lukhol.spotsfinder.service.place.WrongPlaceReportService;
 import com.lukhol.spotsfinder.validator.WrongPlaceReportValidator;
 
 @RunWith(SpringRunner.class)

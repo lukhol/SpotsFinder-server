@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import com.lukhol.spotsfinder.exception.GeocodingCityException;
+import com.lukhol.spotsfinder.exception.IServiceValidationException;
 import com.lukhol.spotsfinder.exception.InvalidPlaceException;
 import com.lukhol.spotsfinder.exception.InvalidPlaceSearchException;
 import com.lukhol.spotsfinder.exception.InvalidWrongPlaceReportException;
@@ -64,7 +65,17 @@ public class RestResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(value = { RegisterUserException.class, InvalidPlaceException.class })
-	public ResponseEntity<?> handleRegisterUserException(ServiceValidationException error, WebRequest request)  {
+	public ResponseEntity<?> handleRegisterUserException(IServiceValidationException error, WebRequest request)  {
+		String acceptLanguage = request.getHeader("Accept-Language");
+		
+		if(acceptLanguage == null || !acceptLanguage.contains("en") && !acceptLanguage.contains("pl"))
+			acceptLanguage = "en";
+		
+		return parseErrors(error.getBindingResult(), acceptLanguage);
+	}
+	
+	@ExceptionHandler(value = { ServiceValidationException.class })
+	public ResponseEntity<?> handleServiceValidationException(ServiceValidationException error, WebRequest request)  {
 		String acceptLanguage = request.getHeader("Accept-Language");
 		
 		if(acceptLanguage == null || !acceptLanguage.contains("en") && !acceptLanguage.contains("pl"))

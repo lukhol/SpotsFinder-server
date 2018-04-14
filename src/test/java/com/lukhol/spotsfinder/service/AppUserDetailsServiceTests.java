@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.lukhol.spotsfinder.model.Role;
 import com.lukhol.spotsfinder.model.User;
 import com.lukhol.spotsfinder.repository.UserRepository;
-import com.lukhol.spotsfinder.service.AppUserDetailsService;
+import com.lukhol.spotsfinder.service.user.AppUserDetailsService;
 
 @RunWith(JUnit4.class)
 public class AppUserDetailsServiceTests {
